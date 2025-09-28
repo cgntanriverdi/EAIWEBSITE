@@ -27,7 +27,7 @@ export default function TestimonialCard({
   metrics 
 }: TestimonialCardProps) {
   return (
-    <Card className="hover-elevate transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50" data-testid={`card-testimonial-${name.toLowerCase().replace(/\s+/g, '-')}`}>
+    <Card className="bg-card hover:bg-card/80 transition-colors" data-testid={`card-testimonial-${name.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardContent className="p-8">
         {/* Rating Stars */}
         <div className="flex gap-1 mb-4" data-testid="rating-stars">

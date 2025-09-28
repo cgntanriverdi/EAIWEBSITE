@@ -147,7 +147,7 @@ export default function ContactForm() {
                 <Button 
                   variant="secondary" 
                   size="lg" 
-                  className="w-full bg-white text-primary hover:bg-gray-100 shadow-lg hover-elevate"
+                  className="w-full bg-background text-foreground hover:bg-muted shadow-lg hover-elevate"
                   onClick={() => console.log('Start free trial clicked')}
                   data-testid="button-start-free-trial"
                 >

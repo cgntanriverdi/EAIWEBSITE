@@ -1,27 +1,22 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, FileText, DollarSign, Camera, Upload, Zap, Target } from "lucide-react";
+import { ArrowRight, FileText, DollarSign, Camera, Upload, Target } from "lucide-react";
 
 export default function WorkflowVisualization() {
   const [activeMode, setActiveMode] = useState<'single' | 'full'>('full');
 
   const agents = [
-    { icon: FileText, name: "Description", color: "bg-purple-500" },
-    { icon: DollarSign, name: "Pricing", color: "bg-blue-500" },
-    { icon: Camera, name: "Images", color: "bg-green-500" },
+    { icon: FileText, name: "Description", color: "bg-blue-500" },
+    { icon: DollarSign, name: "Pricing", color: "bg-green-500" },
+    { icon: Camera, name: "Images", color: "bg-purple-500" },
     { icon: Upload, name: "Publishing", color: "bg-orange-500" }
   ];
 
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4 bg-background" id="workflow">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-primary/10 text-primary" data-testid="badge-workflow">
-            <Zap className="w-3 h-3 mr-1" />
-            Flexible Workflow Options
-          </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground" data-testid="text-workflow-title">
             Choose Your Approach
           </h2>
@@ -48,14 +43,13 @@ export default function WorkflowVisualization() {
               className="px-6"
               data-testid="button-full-workflow"
             >
-              <Zap className="w-4 h-4 mr-2" />
               Full Workflow
             </Button>
           </div>
         </div>
 
         {/* Workflow Visualization */}
-        <Card className="p-8 bg-gradient-to-br from-background to-card/50" data-testid="card-workflow-visualization">
+        <Card className="p-8 bg-card" data-testid="card-workflow-visualization">
           <CardContent className="p-0">
             {activeMode === 'full' ? (
               <div className="space-y-8">
@@ -72,8 +66,7 @@ export default function WorkflowVisualization() {
                   {agents.map((agent, index) => (
                     <div key={agent.name} className="flex items-center">
                       <div className="relative group">
-                        <div className={`w-16 h-16 rounded-2xl ${agent.color} flex items-center justify-center shadow-lg animate-float hover-elevate cursor-pointer`}
-                             style={{ animationDelay: `${index * 0.2}s` }}
+                        <div className={`w-16 h-16 rounded-lg ${agent.color} flex items-center justify-center cursor-pointer`}
                              data-testid={`agent-${agent.name.toLowerCase()}`}>
                           <agent.icon className="w-8 h-8 text-white" />
                         </div>
@@ -83,14 +76,14 @@ export default function WorkflowVisualization() {
                       </div>
                       
                       {index < agents.length - 1 && (
-                        <ArrowRight className="w-6 h-6 text-muted-foreground mx-4 animate-pulse" />
+                        <ArrowRight className="w-6 h-6 text-muted-foreground mx-4" />
                       )}
                     </div>
                   ))}
                 </div>
                 
-                <div className="bg-primary/5 rounded-lg p-6 text-center border border-primary/20">
-                  <h4 className="font-semibold text-primary mb-2" data-testid="text-full-workflow-benefit">
+                <div className="bg-muted/50 rounded-lg p-6 text-center border">
+                  <h4 className="font-semibold text-foreground mb-2" data-testid="text-full-workflow-benefit">
                     Complete Automation • All Plans Include Full Workflow
                   </h4>
                   <p className="text-sm text-muted-foreground" data-testid="text-full-workflow-savings">
@@ -110,10 +103,9 @@ export default function WorkflowVisualization() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {agents.map((agent, index) => (
+                  {agents.map((agent) => (
                     <div key={agent.name} className="text-center">
-                      <div className={`w-20 h-20 rounded-2xl ${agent.color} flex items-center justify-center shadow-lg mx-auto mb-4 hover-elevate cursor-pointer animate-stagger-up`}
-                           style={{ animationDelay: `${index * 0.1}s` }}
+                      <div className={`w-20 h-20 rounded-lg ${agent.color} flex items-center justify-center mx-auto mb-4 cursor-pointer`}
                            onClick={() => console.log(`${agent.name} agent selected`)}
                            data-testid={`single-agent-${agent.name.toLowerCase()}`}>
                         <agent.icon className="w-10 h-10 text-white" />
@@ -124,7 +116,7 @@ export default function WorkflowVisualization() {
                   ))}
                 </div>
                 
-                <div className="bg-card rounded-lg p-6 text-center border">
+                <div className="bg-muted/50 rounded-lg p-6 text-center border">
                   <h4 className="font-semibold text-foreground mb-2" data-testid="text-single-agent-benefit">
                     Flexible Agent Selection • Available in All Plans
                   </h4>
