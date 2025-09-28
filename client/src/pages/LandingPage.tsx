@@ -1,71 +1,13 @@
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
-import AgentCard from "@/components/AgentCard";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
 import ContactForm from "@/components/ContactForm";
 import { Badge } from "@/components/ui/badge";
-import { FileText, DollarSign, Camera, Upload, Target, Users, TrendingUp } from "lucide-react";
+import { DollarSign, Camera, Target, Users, TrendingUp } from "lucide-react";
 
 export default function LandingPage() {
-  // todo: remove mock functionality
-  const agents = [
-    {
-      icon: FileText,
-      title: "Description Agent",
-      description: "AI-powered persuasive product descriptions that convert browsers into buyers using psychology-driven copy.",
-      features: [
-        "Psychology-based persuasion techniques",
-        "SEO-optimized content generation",
-        "Brand voice matching and consistency",
-        "A/B testing variants for optimization"
-      ],
-      price: "$9",
-      gradient: "bg-gradient-to-br from-purple-500 to-pink-500"
-    },
-    {
-      icon: DollarSign,
-      title: "Pricing Agent",
-      description: "Intelligent competitive analysis and dynamic pricing optimization to maximize your profit margins.",
-      features: [
-        "Real-time competitor analysis",
-        "Dynamic pricing strategies",
-        "Profit margin optimization",
-        "Market trend insights and alerts"
-      ],
-      price: "$12",
-      isPopular: true,
-      gradient: "bg-gradient-to-br from-blue-500 to-cyan-500"
-    },
-    {
-      icon: Camera,
-      title: "Image Generation",
-      description: "Studio-quality model photography generated from your product images using advanced AI technology.",
-      features: [
-        "Hyper-realistic model photography",
-        "Multiple pose and angle variations",
-        "Professional lighting and staging",
-        "Brand style consistency"
-      ],
-      price: "$15",
-      gradient: "bg-gradient-to-br from-green-500 to-emerald-500"
-    },
-    {
-      icon: Upload,
-      title: "Publishing Agent",
-      description: "Seamless one-click publishing to Shopify with automatic optimization and catalog management.",
-      features: [
-        "One-click Shopify integration",
-        "Automated inventory management",
-        "Category and tag optimization",
-        "Bulk operations support"
-      ],
-      price: "$8",
-      gradient: "bg-gradient-to-br from-orange-500 to-red-500"
-    }
-  ];
-
   // todo: remove mock functionality
   const testimonials = [
     {
@@ -145,31 +87,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* AI Agents Showcase */}
-      <section className="py-20 px-4 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary/10 text-primary" data-testid="badge-agents">
-              <Users className="w-3 h-3 mr-1" />
-              AI Agent Specialists
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground" data-testid="text-agents-title">
-              Professional AI Agents
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-agents-subtitle">
-              Each agent is trained to excel at specific e-commerce tasks. Use them individually or deploy the complete workflow for maximum impact.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {agents.map((agent, index) => (
-              <div key={agent.title} className="animate-stagger-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <AgentCard {...agent} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Workflow Visualization */}
       <WorkflowVisualization />

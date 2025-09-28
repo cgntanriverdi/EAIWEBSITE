@@ -91,10 +91,10 @@ export default function WorkflowVisualization() {
                 
                 <div className="bg-primary/5 rounded-lg p-6 text-center border border-primary/20">
                   <h4 className="font-semibold text-primary mb-2" data-testid="text-full-workflow-benefit">
-                    Complete Automation • $35/listing
+                    Complete Automation • All Plans Include Full Workflow
                   </h4>
                   <p className="text-sm text-muted-foreground" data-testid="text-full-workflow-savings">
-                    Save $9 compared to individual agents • 10x faster than manual work
+                    Professional-grade automation • 10x faster than manual work
                   </p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function WorkflowVisualization() {
                 
                 <div className="bg-card rounded-lg p-6 text-center border">
                   <h4 className="font-semibold text-foreground mb-2" data-testid="text-single-agent-benefit">
-                    Pay Per Agent • $8-$15 each
+                    Flexible Agent Selection • Available in All Plans
                   </h4>
                   <p className="text-sm text-muted-foreground" data-testid="text-single-agent-flexibility">
                     Perfect for targeted improvements and specific workflows
