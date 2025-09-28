@@ -135,7 +135,7 @@ export default function PricingSection() {
                   {plan.productCredits && (
                     <div className="mt-2">
                       <Badge variant="outline" className="text-xs">
-                        {plan.productCredits} products/month
+                        {plan.name === 'plus' ? `${plan.productCredits}+ products/month` : `${plan.productCredits} products/month`}
                       </Badge>
                     </div>
                   )}

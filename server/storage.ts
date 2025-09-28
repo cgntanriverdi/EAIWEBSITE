@@ -172,7 +172,7 @@ export class MemStorage implements IStorage {
         hasApiAccess: true,
         isContactSales: false,
         features: [
-          "100 product listings",
+          "100+ product listings",
           "Premium AI optimization",
           "Live chat support",
           "Fastest processing speed",

@@ -3,10 +3,20 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Test endpoint to verify API is working
+  app.get("/api/test", (req, res) => {
+    res.json({ message: "API is working", timestamp: new Date().toISOString() });
+  });
+
   // Pricing Plans API Routes
   app.get("/api/pricing-plans", async (req, res) => {
     try {
+      console.log("Getting pricing plans...");
       const plans = await storage.getAllPricingPlans();
+      console.log("Found plans:", plans?.length || 0);
+      
+      // Set explicit content type
+      res.setHeader('Content-Type', 'application/json');
       res.json(plans);
     } catch (error) {
       console.error("Error fetching pricing plans:", error);
