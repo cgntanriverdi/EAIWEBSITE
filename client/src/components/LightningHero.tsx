@@ -16,6 +16,10 @@ interface Agent {
 export default function LightningHero() {
   const [hoveredAgent, setHoveredAgent] = useState<string | null>(null);
 
+  // Check for reduced motion preference
+  const prefersReducedMotion = typeof window !== 'undefined' && 
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const agents: Agent[] = [
     {
       id: "description",
@@ -133,67 +137,230 @@ export default function LightningHero() {
               role="presentation"
               aria-label="Lightning animation representing AI power"
               data-testid="svg-lightning-animation"
+              style={{ mixBlendMode: 'screen' }}
             >
               <defs>
-                {/* Pure white bright core for flowing beam */}
-                <linearGradient id="lightningCore" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
-                </linearGradient>
-                
-                {/* Uniform column glow gradients for color transitions */}
+                {/* Animated gradients for color cycling in atmospheric glow */}
                 <linearGradient id="atmosphericGlow1" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
-                  <stop offset="50%" stopColor="#7c3aed" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#6d28d9" stopOpacity="0.4" />
+                  <motion.stop 
+                    offset="0%" 
+                    stopOpacity="0.6"
+                    animate={{ 
+                      stopColor: ["#8b5cf6", "#a855f7", "#9333ea", "#8b5cf6"]
+                    }}
+                    transition={{ 
+                      duration: prefersReducedMotion ? 0 : 8,
+                      repeat: prefersReducedMotion ? 0 : Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  <motion.stop 
+                    offset="50%" 
+                    stopOpacity="0.8"
+                    animate={{ 
+                      stopColor: ["#7c3aed", "#8b5cf6", "#7c3aed", "#6d28d9"]
+                    }}
+                    transition={{ 
+                      duration: prefersReducedMotion ? 0 : 10,
+                      repeat: prefersReducedMotion ? 0 : Infinity,
+                      ease: "easeInOut",
+                      delay: prefersReducedMotion ? 0 : 1
+                    }}
+                  />
+                  <motion.stop 
+                    offset="100%" 
+                    stopOpacity="0.6"
+                    animate={{ 
+                      stopColor: ["#6d28d9", "#7c3aed", "#8b5cf6", "#6d28d9"]
+                    }}
+                    transition={{ 
+                      duration: 12,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 2
+                    }}
+                  />
                 </linearGradient>
                 
                 <linearGradient id="atmosphericGlow2" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-                  <stop offset="50%" stopColor="#4f46e5" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#4338ca" stopOpacity="0.4" />
+                  <motion.stop 
+                    offset="0%" 
+                    stopOpacity="0.6"
+                    animate={{ 
+                      stopColor: ["#6366f1", "#4f46e5", "#6366f1", "#8b5cf6"]
+                    }}
+                    transition={{ 
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 1
+                    }}
+                  />
+                  <motion.stop 
+                    offset="50%" 
+                    stopOpacity="0.8"
+                    animate={{ 
+                      stopColor: ["#4f46e5", "#6366f1", "#4338ca", "#4f46e5"]
+                    }}
+                    transition={{ 
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 2
+                    }}
+                  />
+                  <motion.stop 
+                    offset="100%" 
+                    stopOpacity="0.6"
+                    animate={{ 
+                      stopColor: ["#4338ca", "#4f46e5", "#6366f1", "#4338ca"]
+                    }}
+                    transition={{ 
+                      duration: 10,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 3
+                    }}
+                  />
                 </linearGradient>
                 
                 <linearGradient id="atmosphericGlow3" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.4" />
-                  <stop offset="50%" stopColor="#0891b2" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#0e7490" stopOpacity="0.4" />
+                  <motion.stop 
+                    offset="0%" 
+                    stopOpacity="0.5"
+                    animate={{ 
+                      stopColor: ["#06b6d4", "#0891b2", "#06b6d4", "#4f46e5"]
+                    }}
+                    transition={{ 
+                      duration: 12,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 2
+                    }}
+                  />
+                  <motion.stop 
+                    offset="50%" 
+                    stopOpacity="0.7"
+                    animate={{ 
+                      stopColor: ["#0891b2", "#06b6d4", "#0e7490", "#0891b2"]
+                    }}
+                    transition={{ 
+                      duration: 9,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 3
+                    }}
+                  />
+                  <motion.stop 
+                    offset="100%" 
+                    stopOpacity="0.5"
+                    animate={{ 
+                      stopColor: ["#0e7490", "#0891b2", "#06b6d4", "#0e7490"]
+                    }}
+                    transition={{ 
+                      duration: 11,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 4
+                    }}
+                  />
                 </linearGradient>
 
-                {/* Optimized filters for better mobile performance */}
-                <filter id="atmosphericGlow" x="-100%" y="-50%" width="300%" height="200%">
-                  <feGaussianBlur stdDeviation="25" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
+                {/* Fractal noise for organic edge wobble */}
+                <filter id="organicWobble" x="-20%" y="-20%" width="140%" height="140%">
+                  <feTurbulence 
+                    type="fractalNoise" 
+                    baseFrequency="0.003 0.12" 
+                    numOctaves="2" 
+                    result="turbulence"
+                  >
+                    <animateTransform
+                      attributeName="baseFrequency"
+                      values="0.003 0.12;0.004 0.14;0.003 0.12"
+                      dur="15s"
+                      repeatCount="indefinite"
+                    />
+                  </feTurbulence>
+                  <feDisplacementMap 
+                    in="SourceGraphic" 
+                    in2="turbulence" 
+                    scale="6"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                    result="displacement"
+                  />
+                  <feBlend mode="screen" in="displacement" in2="SourceGraphic"/>
+                </filter>
+
+                {/* Energy flow mask for top-to-bottom movement */}
+                <mask id="energyFlowMask">
+                  <rect x="0" y="0" width="800" height="600" fill="black"/>
+                  <motion.rect
+                    x="390" y="0" width="20" height="600"
+                    fill="white"
+                    initial={{ y: -100 }}
+                    animate={{ y: prefersReducedMotion ? -100 : [600, -100] }}
+                    transition={{
+                      duration: prefersReducedMotion ? 0 : 2.5,
+                      repeat: prefersReducedMotion ? 0 : Infinity,
+                      ease: "linear"
+                    }}
+                  />
+                  <motion.rect
+                    x="390" y="0" width="20" height="400"
+                    fill="white"
+                    opacity={0.6}
+                    initial={{ y: -200 }}
+                    animate={{ y: prefersReducedMotion ? -200 : [600, -200] }}
+                    transition={{
+                      duration: prefersReducedMotion ? 0 : 3,
+                      repeat: prefersReducedMotion ? 0 : Infinity,
+                      ease: "linear",
+                      delay: prefersReducedMotion ? 0 : 0.8
+                    }}
+                  />
+                </mask>
+
+                {/* Premium filter effects with tight regions */}
+                <filter id="atmosphericBlur1" x="-100%" y="-10%" width="300%" height="120%">
+                  <feGaussianBlur stdDeviation="30" result="coloredBlur"/>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
                 </filter>
                 
-                <filter id="mediumGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <filter id="atmosphericBlur2" x="-80%" y="-10%" width="260%" height="120%">
+                  <feGaussianBlur stdDeviation="20" result="coloredBlur"/>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
+                </filter>
+                
+                <filter id="atmosphericBlur3" x="-60%" y="-10%" width="220%" height="120%">
+                  <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
+                </filter>
+                
+                <filter id="coreBlur1" x="-25%" y="-10%" width="150%" height="120%">
+                  <feGaussianBlur stdDeviation="18" result="coloredBlur"/>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
+                </filter>
+                
+                <filter id="coreBlur2" x="-15%" y="-10%" width="130%" height="120%">
                   <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
                 </filter>
                 
-                <filter id="coreGlow" x="-25%" y="-25%" width="150%" height="150%">
+                <filter id="coreBlur3" x="-10%" y="-10%" width="120%" height="120%">
                   <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
+                  <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
                 </filter>
               </defs>
               
-              {/* Background atmospheric glow rects for uniform column effect */}
+              {/* Atmospheric glow layers - 3 wide columns with gradients */}
               <motion.rect
                 x="320" y="0" width="160" height="600"
                 fill="url(#atmosphericGlow1)"
-                filter="url(#atmosphericGlow)"
+                filter="url(#atmosphericBlur1)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.3, 0.5, 0.4, 0.6, 0.4]
+                  opacity: [0.4, 0.6, 0.5, 0.7, 0.5]
                 }}
                 transition={{ 
                   duration: 8,
@@ -205,10 +372,10 @@ export default function LightningHero() {
               <motion.rect
                 x="340" y="0" width="120" height="600"
                 fill="url(#atmosphericGlow2)"
-                filter="url(#mediumGlow)"
+                filter="url(#atmosphericBlur2)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.4, 0.6, 0.5, 0.7, 0.5]
+                  opacity: [0.5, 0.7, 0.6, 0.8, 0.6]
                 }}
                 transition={{ 
                   duration: 6,
@@ -221,10 +388,10 @@ export default function LightningHero() {
               <motion.rect
                 x="360" y="0" width="80" height="600"
                 fill="url(#atmosphericGlow3)"
-                filter="url(#mediumGlow)"
+                filter="url(#atmosphericBlur3)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.2, 0.4, 0.3, 0.5, 0.3]
+                  opacity: [0.3, 0.5, 0.4, 0.6, 0.4]
                 }}
                 transition={{ 
                   duration: 10,
@@ -234,77 +401,60 @@ export default function LightningHero() {
                 }}
               />
 
-              {/* Flowing lightning beam with true top-to-bottom motion */}
-              <motion.line
-                x1="400" y1="0" x2="400" y2="600"
-                stroke="url(#lightningCore)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray="600"
-                filter="url(#coreGlow)"
-                initial={{ 
-                  strokeDashoffset: 600,
-                  opacity: 0.8
-                }}
+              {/* Core beam - narrow rect elements with bloom effects */}
+              <motion.rect
+                x="392" y="0" width="16" height="600"
+                fill="#ffffff"
+                filter="url(#coreBlur1)"
+                mask="url(#energyFlowMask)"
+                initial={{ opacity: 0.7 }}
                 animate={{ 
-                  strokeDashoffset: [600, 0, -600],
-                  opacity: [0.8, 1, 0.8]
+                  opacity: [0.7, 0.9, 0.8, 1, 0.8]
                 }}
                 transition={{ 
                   duration: 3,
                   repeat: Infinity,
-                  ease: "linear"
+                  ease: "easeInOut"
                 }}
-                data-testid="lightning-main-bolt"
+                data-testid="lightning-core-beam-1"
               />
 
-              {/* Secondary flowing beam for depth */}
-              <motion.line
-                x1="400" y1="0" x2="400" y2="600"
-                stroke="#ffffff"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeDasharray="400"
-                initial={{ 
-                  strokeDashoffset: 400,
-                  opacity: 0.6
-                }}
+              <motion.rect
+                x="394" y="0" width="12" height="600"
+                fill="#ffffff"
+                filter="url(#coreBlur2)"
+                mask="url(#energyFlowMask)"
+                initial={{ opacity: 0.8 }}
                 animate={{ 
-                  strokeDashoffset: [400, 0, -400],
-                  opacity: [0.6, 0.9, 0.6]
+                  opacity: [0.8, 1, 0.9, 1, 0.9]
                 }}
                 transition={{ 
                   duration: 2.5,
                   repeat: Infinity,
-                  ease: "linear",
+                  ease: "easeInOut",
                   delay: 0.5
                 }}
+                data-testid="lightning-core-beam-2"
               />
               
-              {/* Ultra bright inner core with subtle flow */}
-              <motion.line
-                x1="400" y1="0" x2="400" y2="600"
-                stroke="#ffffff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeDasharray="200"
-                initial={{ 
-                  strokeDashoffset: 200,
-                  opacity: 0.9
-                }}
+              <motion.rect
+                x="396" y="0" width="8" height="600"
+                fill="#ffffff"
+                filter="url(#coreBlur3)"
+                mask="url(#energyFlowMask)"
+                style={{ filter: 'url(#organicWobble)' }}
+                initial={{ opacity: 0.9 }}
                 animate={{ 
-                  strokeDashoffset: [200, 0, -200],
-                  opacity: [0.9, 1, 0.9]
+                  opacity: [0.9, 1, 1, 1, 1]
                 }}
                 transition={{ 
                   duration: 2,
                   repeat: Infinity,
-                  ease: "linear",
+                  ease: "easeInOut",
                   delay: 1
                 }}
+                data-testid="lightning-core-beam-3"
               />
-              
-              {/* Removed hover particles for minimalist aesthetic like huly.io */}
             </svg>
           </motion.div>
 
