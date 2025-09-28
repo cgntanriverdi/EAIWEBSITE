@@ -1,0 +1,27 @@
+You are a critical UI/UX expert and design strategist, on the level of Pentagram or leading SaaS design studios. Your task is to create a stunning, aesthetic-first landing page for my SaaS product.
+Visual & Aesthetic Direction
+Take direct design inspiration from huly.io, cluely.com, and autods.com.
+The final page should feel like a million-dollar SaaS website: clean typography, bold but minimal layouts, modern color palettes, smooth interactions, and high-polish visual hierarchy.
+Focus on aesthetic pleasure first, functionality second. Every section should feel crafted with intentional beauty.
+SaaS Product Description
+My SaaS elevates e-commerce product listings with AI-powered agentic workflows.
+Sellers can either use the full automated workflow (end-to-end listing creation, optimization, publishing),
+Or individually choose agents they need:
+Description Agent – Generates persuasive, psychology-driven descriptions.
+Pricing Agent – Analyzes competitors to suggest optimal pricing.
+Image Generation Agent – Creates hyper-realistic studio-quality model photography from uploaded clothing.
+Publishing Agent – Seamlessly publishes listings to Shopify with one click.
+Core Benefits
+Flexibility: Choose one agent or the full workflow.
+Professional polish: No more amateur listings; every output feels agency-grade.
+Efficiency: Save time and effort while increasing conversions.
+Landing Page Structure (Aesthetic-Driven)
+Hero Section – Minimal, bold headline + subheadline with an immediate strong CTA.
+Problem / Solution Section – Beautifully visualized pain points and resolution.
+Feature Sections – Each agent highlighted with its own designed block, using icons, motion, or imagery.
+Modular Workflow Section – Elegant diagram or flow showcasing single-agent vs full workflow usage.
+Social Proof Section – Placeholder for testimonials or client logos (styled premium).
+Pricing Section – Clean, modern pricing cards for per-agent vs. full workflow.
+Closing CTA – Big, visual call-to-action with aesthetic harmony.
+Key Instruction
+Do not output a generic landing page. Instead, design this as if it were a Pentagram-crafted SaaS brand identity project, matching the caliber of huly.io, cluely.com, and autods.com. Every detail should feel premium, intentional, and visually delightful.
