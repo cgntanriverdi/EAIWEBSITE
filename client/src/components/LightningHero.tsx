@@ -79,15 +79,22 @@ export default function LightningHero() {
     }
   ];
 
+  // Realistic lightning bolt paths with natural curves and branches
   const lightningPaths = [
-    // Main central lightning bolt
-    "M400 200 L420 250 L390 280 L410 330 L380 360 L400 400",
-    // Secondary branches for more organic look
-    "M400 250 L360 270 L340 300",
-    "M410 300 L450 320 L470 350",
-    // Additional small arcs
-    "M380 320 L360 340",
-    "M420 350 L440 370"
+    // Main lightning bolt - more organic with smooth curves
+    "M400 50 Q395 120 405 180 Q415 220 385 260 Q375 300 395 340 Q410 380 390 420 Q385 460 400 520 Q405 560 400 600",
+    // Primary branch from upper section
+    "M395 160 Q370 180 350 210 Q330 240 320 270",
+    // Primary branch from middle section  
+    "M410 320 Q440 340 460 370 Q480 400 490 430",
+    // Secondary upper branch
+    "M385 200 Q360 220 340 250",
+    // Secondary lower branch
+    "M395 380 Q420 400 440 430",
+    // Small tertiary branches for detail
+    "M375 280 Q350 300 335 320",
+    "M415 360 Q445 380 465 400",
+    "M390 440 Q370 460 355 480"
   ];
 
   const getCurrentLightningColor = () => {
@@ -143,13 +150,47 @@ export default function LightningHero() {
               data-testid="svg-lightning-animation"
             >
               <defs>
-                <linearGradient id="lightningGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={getCurrentLightningColor()} stopOpacity="1" />
-                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.8" />
+                {/* Bright white core gradient */}
+                <linearGradient id="lightningCore" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+                  <stop offset="30%" stopColor="#e0f2fe" stopOpacity="0.9" />
+                  <stop offset="70%" stopColor={getCurrentLightningColor()} stopOpacity="0.8" />
                   <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.6" />
                 </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                
+                {/* Secondary glow gradient */}
+                <linearGradient id="lightningGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor={getCurrentLightningColor()} stopOpacity="0.6" />
+                  <stop offset="50%" stopColor={getCurrentLightningColor()} stopOpacity="0.4" />
+                  <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.2" />
+                </linearGradient>
+                
+                {/* Atmospheric outer glow */}
+                <linearGradient id="lightningAtmosphere" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
+                  <stop offset="50%" stopColor={getCurrentLightningColor()} stopOpacity="0.15" />
+                  <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.05" />
+                </linearGradient>
+
+                {/* Enhanced glow filters */}
+                <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                
+                <filter id="mediumGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                
+                <filter id="outerGlow" x="-200%" y="-200%" width="500%" height="500%">
+                  <feGaussianBlur stdDeviation="20" result="coloredBlur"/>
                   <feMerge> 
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
@@ -157,29 +198,116 @@ export default function LightningHero() {
                 </filter>
               </defs>
               
-              {/* Lightning paths */}
+              {/* Atmospheric outer glow layer */}
               {lightningPaths.map((path, index) => (
                 <motion.path
-                  key={index}
+                  key={`atmosphere-${index}`}
                   d={path}
                   fill="none"
-                  stroke="url(#lightningGradient)"
-                  strokeWidth={index === 0 ? "8" : index < 3 ? "4" : "2"}
+                  stroke="url(#lightningAtmosphere)"
+                  strokeWidth={index === 0 ? "40" : index < 3 ? "30" : "20"}
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  filter="url(#glow)"
-                  initial={{ pathLength: 0, opacity: 0 }}
+                  filter="url(#outerGlow)"
+                  initial={{ 
+                    strokeDasharray: "0 1000",
+                    strokeDashoffset: 1000,
+                    opacity: 0
+                  }}
                   animate={{ 
-                    pathLength: 1, 
-                    opacity: [0, 1, 0.8, 1],
-                    strokeWidth: index === 0 ? [8, 10, 8] : index < 3 ? [4, 6, 4] : [2, 3, 2]
+                    strokeDasharray: "200 200",
+                    strokeDashoffset: [-1000, -1200],
+                    opacity: [0, 0.3, 0.2, 0.4, 0.2]
                   }}
                   transition={{ 
-                    duration: 2, 
-                    delay: index * 0.2,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    repeatDelay: 1
+                    strokeDashoffset: { 
+                      duration: 3, 
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "linear"
+                    },
+                    opacity: {
+                      duration: 3,
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                />
+              ))}
+
+              {/* Medium glow layer */}
+              {lightningPaths.map((path, index) => (
+                <motion.path
+                  key={`glow-${index}`}
+                  d={path}
+                  fill="none"
+                  stroke="url(#lightningGlow)"
+                  strokeWidth={index === 0 ? "20" : index < 3 ? "15" : "10"}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#mediumGlow)"
+                  initial={{ 
+                    strokeDasharray: "0 1000",
+                    strokeDashoffset: 1000,
+                    opacity: 0
+                  }}
+                  animate={{ 
+                    strokeDasharray: "150 150",
+                    strokeDashoffset: [-1000, -1150],
+                    opacity: [0, 0.6, 0.4, 0.8, 0.5]
+                  }}
+                  transition={{ 
+                    strokeDashoffset: { 
+                      duration: 2.5, 
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "linear"
+                    },
+                    opacity: {
+                      duration: 2.5,
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                />
+              ))}
+
+              {/* Bright core layer */}
+              {lightningPaths.map((path, index) => (
+                <motion.path
+                  key={`core-${index}`}
+                  d={path}
+                  fill="none"
+                  stroke="url(#lightningCore)"
+                  strokeWidth={index === 0 ? "6" : index < 3 ? "4" : "2"}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#coreGlow)"
+                  initial={{ 
+                    strokeDasharray: "0 1000",
+                    strokeDashoffset: 1000,
+                    opacity: 0
+                  }}
+                  animate={{ 
+                    strokeDasharray: "100 100",
+                    strokeDashoffset: [-1000, -1100],
+                    opacity: [0, 1, 0.8, 1, 0.9]
+                  }}
+                  transition={{ 
+                    strokeDashoffset: { 
+                      duration: 2, 
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "linear"
+                    },
+                    opacity: {
+                      duration: 2,
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
                   }}
                   data-testid={`lightning-path-${index}`}
                 />
