@@ -18,46 +18,46 @@
   --elevate-3: rgba(255,255,255, .06);
   --elevate-glow: rgba(255, 255, 255, 0.05);
 
-  /* Huly.io Dark Theme as Default */
-  --background: 0 0% 3%;
-  --foreground: 0 0% 98%;
-  --border: 0 0% 15%;
+  /* Premium Purple Dark Theme as Default */
+  --background: 260 15% 2%;
+  --foreground: 280 10% 98%;
+  --border: 270 20% 12%;
   
-  --card: 0 0% 6%;
-  --card-foreground: 0 0% 95%;
-  --card-border: 0 0% 15%;
+  --card: 265 18% 4%;
+  --card-foreground: 280 8% 95%;
+  --card-border: 270 25% 14%;
   
-  --sidebar: 0 0% 6%;
-  --sidebar-foreground: 0 0% 90%;
-  --sidebar-border: 0 0% 15%;
-  --sidebar-primary: 20 100% 50%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 0 0% 15%;
-  --sidebar-accent-foreground: 0 0% 85%;
-  --sidebar-ring: 20 100% 50%;
+  --sidebar: 265 18% 4%;
+  --sidebar-foreground: 275 12% 90%;
+  --sidebar-border: 270 25% 14%;
+  --sidebar-primary: 270 85% 60%;
+  --sidebar-primary-foreground: 280 10% 98%;
+  --sidebar-accent: 270 20% 12%;
+  --sidebar-accent-foreground: 275 15% 85%;
+  --sidebar-ring: 270 85% 60%;
   
-  --popover: 0 0% 6%;
-  --popover-foreground: 0 0% 90%;
-  --popover-border: 0 0% 15%;
+  --popover: 265 18% 4%;
+  --popover-foreground: 275 12% 90%;
+  --popover-border: 270 25% 14%;
   
-  --primary: 20 100% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 15%;
-  --secondary-foreground: 0 0% 90%;
-  --muted: 0 0% 8%;
-  --muted-foreground: 0 0% 60%;
-  --accent: 0 0% 15%;
-  --accent-foreground: 0 0% 90%;
+  --primary: 270 85% 60%;
+  --primary-foreground: 280 10% 98%;
+  --secondary: 270 20% 12%;
+  --secondary-foreground: 275 15% 90%;
+  --muted: 265 15% 6%;
+  --muted-foreground: 270 10% 65%;
+  --accent: 275 30% 18%;
+  --accent-foreground: 275 15% 90%;
   --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
+  --destructive-foreground: 280 10% 98%;
 
-  --input: 0 0% 15%;
-  --ring: 20 100% 50%;
-  --chart-1: 20 100% 50%;
-  --chart-2: 220 100% 60%;
+  --input: 270 20% 12%;
+  --ring: 270 85% 60%;
+  --chart-1: 270 85% 60%;
+  --chart-2: 290 100% 70%;
   --chart-3: 45 90% 60%;
-  --chart-4: 280 75% 60%;
-  --chart-5: 200 85% 60%;
+  --chart-4: 320 75% 65%;
+  --chart-5: 250 85% 65%;
 
   /* Modern Typography System */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -80,17 +80,23 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-  /* Brand Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-brand: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
-  --gradient-cosmic: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4338ca 50%, #7c3aed 75%, #c026d3 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  /* Premium Brand Gradients */
+  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #a855f7 25%, #c084fc 50%, #ddd6fe 100%);
+  --gradient-secondary: linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #d97706 50%, #92400e 100%);
+  --gradient-brand: linear-gradient(135deg, #6366f1 0%, #8b5cf6 25%, #a855f7 50%, #c084fc 75%, #e879f9 100%);
+  --gradient-cosmic: linear-gradient(135deg, #1e1b4b 0%, #312e81 15%, #4338ca 30%, #6366f1 45%, #8b5cf6 60%, #a855f7 75%, #c084fc 90%, #e879f9 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(192, 132, 252, 0.05) 100%);
+  --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #d97706 50%, #b45309 75%, #92400e 100%);
+  --gradient-platinum: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+  --gradient-luxury: linear-gradient(135deg, #6366f1 0%, #8b5cf6 20%, #a855f7 40%, #fbbf24 60%, #f59e0b 80%, #d97706 100%);
   
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-blur: 20px;
+  /* Premium Glassmorphism */
+  --glass-bg: rgba(139, 92, 246, 0.12);
+  --glass-border: rgba(168, 85, 247, 0.20);
+  --glass-blur: 24px;
+  --glass-glow: 0px 0px 32px rgba(139, 92, 246, 0.25), 0px 0px 64px rgba(168, 85, 247, 0.15);
+  --glass-shadow: 0px 16px 32px rgba(0, 0, 0, 0.4), 0px 8px 16px rgba(0, 0, 0, 0.3);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
   
   /* Animation durations */
   --duration-fast: 150ms;

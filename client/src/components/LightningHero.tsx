@@ -29,6 +29,11 @@ export default function LightningHero() {
   // Screen size detection for responsive arc/branch counts
   const [screenSize, setScreenSize] = useState('large');
   
+  // Lightsaber ignition animation controls
+  const lightsaberProgress = useMotionValue(0);
+  const lightsaberAnimationRef = useRef<number | null>(null);
+  const [isLightsaberIgnited, setIsLightsaberIgnited] = useState(false);
+  
   // Performance-optimized flicker with useRef (no re-renders)
   const flickerIntensity = useRef(1);
   const flickerMotionValue = useMotionValue(1);
@@ -98,27 +103,41 @@ export default function LightningHero() {
       section.addEventListener('mouseleave', handleMouseLeave);
     }
     
-    // Performance-optimized organic flicker with no React re-renders
-    let startTime = Date.now();
-    const organicFlicker = () => {
-      if (!prefersReducedMotion) {
-        const elapsed = (Date.now() - startTime) / 1000;
-        // Deterministic Perlin-like noise with seeded randomness
-        const noise1 = Math.sin(elapsed * 2.3) * 0.5 + 0.5;
-        const noise2 = Math.sin(elapsed * 1.7 + 2.1) * 0.5 + 0.5;
-        const noise3 = Math.sin(elapsed * 3.1 + 4.2) * 0.5 + 0.5;
-        const combinedNoise = (noise1 + noise2 * 0.7 + noise3 * 0.3) / 2.0;
-        const newIntensity = 0.6 + combinedNoise * 0.7;
+    // Lightsaber ignition animation
+    let ignitionStartTime = Date.now();
+    const lightsaberIgnition = () => {
+      if (!prefersReducedMotion && isInViewport) {
+        const elapsed = (Date.now() - ignitionStartTime) / 1000;
+        const ignitionDuration = 2.5; // 2.5 seconds for full ignition
         
-        // Update refs without causing re-renders
-        flickerIntensity.current = newIntensity;
-        flickerMotionValue.set(newIntensity);
+        if (elapsed < ignitionDuration) {
+          // Smooth easing function for lightsaber ignition
+          const progress = Math.min(elapsed / ignitionDuration, 1);
+          const easedProgress = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          
+          lightsaberProgress.set(easedProgress);
+          
+          if (easedProgress >= 1 && !isLightsaberIgnited) {
+            setIsLightsaberIgnited(true);
+          }
+        } else {
+          // After ignition, add subtle flickering
+          const flickerTime = elapsed - ignitionDuration;
+          const noise1 = Math.sin(flickerTime * 2.3) * 0.05 + 0.95;
+          const noise2 = Math.sin(flickerTime * 1.7 + 2.1) * 0.03 + 0.97;
+          const combinedNoise = (noise1 + noise2) / 2;
+          
+          flickerIntensity.current = combinedNoise;
+          flickerMotionValue.set(combinedNoise);
+        }
       }
-      animationFrameRef.current = requestAnimationFrame(organicFlicker);
+      lightsaberAnimationRef.current = requestAnimationFrame(lightsaberIgnition);
     };
     
     if (!prefersReducedMotion && isInViewport) {
-      organicFlicker();
+      lightsaberIgnition();
     }
     
     return () => {
@@ -132,6 +151,9 @@ export default function LightningHero() {
       }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+      }
+      if (lightsaberAnimationRef.current) {
+        cancelAnimationFrame(lightsaberAnimationRef.current);
       }
     };
   }, [prefersReducedMotion, isInViewport]);
@@ -250,12 +272,16 @@ export default function LightningHero() {
     });
   }, [screenSize, seededRandom]);
 
-  // Dramatically tapered lightning path - hair-thin at top, massively wide at bottom (Huly.io style)
-  const mainLightningPath = `M400 0 
+  // Split lightning path into segments for progressive width scaling
+  const topLightningPath = `M400 0 
     L400.5 30 L399.5 60 L400.2 90 L399.8 120
-    L401 150 L399 180 L401.5 210 L398.5 240
+    L401 150 L399 180 L401.5 200`;
+    
+  const middleLightningPath = `M401.5 200 L398.5 240
     L403 270 L397 300 L405 330 L395 360
-    L410 390 L390 420 L415 450 L385 480
+    L410 390 L390 400`;
+    
+  const bottomLightningPath = `M390 400 L415 450 L385 480
     L425 510 L375 540 L440 570 L360 590 L400 600`;
     
   // Massive beam base path for dramatic width (250-400px bottom)
@@ -301,6 +327,21 @@ export default function LightningHero() {
   const atmosphericSkewY = useTransform(mouseY, [-50, 50], [-0.8, 0.8]);
   const atmosphericTranslateX = useTransform(mouseX, [-50, 50], [-8, 8]);
   const atmosphericTranslateY = useTransform(mouseY, [-50, 50], [-5, 5]);
+  
+  // Lightsaber-specific transform values
+  const lightsaberOpacity = useTransform(lightsaberProgress, [0, 0.1, 1], [0, 0.3, 1]);
+  const lightsaberScale = useTransform(lightsaberProgress, [0, 0.5, 1], [0.8, 0.95, 1]);
+  const lightsaberGlow = useTransform(lightsaberProgress, [0, 0.8, 1], [0, 0.6, 1]);
+  
+  // Progressive width scaling for different sections
+  const topWidth = useTransform(lightsaberProgress, [0, 1], [0, 2]);
+  const middleWidth = useTransform(lightsaberProgress, [0, 1], [0, 8]);
+  const bottomWidth = useTransform(lightsaberProgress, [0, 1], [0, 20]);
+  
+  // Calculate stroke-dasharray for progressive reveal
+  const pathLength = 600; // Approximate path length
+  const strokeDasharray = `${pathLength}`;
+  const strokeDashoffset = useTransform(lightsaberProgress, [0, 1], [pathLength, 0]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 overflow-hidden" data-testid="lightning-hero-section">
@@ -400,7 +441,7 @@ export default function LightningHero() {
                     stopOpacity="0.2"
                     animate={{ 
                       stopColor: ["#1a0f4a", "#2d1b69", "#4c2a7a", "#1a0f4a"],
-                      stopOpacity: shouldAnimate ? [0.12 * flickerIntensity, 0.32 * flickerIntensity, 0.22 * flickerIntensity, 0.28 * flickerIntensity] : 0.2 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.12 * flickerIntensity.current, 0.32 * flickerIntensity.current, 0.22 * flickerIntensity.current, 0.28 * flickerIntensity.current] : 0.2 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 4 + Math.random() * 3,
@@ -414,7 +455,7 @@ export default function LightningHero() {
                     stopOpacity="0.5"
                     animate={{ 
                       stopColor: ["#312e81", "#4338ca", "#4f46e5", "#312e81"],
-                      stopOpacity: shouldAnimate ? [0.4 * flickerIntensity, 0.7 * flickerIntensity, 0.5 * flickerIntensity, 0.6 * flickerIntensity] : 0.5 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.4 * flickerIntensity.current, 0.7 * flickerIntensity.current, 0.5 * flickerIntensity.current, 0.6 * flickerIntensity.current] : 0.5 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 3 + Math.random() * 2,
@@ -428,7 +469,7 @@ export default function LightningHero() {
                     stopOpacity="0.7"
                     animate={{ 
                       stopColor: ["#6366f1", "#7c3aed", "#8b5cf6", "#6366f1"],
-                      stopOpacity: shouldAnimate ? [0.6 * flickerIntensity, 0.9 * flickerIntensity, 0.7 * flickerIntensity, 0.8 * flickerIntensity] : 0.7 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.6 * flickerIntensity.current, 0.9 * flickerIntensity.current, 0.7 * flickerIntensity.current, 0.8 * flickerIntensity.current] : 0.7 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 5 + Math.random() * 3,
@@ -442,7 +483,7 @@ export default function LightningHero() {
                     stopOpacity="0.8"
                     animate={{ 
                       stopColor: ["#a78bfa", "#c4b5fd", "#ddd6fe", "#a78bfa"],
-                      stopOpacity: shouldAnimate ? [0.7 * flickerIntensity, 1.0 * flickerIntensity, 0.8 * flickerIntensity, 0.9 * flickerIntensity] : 0.8 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.7 * flickerIntensity.current, 1.0 * flickerIntensity.current, 0.8 * flickerIntensity.current, 0.9 * flickerIntensity.current] : 0.8 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 4 + Math.random() * 2,
@@ -456,7 +497,7 @@ export default function LightningHero() {
                     stopOpacity="0.9"
                     animate={{ 
                       stopColor: ["#ffffff", "#faf5ff", "#f3e8ff", "#ffffff"],
-                      stopOpacity: shouldAnimate ? [0.8 * flickerIntensity, 1.0 * flickerIntensity, 0.9 * flickerIntensity, 0.95 * flickerIntensity] : 0.9 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.8 * flickerIntensity.current, 1.0 * flickerIntensity.current, 0.9 * flickerIntensity.current, 0.95 * flickerIntensity.current] : 0.9 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 6 + Math.random() * 4,
@@ -484,7 +525,7 @@ export default function LightningHero() {
                     stopOpacity="0.3"
                     animate={{ 
                       stopColor: ["#2d1b69", "#4c2a7a", "#6b46c1", "#2d1b69"],
-                      stopOpacity: shouldAnimate ? [0.25 * flickerIntensity, 0.45 * flickerIntensity, 0.35 * flickerIntensity, 0.4 * flickerIntensity] : 0.3 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.25 * flickerIntensity.current, 0.45 * flickerIntensity.current, 0.35 * flickerIntensity.current, 0.4 * flickerIntensity.current] : 0.3 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 5 + Math.random() * 2,
@@ -498,7 +539,7 @@ export default function LightningHero() {
                     stopOpacity="0.8"
                     animate={{ 
                       stopColor: ["#7c3aed", "#8b5cf6", "#a855f7", "#7c3aed"],
-                      stopOpacity: shouldAnimate ? [0.7 * flickerIntensity, 1.0 * flickerIntensity, 0.8 * flickerIntensity, 0.9 * flickerIntensity] : 0.8 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.7 * flickerIntensity.current, 1.0 * flickerIntensity.current, 0.8 * flickerIntensity.current, 0.9 * flickerIntensity.current] : 0.8 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 3 + Math.random() * 2,
@@ -512,7 +553,7 @@ export default function LightningHero() {
                     stopOpacity="0.9"
                     animate={{ 
                       stopColor: ["#a78bfa", "#c4b5fd", "#e9d5ff", "#a78bfa"],
-                      stopOpacity: shouldAnimate ? [0.8 * flickerIntensity, 1.0 * flickerIntensity, 0.85 * flickerIntensity, 0.95 * flickerIntensity] : 0.9 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.8 * flickerIntensity.current, 1.0 * flickerIntensity.current, 0.85 * flickerIntensity.current, 0.95 * flickerIntensity.current] : 0.9 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 4 + Math.random() * 2,
@@ -526,7 +567,7 @@ export default function LightningHero() {
                     stopOpacity="1.0"
                     animate={{ 
                       stopColor: ["#ffffff", "#fefbff", "#fdf4ff", "#ffffff"],
-                      stopOpacity: shouldAnimate ? [0.95 * flickerIntensity, 1.0 * flickerIntensity, 0.98 * flickerIntensity, 1.0 * flickerIntensity] : 1.0 * flickerIntensity
+                      stopOpacity: shouldAnimate ? [0.95 * flickerIntensity.current, 1.0 * flickerIntensity.current, 0.98 * flickerIntensity.current, 1.0 * flickerIntensity.current] : 1.0 * flickerIntensity.current
                     }}
                     transition={{ 
                       duration: prefersReducedMotion ? 0 : 4 + Math.random() * 3,
@@ -667,7 +708,7 @@ export default function LightningHero() {
                   <motion.feGaussianBlur 
                     stdDeviation="80" 
                     result="massiveBlur"
-                    animate={{ stdDeviation: shouldAnimate ? [70, 90, 75, 85, 80] : 80 * flickerIntensity }}
+                    animate={{ stdDeviation: shouldAnimate ? [70, 90, 75, 85, 80] : 80 * flickerIntensity.current }}
                     transition={{ duration: shouldAnimate ? 3 + Math.random() * 2 : 0, repeat: shouldAnimate ? Infinity : 0, ease: "easeInOut" }}
                   />
                   <feBlend mode="screen" in="massiveBlur" in2="SourceGraphic"/>
@@ -801,7 +842,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur1)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.08, 0.15, 0.10, 0.18, 0.12] : 0.1 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.08, 0.15, 0.10, 0.18, 0.12] : 0.1 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.03, 0.98, 1.05, 1.01] : 1 + (isMouseOver ? 0.02 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.1 : 0
                 }}
@@ -820,7 +861,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur2)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.09, 0.16, 0.11, 0.19, 0.13] : 0.11 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.09, 0.16, 0.11, 0.19, 0.13] : 0.11 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.04, 0.97, 1.06, 1.02] : 1 + (isMouseOver ? 0.015 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.08 : 0
                 }}
@@ -839,7 +880,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur3)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.07, 0.14, 0.09, 0.17, 0.11] : 0.09 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.07, 0.14, 0.09, 0.17, 0.11] : 0.09 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.05, 0.96, 1.07, 1.03] : 1 + (isMouseOver ? 0.025 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.12 : 0
                 }}
@@ -858,7 +899,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur4)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.08, 0.15, 0.10, 0.18, 0.12] : 0.10 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.08, 0.15, 0.10, 0.18, 0.12] : 0.10 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.02, 0.99, 1.04, 1.01] : 1 + (isMouseOver ? 0.018 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.09 : 0
                 }}
@@ -877,7 +918,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur1)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.06, 0.13, 0.08, 0.16, 0.10] : 0.08 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.06, 0.13, 0.08, 0.16, 0.10] : 0.08 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.06, 0.95, 1.08, 1.02] : 1 + (isMouseOver ? 0.03 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.14 : 0
                 }}
@@ -896,7 +937,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur2)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.07, 0.14, 0.09, 0.17, 0.11] : 0.09 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.07, 0.14, 0.09, 0.17, 0.11] : 0.09 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.03, 0.98, 1.05, 1.01] : 1 + (isMouseOver ? 0.02 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.11 : 0
                 }}
@@ -915,7 +956,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur3)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.05, 0.12, 0.07, 0.15, 0.09] : 0.07 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.05, 0.12, 0.07, 0.15, 0.09] : 0.07 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.07, 0.94, 1.09, 1.03] : 1 + (isMouseOver ? 0.035 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.16 : 0
                 }}
@@ -934,7 +975,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur4)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.06, 0.13, 0.08, 0.16, 0.10] : 0.08 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.06, 0.13, 0.08, 0.16, 0.10] : 0.08 * flickerIntensity.current,
                   scale: shouldAnimate ? [1, 1.04, 0.97, 1.06, 1.02] : 1 + (isMouseOver ? 0.025 : 0),
                   x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.13 : 0
                 }}
@@ -947,23 +988,27 @@ export default function LightningHero() {
                 style={{ mixBlendMode: 'screen' }}
               />
 
-              {/* Huly.io Massive Atmospheric Layers with Mouse Interactivity */}
+              {/* Enhanced Lightsaber Atmospheric Layers with Progressive Ignition */}
               <motion.path
                 d={atmosphericBasePath}
                 fill="url(#hulyAtmospheric1)"
                 filter="url(#hulyMassiveBlur1)"
-                initial={{ opacity: 0 }}
-                style={{ opacity: useTransform(flickerMotionValue, [0.6, 1.3], [0.3, 0.7]) }}
+                initial={{ opacity: 0, scale: 0.8, clipPath: "inset(100% 0 0 0)" }}
+                style={{ 
+                  opacity: lightsaberOpacity,
+                  scale: lightsaberScale,
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
+                }}
                 animate={{ 
-                  scale: shouldAnimate ? [1, 1.1, 0.95, 1.15, 1.05] : 1 + (isMouseOver ? 0.05 : 0),
-                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.8 : 0,
-                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.05 : 0
+                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.4 : 0,
+                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.02 : 0
                 }}
                 transition={{ 
-                  duration: shouldAnimate ? 6 + seededRandom(10) * 4 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: seededRandom(11) * 3
+                  duration: 0.3,
+                  ease: "easeOut"
                 }}
               />
               
@@ -971,18 +1016,22 @@ export default function LightningHero() {
                 d={beamBasePath}
                 fill="url(#hulyAtmospheric2)"
                 filter="url(#hulyMassiveBlur2)"
-                initial={{ opacity: 0 }}
-                style={{ opacity: useTransform(flickerMotionValue, [0.6, 1.3], [0.4, 0.9]) }}
+                initial={{ opacity: 0, scale: 0.9, clipPath: "inset(100% 0 0 0)" }}
+                style={{ 
+                  opacity: useTransform(lightsaberProgress, [0, 0.3, 1], [0, 0.6, 0.9]),
+                  scale: useTransform(lightsaberProgress, [0, 0.7, 1], [0.9, 0.98, 1]),
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
+                }}
                 animate={{ 
-                  scale: shouldAnimate ? [1, 1.08, 0.96, 1.12, 1.02] : 1 + (isMouseOver ? 0.03 : 0),
-                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.6 : 0,
-                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.03 : 0
+                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.3 : 0,
+                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.015 : 0
                 }}
                 transition={{ 
-                  duration: shouldAnimate ? 4 + seededRandom(12) * 3 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: seededRandom(13) * 2
+                  duration: 0.25,
+                  ease: "easeOut"
                 }}
               />
               
@@ -990,37 +1039,38 @@ export default function LightningHero() {
                 d={beamBasePath}
                 fill="url(#hulyAtmospheric2)"
                 filter="url(#hulyAtmosphericBlur)"
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 0, clipPath: "inset(100% 0 0 0)" }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.5, 1], [0, 0.7, isLightsaberIgnited ? flickerIntensity.current * 0.8 : 0.8]),
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
+                }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.5, 0.9, 0.6, 1.0, 0.7] : 0.6 * flickerIntensity,
-                  scale: shouldAnimate ? [1, 1.05, 0.98, 1.08, 1.01] : 1,
-                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.4 : 0,
-                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.02 : 0
+                  x: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.2 : 0,
+                  skewX: isMouseOver && !prefersReducedMotion ? (mousePosition.x - 50) * 0.01 : 0
                 }}
                 transition={{ 
-                  duration: shouldAnimate ? 3 + Math.random() * 2 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: Math.random() * 1
+                  duration: 0.2,
+                  ease: "easeOut"
                 }}
               />
 
-              {/* Huly.io Lightning Beam Layers - Dramatic Tapering */}
+              {/* Lightsaber Core Layers - Progressive Ignition with Width Scaling */}
               {/* Outer Atmospheric Core */}
               <motion.path
                 d={beamBasePath}
                 fill="url(#hulyCore)"
                 filter="url(#hulyCoreBlur1)"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ 
-                  opacity: shouldAnimate ? [0.4, 0.7, 0.5, 0.8, 0.6] : 0.5 * flickerIntensity,
-                  scale: shouldAnimate ? [0.8, 1.05, 0.95, 1.1, 1] : 1 + (isMouseOver ? 0.02 : 0)
-                }}
-                transition={{ 
-                  duration: shouldAnimate ? 2 + Math.random() * 1 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: Math.random() * 1
+                initial={{ opacity: 0, scale: 0.8, clipPath: "inset(100% 0 0 0)" }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.4, 1], [0, 0.6, isLightsaberIgnited ? flickerIntensity.current * 0.7 : 0.7]),
+                  scale: useTransform(lightsaberProgress, [0, 0.8, 1], [0.8, 0.95, 1]),
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
                 }}
                 data-testid="lightning-beam-outer"
               />
@@ -1030,16 +1080,14 @@ export default function LightningHero() {
                 d={beamBasePath}
                 fill="url(#hulyCore)"
                 filter="url(#hulyCoreBlur2)"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  opacity: shouldAnimate ? [0.6, 0.9, 0.7, 1.0, 0.8] : 0.7 * flickerIntensity,
-                  scale: shouldAnimate ? [0.9, 1.03, 0.97, 1.06, 1] : 1
-                }}
-                transition={{ 
-                  duration: shouldAnimate ? 1.5 + Math.random() * 0.5 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: Math.random() * 0.5
+                initial={{ opacity: 0, scale: 0.9, clipPath: "inset(100% 0 0 0)" }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.6, 1], [0, 0.8, isLightsaberIgnited ? flickerIntensity.current * 0.85 : 0.85]),
+                  scale: useTransform(lightsaberProgress, [0, 0.9, 1], [0.9, 0.98, 1]),
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
                 }}
                 data-testid="lightning-beam-middle"
               />
@@ -1049,58 +1097,98 @@ export default function LightningHero() {
                 d={beamBasePath}
                 fill="url(#hulyCore)"
                 filter="url(#hulyWhiteCore)"
-                initial={{ opacity: 0.9, scale: 1 }}
-                animate={{ 
-                  opacity: shouldAnimate ? [0.85, 1.0, 0.9, 1.0, 0.95] : 0.9 * flickerIntensity,
-                  scale: shouldAnimate ? [1, 1.01, 0.99, 1.02, 1] : 1
-                }}
-                transition={{ 
-                  duration: shouldAnimate ? 1 + Math.random() * 0.3 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: Math.random() * 0.3
+                initial={{ opacity: 0, scale: 1, clipPath: "inset(100% 0 0 0)" }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.8, 1], [0, 0.9, isLightsaberIgnited ? flickerIntensity.current * 0.95 : 0.95]),
+                  scale: useTransform(lightsaberProgress, [0, 1], [1, 1]),
+                  clipPath: useTransform(lightsaberProgress, [0, 1], [
+                    "inset(100% 0 0 0)",
+                    "inset(0% 0 0 0)"
+                  ])
                 }}
                 data-testid="lightning-beam-core"
               />
               
-              {/* Hair-thin Lightning Path for Detail */}
+              {/* Progressive Width Lightning Path - Split into segments for width scaling */}
+              {/* Top segment - thinnest */}
               <motion.path
-                d={mainLightningPath}
+                d={topLightningPath}
                 fill="none"
                 stroke="rgba(255, 255, 255, 1)"
-                strokeWidth="1"
                 strokeLinecap="round"
                 filter="url(#organicWobble)"
-                initial={{ opacity: 0.8, scale: 1 }}
-                animate={{ 
-                  opacity: shouldAnimate ? [0.7, 1.0, 0.8, 1.0, 0.9] : 0.85 * flickerIntensity,
-                  strokeWidth: shouldAnimate ? [0.5, 1.5, 0.8, 2, 1] : 1
+                initial={{ 
+                  opacity: 0,
+                  pathLength: 0,
+                  strokeWidth: 0
                 }}
-                transition={{ 
-                  duration: shouldAnimate ? 0.8 + Math.random() * 0.4 : 0,
-                  repeat: shouldAnimate ? Infinity : 0,
-                  ease: "easeInOut",
-                  delay: Math.random() * 0.2
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.2, 1], [0, 0.8, isLightsaberIgnited ? flickerIntensity.current : 1]),
+                  pathLength: useTransform(lightsaberProgress, [0, 0.33, 1], [0, 1, 1]),
+                  strokeWidth: topWidth,
+                  strokeDasharray: "200",
+                  strokeDashoffset: useTransform(lightsaberProgress, [0, 0.33], [200, 0])
                 }}
-                data-testid="lightning-hair-thin-path"
+                data-testid="lightning-top-segment"
+              />
+              
+              {/* Middle segment - medium thickness */}
+              <motion.path
+                d={middleLightningPath}
+                fill="none"
+                stroke="rgba(255, 255, 255, 1)"
+                strokeLinecap="round"
+                filter="url(#organicWobble)"
+                initial={{ 
+                  opacity: 0,
+                  pathLength: 0,
+                  strokeWidth: 0
+                }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.33, 0.66, 1], [0, 0, 0.8, isLightsaberIgnited ? flickerIntensity.current : 1]),
+                  pathLength: useTransform(lightsaberProgress, [0.33, 0.66, 1], [0, 1, 1]),
+                  strokeWidth: middleWidth,
+                  strokeDasharray: "200",
+                  strokeDashoffset: useTransform(lightsaberProgress, [0.33, 0.66], [200, 0])
+                }}
+                data-testid="lightning-middle-segment"
+              />
+              
+              {/* Bottom segment - thickest */}
+              <motion.path
+                d={bottomLightningPath}
+                fill="none"
+                stroke="rgba(255, 255, 255, 1)"
+                strokeLinecap="round"
+                filter="url(#organicWobble)"
+                initial={{ 
+                  opacity: 0,
+                  pathLength: 0,
+                  strokeWidth: 0
+                }}
+                style={{
+                  opacity: useTransform(lightsaberProgress, [0, 0.66, 1], [0, 0, isLightsaberIgnited ? flickerIntensity.current : 1]),
+                  pathLength: useTransform(lightsaberProgress, [0.66, 1], [0, 1]),
+                  strokeWidth: bottomWidth,
+                  strokeDasharray: "200",
+                  strokeDashoffset: useTransform(lightsaberProgress, [0.66, 1], [200, 0])
+                }}
+                data-testid="lightning-bottom-segment"
               />
 
-              {/* Huly.io Energy Flow Effect with Mask */}
+              {/* Lightsaber Energy Flow Effect with Progressive Ignition */}
               <g mask="url(#energyFlowMask)">
                 <motion.path
                   d={beamBasePath}
                   fill="url(#hulyCore)"
                   filter="url(#hulyWhiteCore)"
-                  initial={{ opacity: 0.6 }}
-                  animate={{ 
-                    opacity: shouldAnimate ? [0.5, 0.9, 0.7, 1.0, 0.8] : 0.7 * flickerIntensity,
-                    scale: shouldAnimate ? [0.98, 1.02, 0.99, 1.03, 1] : 1
-                  }}
-                  transition={{ 
-                    duration: shouldAnimate ? 1.2 + Math.random() * 0.5 : 0,
-                    repeat: shouldAnimate ? Infinity : 0,
-                    ease: "easeInOut",
-                    delay: Math.random() * 0.3
+                  initial={{ opacity: 0, clipPath: "inset(100% 0 0 0)" }}
+                  style={{
+                    opacity: useTransform(lightsaberProgress, [0, 0.7, 1], [0, 0.8, isLightsaberIgnited ? flickerIntensity.current * 0.9 : 0.9]),
+                    clipPath: useTransform(lightsaberProgress, [0, 1], [
+                      "inset(100% 0 0 0)",
+                      "inset(0% 0 0 0)"
+                    ])
                   }}
                   data-testid="huly-energy-flow"
                 />
@@ -1117,7 +1205,7 @@ export default function LightningHero() {
                   filter="url(#hulyWhiteCore)"
                   initial={{ opacity: 0, pathLength: 0 }}
                   animate={{ 
-                    opacity: shouldAnimate ? [0, 0.6, 0.3, 0.7, 0.1] : 0.4 * flickerIntensity,
+                    opacity: shouldAnimate ? [0, 0.6, 0.3, 0.7, 0.1] : 0.4 * flickerIntensity.current,
                     pathLength: shouldAnimate ? [0, 1, 0.6, 1, 0.2] : 0.8,
                     strokeWidth: shouldAnimate ? [0.5, 1.2, 0.8, 1.5, 1] : 0.8
                   }}
@@ -1138,7 +1226,7 @@ export default function LightningHero() {
                 filter="url(#hulyAtmosphericBlur)"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.1, 0.4, 0.2, 0.5, 0.3] : 0.2 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.1, 0.4, 0.2, 0.5, 0.3] : 0.2 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.5, 1.3, 0.8, 1.6, 1.1] : 1 + (isMouseOver ? 0.1 : 0),
                   rx: shouldAnimate ? [120, 150, 130, 170, 140] : 130,
                   ry: shouldAnimate ? [80, 100, 85, 110, 90] : 85
@@ -1158,7 +1246,7 @@ export default function LightningHero() {
                 filter="url(#hulyMassiveBlur2)"
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.08, 0.25, 0.15, 0.3, 0.2] : 0.15 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.08, 0.25, 0.15, 0.3, 0.2] : 0.15 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.6, 1.4, 0.9, 1.7, 1.2] : 1.1 + (isMouseOver ? 0.15 : 0),
                   rx: shouldAnimate ? [160, 200, 170, 220, 180] : 170,
                   ry: shouldAnimate ? [100, 125, 105, 135, 115] : 110
@@ -1178,7 +1266,7 @@ export default function LightningHero() {
                 filter="url(#hulyMassiveBlur1)"
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.05, 0.2, 0.1, 0.25, 0.15] : 0.12 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.05, 0.2, 0.1, 0.25, 0.15] : 0.12 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.7, 1.5, 1, 1.8, 1.3] : 1.2 + (isMouseOver ? 0.2 : 0),
                   rx: shouldAnimate ? [200, 250, 210, 270, 230] : 220,
                   ry: shouldAnimate ? [120, 150, 125, 160, 135] : 130
@@ -1198,7 +1286,7 @@ export default function LightningHero() {
                 filter="url(#hulyMassiveBlur1)"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.03, 0.15, 0.08, 0.18, 0.12] : 0.1 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.03, 0.15, 0.08, 0.18, 0.12] : 0.1 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.8, 1.6, 1.1, 1.9, 1.4] : 1.3 + (isMouseOver ? 0.25 : 0),
                   rx: shouldAnimate ? [240, 300, 250, 320, 270] : 260,
                   ry: shouldAnimate ? [140, 175, 145, 185, 160] : 150
@@ -1221,7 +1309,7 @@ export default function LightningHero() {
                 style={{ mixBlendMode: 'screen' }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.02, 0.08, 0.04, 0.1, 0.06] : 0.05 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.02, 0.08, 0.04, 0.1, 0.06] : 0.05 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.9, 1.7, 1.2, 1.9, 1.4] : 1.5 + (isMouseOver ? 0.3 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.15 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 500 + (mousePosition.y - 50) * 0.1 : 500
@@ -1243,7 +1331,7 @@ export default function LightningHero() {
                 style={{ mixBlendMode: 'screen' }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.03, 0.12, 0.06, 0.15, 0.08] : 0.07 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.03, 0.12, 0.06, 0.15, 0.08] : 0.07 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.8, 1.6, 1.1, 1.8, 1.3] : 1.4 + (isMouseOver ? 0.25 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.2 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 450 + (mousePosition.y - 50) * 0.12 : 450
@@ -1265,7 +1353,7 @@ export default function LightningHero() {
                 style={{ mixBlendMode: 'screen' }}
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.05, 0.18, 0.1, 0.22, 0.12] : 0.1 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.05, 0.18, 0.1, 0.22, 0.12] : 0.1 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.7, 1.5, 1.0, 1.7, 1.2] : 1.3 + (isMouseOver ? 0.2 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.25 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 380 + (mousePosition.y - 50) * 0.15 : 380
@@ -1286,7 +1374,7 @@ export default function LightningHero() {
                 filter="url(#fogBlur4)"
                 style={{ mixBlendMode: 'screen' }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.08, 0.25, 0.15, 0.3, 0.18] : 0.15 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.08, 0.25, 0.15, 0.3, 0.18] : 0.15 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.6, 1.4, 0.9, 1.6, 1.1] : 1.2 + (isMouseOver ? 0.15 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.3 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 320 + (mousePosition.y - 50) * 0.18 : 320
@@ -1307,7 +1395,7 @@ export default function LightningHero() {
                 filter="url(#hulyAtmosphericBlur)"
                 style={{ mixBlendMode: 'screen' }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.12, 0.35, 0.2, 0.4, 0.25] : 0.2 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.12, 0.35, 0.2, 0.4, 0.25] : 0.2 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.5, 1.3, 0.8, 1.5, 1.0] : 1.1 + (isMouseOver ? 0.1 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.35 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 260 + (mousePosition.y - 50) * 0.2 : 260
@@ -1328,7 +1416,7 @@ export default function LightningHero() {
                 filter="url(#hulyCoreBlur1)"
                 style={{ mixBlendMode: 'screen' }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.15, 0.45, 0.25, 0.5, 0.3] : 0.25 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.15, 0.45, 0.25, 0.5, 0.3] : 0.25 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.4, 1.2, 0.7, 1.4, 0.9] : 1.0 + (isMouseOver ? 0.08 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.4 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 200 + (mousePosition.y - 50) * 0.25 : 200
@@ -1349,7 +1437,7 @@ export default function LightningHero() {
                 filter="url(#hulyCoreBlur2)"
                 style={{ mixBlendMode: 'screen' }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.18, 0.55, 0.3, 0.6, 0.35] : 0.3 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.18, 0.55, 0.3, 0.6, 0.35] : 0.3 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.3, 1.1, 0.6, 1.3, 0.8] : 0.9 + (isMouseOver ? 0.06 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.45 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 150 + (mousePosition.y - 50) * 0.3 : 150
@@ -1370,7 +1458,7 @@ export default function LightningHero() {
                 filter="url(#hulyWhiteCore)"
                 style={{ mixBlendMode: 'screen' }}
                 animate={{ 
-                  opacity: shouldAnimate ? [0.2, 0.65, 0.35, 0.7, 0.4] : 0.35 * flickerIntensity,
+                  opacity: shouldAnimate ? [0.2, 0.65, 0.35, 0.7, 0.4] : 0.35 * flickerIntensity.current,
                   scale: shouldAnimate ? [0.2, 1.0, 0.5, 1.2, 0.7] : 0.8 + (isMouseOver ? 0.05 : 0),
                   cx: isMouseOver && !prefersReducedMotion ? 400 + (mousePosition.x - 50) * 0.5 : 400,
                   cy: isMouseOver && !prefersReducedMotion ? 100 + (mousePosition.y - 50) * 0.35 : 100
@@ -1397,7 +1485,7 @@ export default function LightningHero() {
                   animate={{ 
                     pathLength: shouldAnimate ? [0, 0, 1, 0.3, 0] : 0, 
                     opacity: shouldAnimate ? [0, 0, 1, 0.6, 0] : 0,
-                    strokeWidth: shouldAnimate ? [arc.strokeWidth * flickerIntensity, arc.strokeWidth * flickerIntensity, arc.strokeWidth * 3 * flickerIntensity, arc.strokeWidth * 1.5 * flickerIntensity, arc.strokeWidth * 0.3 * flickerIntensity] : arc.strokeWidth * flickerIntensity
+                    strokeWidth: shouldAnimate ? [arc.strokeWidth * flickerIntensity.current, arc.strokeWidth * flickerIntensity.current, arc.strokeWidth * 3 * flickerIntensity.current, arc.strokeWidth * 1.5 * flickerIntensity.current, arc.strokeWidth * 0.3 * flickerIntensity.current] : arc.strokeWidth * flickerIntensity.current
                   }}
                   transition={{
                     duration: shouldAnimate ? 0.15 : 0,
@@ -1423,7 +1511,7 @@ export default function LightningHero() {
                   animate={{ 
                     pathLength: shouldAnimate ? [0, 0, 0.8, 0.2, 0] : 0, 
                     opacity: shouldAnimate ? [0, 0, 0.9, 0.4, 0] : 0,
-                    strokeWidth: shouldAnimate ? [arc.strokeWidth * flickerIntensity, arc.strokeWidth * flickerIntensity, arc.strokeWidth * 2.5 * flickerIntensity, arc.strokeWidth * 1.2 * flickerIntensity, arc.strokeWidth * 0.2 * flickerIntensity] : arc.strokeWidth * flickerIntensity
+                    strokeWidth: shouldAnimate ? [arc.strokeWidth * flickerIntensity.current, arc.strokeWidth * flickerIntensity.current, arc.strokeWidth * 2.5 * flickerIntensity.current, arc.strokeWidth * 1.2 * flickerIntensity.current, arc.strokeWidth * 0.2 * flickerIntensity.current] : arc.strokeWidth * flickerIntensity.current
                   }}
                   transition={{
                     duration: shouldAnimate ? 0.18 : 0,
