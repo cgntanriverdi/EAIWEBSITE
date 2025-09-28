@@ -168,8 +168,23 @@ export default function LightningHero() {
     });
   }, [screenSize]);
 
-  // Single straight lightning bolt like huly.io - elegant and minimalist
-  const mainLightningPath = "M400 0 L400 600";
+  // Realistic jagged lightning bolt path - single stroke that zig-zags downward
+  const mainLightningPath = `M400 0 
+    L398 25 L404 50 L396 80 L408 110
+    L390 140 L415 170 L385 200 L420 230
+    L375 260 L425 290 L370 320 L430 350
+    L365 380 L435 410 L360 440 L440 470
+    L355 500 L445 530 L350 560 L450 590 L400 600`;
+    
+  // More dramatic secondary branch paths
+  const branchPaths = [
+    "M385 180 L360 210 L368 240 L355 275 L365 305",
+    "M415 220 L440 250 L432 280 L445 315 L435 345", 
+    "M375 350 L350 380 L358 410 L345 445 L355 475",
+    "M425 320 L450 350 L442 380 L455 415 L445 445",
+    "M380 480 L355 510 L363 540 L350 575",
+    "M420 460 L445 490 L437 520 L450 555"
+  ];
 
   const getCurrentLightningColor = () => {
     if (!hoveredAgent) return "#00bfff"; // Electric blue default
@@ -463,180 +478,274 @@ export default function LightningHero() {
                 </linearGradient>
               </defs>
               
-              {/* Atmospheric glow layers - 3 wide columns with gradients */}
+              {/* Enhanced Atmospheric glow layers - wider and more dramatic */}
               <motion.rect
-                x="320" y="0" width="160" height="600"
+                x="250" y="0" width="300" height="600"
                 fill="url(#atmosphericGlow1)"
                 filter="url(#atmosphericBlur1)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.4, 0.6, 0.5, 0.7, 0.5]
+                  opacity: shouldAnimate ? [0.6, 0.9, 0.7, 1, 0.8] : 0.7,
+                  width: shouldAnimate ? [300, 320, 290, 340, 310] : 310
                 }}
                 transition={{ 
-                  duration: 8,
-                  repeat: Infinity,
+                  duration: shouldAnimate ? 8 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
                   ease: "easeInOut"
                 }}
               />
               
               <motion.rect
-                x="340" y="0" width="120" height="600"
+                x="300" y="0" width="200" height="600"
                 fill="url(#atmosphericGlow2)"
                 filter="url(#atmosphericBlur2)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.5, 0.7, 0.6, 0.8, 0.6]
+                  opacity: shouldAnimate ? [0.7, 1, 0.8, 1.2, 0.9] : 0.8,
+                  width: shouldAnimate ? [200, 220, 190, 240, 210] : 210
                 }}
                 transition={{ 
-                  duration: 6,
-                  repeat: Infinity,
+                  duration: shouldAnimate ? 6 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
                   ease: "easeInOut",
                   delay: 2
                 }}
               />
               
               <motion.rect
-                x="360" y="0" width="80" height="600"
+                x="330" y="0" width="140" height="600"
                 fill="url(#atmosphericGlow3)"
                 filter="url(#atmosphericBlur3)"
                 initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: [0.3, 0.5, 0.4, 0.6, 0.4]
+                  opacity: shouldAnimate ? [0.5, 0.8, 0.6, 0.9, 0.7] : 0.6,
+                  width: shouldAnimate ? [140, 160, 130, 170, 150] : 150
                 }}
                 transition={{ 
-                  duration: 10,
-                  repeat: Infinity,
+                  duration: shouldAnimate ? 10 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
                   ease: "easeInOut",
                   delay: 4
                 }}
               />
 
-              {/* Outer Atmospheric Plasma Channel */}
-              <motion.rect
-                x="390" y="0" width="20" height="600"
-                fill="#00bfff"
-                filter="url(#coreBlur1)"
-                mask="url(#energyFlowMask)"
-                initial={{ opacity: 0.6 }}
+              {/* Always Visible Base Lightning Bolt */}
+              {/* Main Lightning Bolt - Outer Glow */}
+              <motion.path
+                d={mainLightningPath}
+                fill="none"
+                stroke="rgba(135, 206, 250, 0.6)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                filter="url(#coreBlur1) url(#organicWobble)"
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
-                  opacity: [0.6, 0.9, 0.7, 1, 0.5, 0.8],
-                  width: [20, 24, 18, 28, 16, 22]
+                  opacity: shouldAnimate ? [0.5, 0.8, 0.6, 0.9, 0.7] : 0.7,
+                  scale: shouldAnimate ? [0.8, 1.1, 0.9, 1.2, 1] : 1,
+                  strokeWidth: shouldAnimate ? [8, 12, 6, 14, 10] : 10
                 }}
                 transition={{ 
-                  duration: 0.8,
-                  repeat: Infinity,
-                  ease: [0.9, 0, 0.1, 1]
+                  duration: shouldAnimate ? 1.2 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut"
                 }}
-                data-testid="lightning-core-beam-1"
+                data-testid="lightning-bolt-outer"
               />
 
-              {/* Middle Electric Blue Channel */}
-              <motion.rect
-                x="394" y="0" width="12" height="600"
-                fill="#1e90ff"
-                filter="url(#coreBlur2)"
-                mask="url(#energyFlowMask)"
-                initial={{ opacity: 0.8 }}
+              {/* Main Lightning Bolt - Middle Layer */}
+              <motion.path
+                d={mainLightningPath}
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.9)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                filter="url(#coreBlur2) url(#organicWobble)"
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ 
-                  opacity: [0.8, 1, 0.9, 1, 0.7, 0.95],
-                  width: [12, 16, 10, 20, 8, 14]
+                  opacity: shouldAnimate ? [0.7, 1, 0.8, 1, 0.8] : 0.8,
+                  scale: shouldAnimate ? [0.9, 1.05, 0.95, 1.1, 1] : 1,
+                  strokeWidth: shouldAnimate ? [4, 6, 3, 7, 5] : 5
                 }}
                 transition={{ 
-                  duration: 0.6,
-                  repeat: Infinity,
-                  ease: [0.8, 0, 0.2, 1],
+                  duration: shouldAnimate ? 0.8 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut",
                   delay: 0.2
                 }}
-                data-testid="lightning-core-beam-2"
+                data-testid="lightning-bolt-middle"
               />
               
-              {/* Bright White Plasma Core */}
-              <motion.rect
-                x="396" y="0" width="8" height="600"
-                fill="#ffffff"
+              {/* Main Lightning Bolt - Core (Brightest) */}
+              <motion.path
+                d={mainLightningPath}
+                fill="none"
+                stroke="rgba(255, 255, 255, 1)"
+                strokeWidth="2"
+                strokeLinecap="round"
                 filter="url(#coreBlur3)"
-                mask="url(#energyFlowMask)"
-                style={{ filter: 'url(#organicWobble)' }}
-                initial={{ opacity: 0.9 }}
+                initial={{ opacity: 0.9, scale: 1 }}
                 animate={{ 
-                  opacity: [0.9, 1, 0.95, 1, 0.85, 1],
-                  width: [8, 12, 6, 16, 4, 10]
+                  opacity: shouldAnimate ? [0.9, 1, 0.95, 1, 0.9] : 0.95,
+                  scale: shouldAnimate ? [1, 1.02, 0.98, 1.05, 1] : 1,
+                  strokeWidth: shouldAnimate ? [2, 4, 1.5, 5, 3] : 3
                 }}
                 transition={{ 
-                  duration: 0.4,
-                  repeat: Infinity,
-                  ease: [0.7, 0, 0.3, 1],
-                  delay: 0.5
+                  duration: shouldAnimate ? 0.5 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut",
+                  delay: 0.4
                 }}
-                data-testid="lightning-core-beam-3"
+                data-testid="lightning-bolt-core"
               />
-              
-              {/* Inner Bright White Core - Hottest Part */}
-              <motion.rect
-                x="398" y="0" width="4" height="600"
-                fill="#f0f8ff"
-                filter="url(#coreBlur3)"
-                mask="url(#energyFlowMask)"
-                initial={{ opacity: 1 }}
-                animate={{ 
-                  opacity: [1, 1, 0.9, 1, 0.8, 1],
-                  width: [4, 6, 3, 8, 2, 5]
-                }}
-                transition={{ 
-                  duration: 0.3,
-                  repeat: Infinity,
-                  ease: [0.6, 0, 0.4, 1],
-                  delay: 0.1
-                }}
-                data-testid="lightning-inner-core"
-              />
-              {/* Chaotic Electrical Arcs - Left Side */}
-              {Array.from({ length: 8 }).map((_, i) => (
+
+              {/* Energy Flow Effect with Mask */}
+              <g mask="url(#energyFlowMask)">
                 <motion.path
-                  key={`left-arc-${i}`}
-                  d={`M400 ${50 + i * 70} L${320 - Math.random() * 80} ${80 + i * 70} L${280 - Math.random() * 100} ${110 + i * 70} L${240 - Math.random() * 120} ${140 + i * 70}`}
-                  stroke="url(#lightningBranch)"
-                  strokeWidth={Math.random() * 2 + 1}
+                  d={mainLightningPath}
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 1)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  filter="url(#coreBlur1)"
+                  initial={{ opacity: 0.8 }}
+                  animate={{ 
+                    opacity: shouldAnimate ? [0.8, 1, 0.9, 1, 0.8] : 0.9,
+                    strokeWidth: shouldAnimate ? [6, 10, 4, 12, 8] : 8
+                  }}
+                  transition={{ 
+                    duration: shouldAnimate ? 0.3 : 0,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    ease: "easeInOut"
+                  }}
+                  data-testid="lightning-energy-flow"
+                />
+              </g>
+
+              {/* Lightning Branches for More Realism */}
+              {branchPaths.map((branchPath, index) => (
+                <motion.path
+                  key={`branch-${index}`}
+                  d={branchPath}
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.7)"
+                  strokeWidth="1.5"
+                  filter="url(#coreBlur3)"
+                  initial={{ opacity: 0, pathLength: 0 }}
+                  animate={{ 
+                    opacity: shouldAnimate ? [0, 0.8, 0.4, 0.9, 0.2] : 0.5,
+                    pathLength: shouldAnimate ? [0, 1, 0.7, 1, 0.3] : 1,
+                    strokeWidth: shouldAnimate ? [1.5, 3, 2, 3.5, 2.5] : 2
+                  }}
+                  transition={{ 
+                    duration: shouldAnimate ? 1.5 : 0,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    ease: "easeInOut",
+                    delay: index * 0.3 + 0.6
+                  }}
+                  data-testid={`lightning-branch-${index}`}
+                />
+              ))}
+              
+              {/* Atmospheric Fog/Mist Effects */}
+              <motion.ellipse
+                cx="400" cy="150" rx="60" ry="40"
+                fill="rgba(135, 206, 235, 0.2)"
+                filter="url(#atmosphericBlur1)"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ 
+                  opacity: shouldAnimate ? [0.1, 0.4, 0.2, 0.5, 0.3] : 0.3,
+                  scale: shouldAnimate ? [0.5, 1.2, 0.8, 1.5, 1] : 1,
+                  rx: shouldAnimate ? [60, 80, 70, 90, 75] : 70
+                }}
+                transition={{ 
+                  duration: shouldAnimate ? 3 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              <motion.ellipse
+                cx="400" cy="350" rx="80" ry="60"
+                fill="rgba(147, 112, 219, 0.15)"
+                filter="url(#atmosphericBlur2)"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ 
+                  opacity: shouldAnimate ? [0.1, 0.3, 0.2, 0.4, 0.25] : 0.25,
+                  scale: shouldAnimate ? [0.6, 1.3, 0.9, 1.6, 1.1] : 1.1,
+                  rx: shouldAnimate ? [80, 100, 90, 110, 95] : 90
+                }}
+                transition={{ 
+                  duration: shouldAnimate ? 4 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut",
+                  delay: 1
+                }}
+              />
+
+              <motion.ellipse
+                cx="400" cy="500" rx="70" ry="50"
+                fill="rgba(255, 215, 0, 0.1)"
+                filter="url(#atmosphericBlur3)"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ 
+                  opacity: shouldAnimate ? [0.05, 0.25, 0.15, 0.3, 0.2] : 0.2,
+                  scale: shouldAnimate ? [0.7, 1.4, 1, 1.7, 1.2] : 1.2,
+                  rx: shouldAnimate ? [70, 90, 80, 100, 85] : 80
+                }}
+                transition={{ 
+                  duration: shouldAnimate ? 5 : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+              />
+              {/* Stable Electrical Arcs - Left Side */}
+              {memoizedLeftArcs.map((arc) => (
+                <motion.path
+                  key={arc.id}
+                  d={arc.path}
+                  stroke="rgba(255, 255, 255, 0.8)"
+                  strokeWidth={arc.strokeWidth}
                   fill="none"
                   strokeLinecap="round"
                   filter="url(#organicWobble)"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ 
-                    pathLength: [0, 0, 1, 0.3, 0], 
-                    opacity: [0, 0, 1, 0.6, 0],
-                    strokeWidth: [1, 1, 4, 2, 0.5]
+                    pathLength: shouldAnimate ? [0, 0, 1, 0.3, 0] : 0, 
+                    opacity: shouldAnimate ? [0, 0, 1, 0.6, 0] : 0,
+                    strokeWidth: shouldAnimate ? [arc.strokeWidth, arc.strokeWidth, arc.strokeWidth * 3, arc.strokeWidth * 1.5, arc.strokeWidth * 0.3] : arc.strokeWidth
                   }}
                   transition={{
-                    duration: 0.1 + Math.random() * 0.1,
-                    delay: i * 0.03 + Math.random() * 4,
-                    repeat: Infinity,
-                    repeatDelay: 2 + Math.random() * 6,
+                    duration: shouldAnimate ? 0.15 : 0,
+                    delay: shouldAnimate ? arc.delay : 0,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    repeatDelay: shouldAnimate ? arc.repeatDelay : 0,
                     ease: [1, 0, 0, 1]
                   }}
                 />
               ))}
 
-              {/* Chaotic Electrical Arcs - Right Side */}
-              {Array.from({ length: 8 }).map((_, i) => (
+              {/* Stable Electrical Arcs - Right Side */}
+              {memoizedRightArcs.map((arc) => (
                 <motion.path
-                  key={`right-arc-${i}`}
-                  d={`M400 ${80 + i * 65} L${480 + Math.random() * 80} ${110 + i * 65} L${520 + Math.random() * 100} ${140 + i * 65} L${560 + Math.random() * 120} ${170 + i * 65}`}
-                  stroke="url(#lightningBranch)"
-                  strokeWidth={Math.random() * 2 + 0.8}
+                  key={arc.id}
+                  d={arc.path}
+                  stroke="rgba(255, 255, 255, 0.8)"
+                  strokeWidth={arc.strokeWidth}
                   fill="none"
                   strokeLinecap="round"
                   filter="url(#organicWobble)"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ 
-                    pathLength: [0, 0, 0.8, 0.2, 0], 
-                    opacity: [0, 0, 0.9, 0.4, 0],
-                    strokeWidth: [0.8, 0.8, 3.5, 1.5, 0.3]
+                    pathLength: shouldAnimate ? [0, 0, 0.8, 0.2, 0] : 0, 
+                    opacity: shouldAnimate ? [0, 0, 0.9, 0.4, 0] : 0,
+                    strokeWidth: shouldAnimate ? [arc.strokeWidth, arc.strokeWidth, arc.strokeWidth * 2.5, arc.strokeWidth * 1.2, arc.strokeWidth * 0.2] : arc.strokeWidth
                   }}
                   transition={{
-                    duration: 0.12 + Math.random() * 0.08,
-                    delay: i * 0.04 + Math.random() * 5,
-                    repeat: Infinity,
-                    repeatDelay: 1.8 + Math.random() * 7,
+                    duration: shouldAnimate ? 0.18 : 0,
+                    delay: shouldAnimate ? arc.delay : 0,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    repeatDelay: shouldAnimate ? arc.repeatDelay : 0,
                     ease: [0.9, 0, 0.1, 1]
                   }}
                 />
