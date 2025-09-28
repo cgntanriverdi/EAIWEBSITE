@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
+import LightningHero from "@/components/LightningHero";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -40,8 +40,8 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Lightning Hero Section */}
+      <LightningHero />
       
       {/* Problem/Solution Section */}
       <section className="py-20 px-4 bg-muted/30" id="features">
