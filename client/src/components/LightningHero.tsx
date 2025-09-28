@@ -79,23 +79,8 @@ export default function LightningHero() {
     }
   ];
 
-  // Realistic lightning bolt paths with natural curves and branches
-  const lightningPaths = [
-    // Main lightning bolt - more organic with smooth curves
-    "M400 50 Q395 120 405 180 Q415 220 385 260 Q375 300 395 340 Q410 380 390 420 Q385 460 400 520 Q405 560 400 600",
-    // Primary branch from upper section
-    "M395 160 Q370 180 350 210 Q330 240 320 270",
-    // Primary branch from middle section  
-    "M410 320 Q440 340 460 370 Q480 400 490 430",
-    // Secondary upper branch
-    "M385 200 Q360 220 340 250",
-    // Secondary lower branch
-    "M395 380 Q420 400 440 430",
-    // Small tertiary branches for detail
-    "M375 280 Q350 300 335 320",
-    "M415 360 Q445 380 465 400",
-    "M390 440 Q370 460 355 480"
-  ];
+  // Single straight lightning bolt like huly.io - elegant and minimalist
+  const mainLightningPath = "M400 0 L400 600";
 
   const getCurrentLightningColor = () => {
     if (!hoveredAgent) return "#6366f1"; // Default indigo
@@ -150,38 +135,41 @@ export default function LightningHero() {
               data-testid="svg-lightning-animation"
             >
               <defs>
-                {/* Bright white core gradient */}
+                {/* Pure white bright core for flowing beam */}
                 <linearGradient id="lightningCore" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-                  <stop offset="30%" stopColor="#e0f2fe" stopOpacity="0.9" />
-                  <stop offset="70%" stopColor={getCurrentLightningColor()} stopOpacity="0.8" />
-                  <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.6" />
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
                 </linearGradient>
                 
-                {/* Secondary glow gradient */}
-                <linearGradient id="lightningGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor={getCurrentLightningColor()} stopOpacity="0.6" />
-                  <stop offset="50%" stopColor={getCurrentLightningColor()} stopOpacity="0.4" />
-                  <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.2" />
+                {/* Uniform column glow gradients for color transitions */}
+                <linearGradient id="atmosphericGlow1" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
+                  <stop offset="50%" stopColor="#7c3aed" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#6d28d9" stopOpacity="0.4" />
                 </linearGradient>
                 
-                {/* Atmospheric outer glow */}
-                <linearGradient id="lightningAtmosphere" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
-                  <stop offset="50%" stopColor={getCurrentLightningColor()} stopOpacity="0.15" />
-                  <stop offset="100%" stopColor={getCurrentLightningColor()} stopOpacity="0.05" />
+                <linearGradient id="atmosphericGlow2" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
+                  <stop offset="50%" stopColor="#4f46e5" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#4338ca" stopOpacity="0.4" />
+                </linearGradient>
+                
+                <linearGradient id="atmosphericGlow3" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.4" />
+                  <stop offset="50%" stopColor="#0891b2" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#0e7490" stopOpacity="0.4" />
                 </linearGradient>
 
-                {/* Enhanced glow filters */}
-                <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                {/* Optimized filters for better mobile performance */}
+                <filter id="atmosphericGlow" x="-100%" y="-50%" width="300%" height="200%">
+                  <feGaussianBlur stdDeviation="25" result="coloredBlur"/>
                   <feMerge> 
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
                 
-                <filter id="mediumGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <filter id="mediumGlow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
                   <feMerge> 
                     <feMergeNode in="coloredBlur"/>
@@ -189,8 +177,8 @@ export default function LightningHero() {
                   </feMerge>
                 </filter>
                 
-                <filter id="outerGlow" x="-200%" y="-200%" width="500%" height="500%">
-                  <feGaussianBlur stdDeviation="20" result="coloredBlur"/>
+                <filter id="coreGlow" x="-25%" y="-25%" width="150%" height="150%">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                   <feMerge> 
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
@@ -198,148 +186,125 @@ export default function LightningHero() {
                 </filter>
               </defs>
               
-              {/* Atmospheric outer glow layer */}
-              {lightningPaths.map((path, index) => (
-                <motion.path
-                  key={`atmosphere-${index}`}
-                  d={path}
-                  fill="none"
-                  stroke="url(#lightningAtmosphere)"
-                  strokeWidth={index === 0 ? "40" : index < 3 ? "30" : "20"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#outerGlow)"
-                  initial={{ 
-                    strokeDasharray: "0 1000",
-                    strokeDashoffset: 1000,
-                    opacity: 0
-                  }}
-                  animate={{ 
-                    strokeDasharray: "200 200",
-                    strokeDashoffset: [-1000, -1200],
-                    opacity: [0, 0.3, 0.2, 0.4, 0.2]
-                  }}
-                  transition={{ 
-                    strokeDashoffset: { 
-                      duration: 3, 
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "linear"
-                    },
-                    opacity: {
-                      duration: 3,
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }
-                  }}
-                />
-              ))}
-
-              {/* Medium glow layer */}
-              {lightningPaths.map((path, index) => (
-                <motion.path
-                  key={`glow-${index}`}
-                  d={path}
-                  fill="none"
-                  stroke="url(#lightningGlow)"
-                  strokeWidth={index === 0 ? "20" : index < 3 ? "15" : "10"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#mediumGlow)"
-                  initial={{ 
-                    strokeDasharray: "0 1000",
-                    strokeDashoffset: 1000,
-                    opacity: 0
-                  }}
-                  animate={{ 
-                    strokeDasharray: "150 150",
-                    strokeDashoffset: [-1000, -1150],
-                    opacity: [0, 0.6, 0.4, 0.8, 0.5]
-                  }}
-                  transition={{ 
-                    strokeDashoffset: { 
-                      duration: 2.5, 
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "linear"
-                    },
-                    opacity: {
-                      duration: 2.5,
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }
-                  }}
-                />
-              ))}
-
-              {/* Bright core layer */}
-              {lightningPaths.map((path, index) => (
-                <motion.path
-                  key={`core-${index}`}
-                  d={path}
-                  fill="none"
-                  stroke="url(#lightningCore)"
-                  strokeWidth={index === 0 ? "6" : index < 3 ? "4" : "2"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#coreGlow)"
-                  initial={{ 
-                    strokeDasharray: "0 1000",
-                    strokeDashoffset: 1000,
-                    opacity: 0
-                  }}
-                  animate={{ 
-                    strokeDasharray: "100 100",
-                    strokeDashoffset: [-1000, -1100],
-                    opacity: [0, 1, 0.8, 1, 0.9]
-                  }}
-                  transition={{ 
-                    strokeDashoffset: { 
-                      duration: 2, 
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "linear"
-                    },
-                    opacity: {
-                      duration: 2,
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }
-                  }}
-                  data-testid={`lightning-path-${index}`}
-                />
-              ))}
+              {/* Background atmospheric glow rects for uniform column effect */}
+              <motion.rect
+                x="320" y="0" width="160" height="600"
+                fill="url(#atmosphericGlow1)"
+                filter="url(#atmosphericGlow)"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0.3, 0.5, 0.4, 0.6, 0.4]
+                }}
+                transition={{ 
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
               
-              {/* Electric particles */}
-              {hoveredAgent && (
-                <>
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <motion.circle
-                      key={`particle-${i}`}
-                      cx={400 + Math.random() * 200 - 100}
-                      cy={300 + Math.random() * 200 - 100}
-                      r="2"
-                      fill={getCurrentLightningColor()}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ 
-                        opacity: [0, 1, 0], 
-                        scale: [0, 1, 0],
-                        x: Math.random() * 40 - 20,
-                        y: Math.random() * 40 - 20
-                      }}
-                      transition={{ 
-                        duration: 1.5, 
-                        delay: i * 0.1,
-                        repeat: Infinity,
-                        repeatDelay: 0.5
-                      }}
-                    />
-                  ))}
-                </>
-              )}
+              <motion.rect
+                x="340" y="0" width="120" height="600"
+                fill="url(#atmosphericGlow2)"
+                filter="url(#mediumGlow)"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0.4, 0.6, 0.5, 0.7, 0.5]
+                }}
+                transition={{ 
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+              />
+              
+              <motion.rect
+                x="360" y="0" width="80" height="600"
+                fill="url(#atmosphericGlow3)"
+                filter="url(#mediumGlow)"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0.2, 0.4, 0.3, 0.5, 0.3]
+                }}
+                transition={{ 
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 4
+                }}
+              />
+
+              {/* Flowing lightning beam with true top-to-bottom motion */}
+              <motion.line
+                x1="400" y1="0" x2="400" y2="600"
+                stroke="url(#lightningCore)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray="600"
+                filter="url(#coreGlow)"
+                initial={{ 
+                  strokeDashoffset: 600,
+                  opacity: 0.8
+                }}
+                animate={{ 
+                  strokeDashoffset: [600, 0, -600],
+                  opacity: [0.8, 1, 0.8]
+                }}
+                transition={{ 
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                data-testid="lightning-main-bolt"
+              />
+
+              {/* Secondary flowing beam for depth */}
+              <motion.line
+                x1="400" y1="0" x2="400" y2="600"
+                stroke="#ffffff"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray="400"
+                initial={{ 
+                  strokeDashoffset: 400,
+                  opacity: 0.6
+                }}
+                animate={{ 
+                  strokeDashoffset: [400, 0, -400],
+                  opacity: [0.6, 0.9, 0.6]
+                }}
+                transition={{ 
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: 0.5
+                }}
+              />
+              
+              {/* Ultra bright inner core with subtle flow */}
+              <motion.line
+                x1="400" y1="0" x2="400" y2="600"
+                stroke="#ffffff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="200"
+                initial={{ 
+                  strokeDashoffset: 200,
+                  opacity: 0.9
+                }}
+                animate={{ 
+                  strokeDashoffset: [200, 0, -200],
+                  opacity: [0.9, 1, 0.9]
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: 1
+                }}
+              />
+              
+              {/* Removed hover particles for minimalist aesthetic like huly.io */}
             </svg>
           </motion.div>
 
