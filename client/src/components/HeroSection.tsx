@@ -1,9 +1,88 @@
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
+  // Check for reduced motion preference
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  // Viewport visibility detection
+  const [isInViewport, setIsInViewport] = useState(true);
+  
+  // Screen size detection for responsive arc/branch counts
+  const [screenSize, setScreenSize] = useState('large');
+  
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(motionQuery.matches);
+    
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    motionQuery.addEventListener('change', handleMotionChange);
+    
+    // Screen size detection
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      if (width < 768) setScreenSize('small');
+      else if (width < 1024) setScreenSize('medium');
+      else setScreenSize('large');
+    };
+    
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    // Intersection observer for viewport detection
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    
+    const section = document.querySelector('[data-testid="hero-section"]');
+    if (section) observer.observe(section);
+    
+    return () => {
+      motionQuery.removeEventListener('change', handleMotionChange);
+      window.removeEventListener('resize', updateScreenSize);
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+  
+  // Memoized paths to prevent re-renders
+  const memoizedArcs = useMemo(() => {
+    const arcCount = screenSize === 'small' ? 5 : screenSize === 'medium' ? 8 : 12;
+    return Array.from({ length: arcCount }).map((_, i) => ({
+      id: `arc-${i}`,
+      path: `M40 ${120 + i * 70} L${20 + Math.random() * 40} ${140 + i * 70} L${10 + Math.random() * 60} ${160 + i * 70} L${5 + Math.random() * 70} ${180 + i * 70}`,
+      strokeWidth: Math.random() * 2 + 0.8,
+      delay: i * 0.05 + Math.random() * 3,
+      repeatDelay: 1.5 + Math.random() * 4
+    }));
+  }, [screenSize]);
+  
+  const memoizedBranches = useMemo(() => {
+    const branchCount = screenSize === 'small' ? 3 : screenSize === 'medium' ? 6 : 10;
+    return Array.from({ length: branchCount }).map((_, i) => ({
+      id: `branch-${i}`,
+      path: `M40 ${160 + i * 80} L${60 + Math.random() * 25} ${180 + i * 80} L${80 + Math.random() * 20} ${200 + i * 80} L${95 + Math.random() * 15} ${220 + i * 80}`,
+      strokeWidth: 1.5 + Math.random(),
+      delay: i * 0.08 + Math.random() * 2.5,
+      repeatDelay: 2 + Math.random() * 3,
+      color: i % 2 === 0 ? "rgba(0, 191, 255, 0.8)" : "rgba(255, 215, 0, 0.6)"
+    }));
+  }, [screenSize]);
+  
+  const particleCount = screenSize === 'small' ? 6 : screenSize === 'medium' ? 8 : 12;
+  const orbCount = screenSize === 'small' ? 3 : screenSize === 'medium' ? 4 : 6;
+  const hoverParticleCount = screenSize === 'small' ? 4 : screenSize === 'medium' ? 6 : 8;
+  
+  const shouldAnimate = !prefersReducedMotion && isInViewport;
+  
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden" data-testid="hero-section">
       {/* Cosmic Gradient Background */}
       <div 
         className="absolute inset-0"
@@ -51,184 +130,197 @@ export default function HeroSection() {
             data-testid="lightning-beam-svg"
           >
             <defs>
-              {/* Enhanced Gradients */}
+              {/* Realistic Lightning Atmospheric Glow */}
               <linearGradient id="lightningGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.1)" />
-                <stop offset="15%" stopColor="rgba(139, 92, 246, 0.4)" />
-                <stop offset="30%" stopColor="rgba(99, 102, 241, 0.6)" />
-                <stop offset="50%" stopColor="rgba(139, 92, 246, 0.8)" />
-                <stop offset="70%" stopColor="rgba(99, 102, 241, 0.6)" />
-                <stop offset="85%" stopColor="rgba(139, 92, 246, 0.4)" />
-                <stop offset="100%" stopColor="rgba(139, 92, 246, 0.1)" />
+                <stop offset="0%" stopColor="rgba(75, 0, 130, 0.2)" />
+                <stop offset="15%" stopColor="rgba(138, 43, 226, 0.5)" />
+                <stop offset="30%" stopColor="rgba(30, 144, 255, 0.7)" />
+                <stop offset="50%" stopColor="rgba(0, 191, 255, 0.9)" />
+                <stop offset="70%" stopColor="rgba(30, 144, 255, 0.7)" />
+                <stop offset="85%" stopColor="rgba(138, 43, 226, 0.5)" />
+                <stop offset="100%" stopColor="rgba(75, 0, 130, 0.2)" />
               </linearGradient>
 
               <linearGradient id="lightningCore" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255, 255, 255, 0.6)" />
-                <stop offset="20%" stopColor="rgba(255, 255, 255, 0.9)" />
-                <stop offset="40%" stopColor="rgba(255, 255, 255, 1)" />
-                <stop offset="60%" stopColor="rgba(255, 255, 255, 1)" />
-                <stop offset="80%" stopColor="rgba(255, 255, 255, 0.9)" />
-                <stop offset="100%" stopColor="rgba(255, 255, 255, 0.6)" />
+                <stop offset="0%" stopColor="rgba(220, 230, 255, 0.7)" />
+                <stop offset="15%" stopColor="rgba(255, 255, 255, 0.95)" />
+                <stop offset="35%" stopColor="rgba(255, 255, 255, 1)" />
+                <stop offset="50%" stopColor="rgba(240, 248, 255, 1)" />
+                <stop offset="65%" stopColor="rgba(255, 255, 255, 1)" />
+                <stop offset="85%" stopColor="rgba(255, 255, 255, 0.95)" />
+                <stop offset="100%" stopColor="rgba(220, 230, 255, 0.7)" />
               </linearGradient>
 
               <linearGradient id="electricArc" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(139, 92, 246, 0)" />
-                <stop offset="20%" stopColor="rgba(139, 92, 246, 0.8)" />
+                <stop offset="0%" stopColor="rgba(75, 0, 130, 0)" />
+                <stop offset="15%" stopColor="rgba(255, 215, 0, 0.3)" />
+                <stop offset="30%" stopColor="rgba(0, 191, 255, 0.8)" />
                 <stop offset="50%" stopColor="rgba(255, 255, 255, 1)" />
-                <stop offset="80%" stopColor="rgba(139, 92, 246, 0.8)" />
-                <stop offset="100%" stopColor="rgba(139, 92, 246, 0)" />
+                <stop offset="70%" stopColor="rgba(0, 191, 255, 0.8)" />
+                <stop offset="85%" stopColor="rgba(255, 215, 0, 0.3)" />
+                <stop offset="100%" stopColor="rgba(75, 0, 130, 0)" />
               </linearGradient>
 
-              {/* SVG Filters for Electrical Distortion */}
-              <filter id="electricalNoise" x="-50%" y="-50%" width="200%" height="200%">
-                <feTurbulence baseFrequency="0.02 0.3" numOctaves="2" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
-                <feColorMatrix values="1 0 1 0 0  0 1 1 0 0  1 0 1 0 0  0 0 0 1 0" />
+              {/* Advanced SVG Filters for Realistic Lightning */}
+              <filter id="electricalNoise" x="-100%" y="-50%" width="300%" height="200%">
+                <feTurbulence baseFrequency="0.08 0.4" numOctaves="3" result="noise" seed="2">
+                  {shouldAnimate && (
+                    <animate attributeName="baseFrequency" values="0.08 0.4;0.12 0.6;0.08 0.4" dur="0.4s" repeatCount="indefinite"/>
+                  )}
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+                <feColorMatrix values="1 0 1 0 0  0 1 1 0 0.1  1 0 1 0 0.2  0 0 0 1 0" />
               </filter>
 
-              <filter id="electricGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
+              <filter id="electricGlow" x="-100%" y="-50%" width="300%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur1" />
+                <feGaussianBlur stdDeviation="12" result="blur2" />
+                <feGaussianBlur stdDeviation="20" result="blur3" />
                 <feMerge>
-                  <feMergeNode in="blur" />
+                  <feMergeNode in="blur3" />
+                  <feMergeNode in="blur2" />
+                  <feMergeNode in="blur1" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
 
-              {/* Dash patterns for flowing energy */}
-              <pattern id="energyFlow" x="0" y="0" width="1" height="20" patternUnits="userSpaceOnUse">
-                <rect width="1" height="10" fill="rgba(255,255,255,0.8)" />
-                <rect y="10" width="1" height="10" fill="rgba(255,255,255,0.2)" />
-              </pattern>
+              {/* Plasma Channel Filter */}
+              <filter id="plasmaGlow" x="-80%" y="-50%" width="260%" height="200%">
+                <feGaussianBlur stdDeviation="8" result="blur" />
+                <feColorMatrix in="blur" values="1 0 0 0 0.2  0 1 0 0 0.5  0 0 1 0 1  0 0 0 1 0" result="blueGlow"/>
+                <feMerge>
+                  <feMergeNode in="blueGlow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
             </defs>
 
-            {/* Organic Lightning Path - Main Beam */}
+            {/* Main Lightning Channel - Chaotic Electrical Discharge */}
             <motion.path
-              d="M40 0 Q35 100 42 200 Q38 300 41 400 Q45 500 39 600 Q42 700 40 800 Q37 900 40 1000"
+              d="M40 0 L38 80 L42 160 L37 240 L43 320 L39 400 L44 480 L38 560 L41 640 L39 720 L42 800 L38 880 L40 960 L40 1000"
               stroke="url(#lightningGlow)"
-              strokeWidth="12"
+              strokeWidth="14"
               fill="none"
               strokeLinecap="round"
               filter="url(#electricGlow)"
-              className="group-hover:drop-shadow-[0_0_60px_rgba(139,92,246,1)] transition-all duration-300"
+              className="group-hover:drop-shadow-[0_0_80px_rgba(0,191,255,0.9)] transition-all duration-200"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ 
+              animate={shouldAnimate ? { 
                 pathLength: 1, 
-                opacity: [0.4, 0.8, 0.4],
-                strokeWidth: [12, 18, 12]
-              }}
-              whileHover={{ 
-                opacity: [0.6, 1, 0.6],
-                strokeWidth: [18, 25, 18]
-              }}
+                opacity: [0.5, 0.8, 0.6],
+                strokeWidth: [14, 20, 16]
+              } : { pathLength: 1, opacity: 0.6, strokeWidth: 14 }}
+              whileHover={shouldAnimate ? { 
+                opacity: [0.7, 0.9, 0.8],
+                strokeWidth: [20, 28, 24]
+              } : {}}
               transition={{ 
-                pathLength: { duration: 2, ease: "easeInOut" },
-                opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-                strokeWidth: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+                pathLength: { duration: 1.8, ease: [0.7, 0, 0.3, 1] },
+                opacity: { duration: shouldAnimate ? 1.2 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.9, 0, 0.1, 1] },
+                strokeWidth: { duration: shouldAnimate ? 1.0 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.8, 0, 0.2, 1] }
               }}
             />
 
-            {/* Core Energy Beam with Flow Animation */}
+            {/* Core Energy Beam with Extreme Chaotic Crackling */}
             <motion.path
-              d="M40 0 Q35 100 42 200 Q38 300 41 400 Q45 500 39 600 Q42 700 40 800 Q37 900 40 1000"
+              d="M40 0 L38 80 L42 160 L37 240 L43 320 L39 400 L44 480 L38 560 L41 640 L39 720 L42 800 L38 880 L40 960 L40 1000"
               stroke="url(#lightningCore)"
               strokeWidth="6"
               fill="none"
               strokeLinecap="round"
-              strokeDasharray="20 10"
-              className="group-hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.8)] transition-all duration-300"
-              initial={{ strokeDashoffset: 0 }}
-              animate={{ 
-                strokeDashoffset: [-30, 0],
-                strokeWidth: [6, 8, 6]
-              }}
-              whileHover={{ 
-                strokeDashoffset: [-40, 0],
-                strokeWidth: [8, 12, 8]
-              }}
+              className="group-hover:drop-shadow-[0_0_60px_rgba(240,248,255,1)] transition-all duration-100"
+              animate={shouldAnimate ? { 
+                strokeWidth: [6, 8, 7],
+                opacity: [0.8, 0.9, 0.85]
+              } : { strokeWidth: 6, opacity: 0.8 }}
+              whileHover={shouldAnimate ? { 
+                strokeWidth: [8, 12, 10],
+                opacity: [0.9, 1, 0.95]
+              } : {}}
               transition={{ 
-                strokeDashoffset: { duration: 1.5, repeat: Infinity, ease: "linear" },
-                strokeWidth: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                strokeWidth: { duration: shouldAnimate ? 0.8 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.9, 0, 0.1, 1] },
+                opacity: { duration: shouldAnimate ? 0.6 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.8, 0, 0.2, 1] }
               }}
             />
 
-            {/* Inner Bright Core */}
+            {/* Inner Bright Core - Plasma Channel with Extreme Jitter */}
             <motion.path
-              d="M40 0 Q35 100 42 200 Q38 300 41 400 Q45 500 39 600 Q42 700 40 800 Q37 900 40 1000"
-              stroke="rgba(255, 255, 255, 0.9)"
+              d="M40 0 L38 80 L42 160 L37 240 L43 320 L39 400 L44 480 L38 560 L41 640 L39 720 L42 800 L38 880 L40 960 L40 1000"
+              stroke="rgba(255, 255, 255, 1)"
               strokeWidth="2"
               fill="none"
               strokeLinecap="round"
-              strokeDasharray="15 5"
-              className="group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,1)] transition-all duration-300"
-              initial={{ strokeDashoffset: 0 }}
-              animate={{ 
-                strokeDashoffset: [-20, 0],
-                opacity: [0.7, 1, 0.7]
-              }}
-              whileHover={{ 
-                strokeDashoffset: [-30, 0],
-                opacity: [0.9, 1, 0.9],
-                strokeWidth: [2, 4, 2]
-              }}
+              className="group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,1)] transition-all duration-50"
+              animate={shouldAnimate ? { 
+                opacity: [0.9, 1, 0.95],
+                strokeWidth: [2, 3, 2.5]
+              } : { opacity: 0.9, strokeWidth: 2 }}
+              whileHover={shouldAnimate ? { 
+                opacity: [0.95, 1, 0.98],
+                strokeWidth: [3, 4, 3.5]
+              } : {}}
               transition={{ 
-                strokeDashoffset: { duration: 1, repeat: Infinity, ease: "linear" },
-                opacity: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-                strokeWidth: { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
+                opacity: { duration: shouldAnimate ? 0.5 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.95, 0, 0.05, 1] },
+                strokeWidth: { duration: shouldAnimate ? 0.4 : 0, repeat: shouldAnimate ? Infinity : 0, ease: [0.9, 0, 0.1, 1] }
               }}
             />
 
-            {/* Electrical Arcs - Random Branches */}
-            {Array.from({ length: 8 }).map((_, i) => (
+            {/* Chaotic Electrical Arcs with Sudden Jolts */}
+            {memoizedArcs.map((arc) => (
               <motion.path
-                key={`arc-${i}`}
-                d={`M40 ${150 + i * 100} Q${25 + Math.random() * 30} ${170 + i * 100} ${15 + Math.random() * 50} ${190 + i * 100}`}
+                key={arc.id}
+                d={arc.path}
                 stroke="url(#electricArc)"
-                strokeWidth="1.5"
+                strokeWidth={arc.strokeWidth}
                 fill="none"
                 strokeLinecap="round"
                 filter="url(#electricalNoise)"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: [0, 1, 0], 
-                  opacity: [0, 0.8, 0]
-                }}
+                animate={shouldAnimate ? { 
+                  pathLength: [0, 0, 1, 0.4, 0], 
+                  opacity: [0, 0, 0.8, 0.3, 0],
+                  strokeWidth: [arc.strokeWidth * 0.5, arc.strokeWidth * 0.5, arc.strokeWidth * 1.5, arc.strokeWidth, arc.strokeWidth * 0.3]
+                } : { pathLength: 0, opacity: 0 }}
                 transition={{
-                  duration: 0.3,
-                  delay: i * 0.2 + Math.random() * 2,
-                  repeat: Infinity,
-                  repeatDelay: 2 + Math.random() * 3,
-                  ease: "easeInOut"
+                  duration: shouldAnimate ? 0.25 + Math.random() * 0.15 : 0,
+                  delay: shouldAnimate ? arc.delay : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  repeatDelay: shouldAnimate ? arc.repeatDelay : 0,
+                  ease: [0.9, 0, 0.1, 1]
                 }}
               />
             ))}
 
-            {/* Secondary Lightning Branches */}
-            {Array.from({ length: 6 }).map((_, i) => (
+            {/* Fractal Lightning Branches with Electrical Discharge */}
+            {memoizedBranches.map((branch) => (
               <motion.path
-                key={`branch-${i}`}
-                d={`M40 ${200 + i * 120} Q${55 + Math.random() * 20} ${220 + i * 120} ${65 + Math.random() * 15} ${240 + i * 120}`}
-                stroke="rgba(139, 92, 246, 0.6)"
-                strokeWidth="2"
+                key={branch.id}
+                d={branch.path}
+                stroke={branch.color}
+                strokeWidth={branch.strokeWidth}
                 fill="none"
                 strokeLinecap="round"
+                filter="url(#electricalNoise)"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: [0, 1, 0], 
-                  opacity: [0, 0.6, 0]
-                }}
+                animate={shouldAnimate ? { 
+                  pathLength: [0, 0, 0.6, 0.8, 0.2, 0], 
+                  opacity: [0, 0, 0.7, 0.9, 0.3, 0],
+                  strokeWidth: [branch.strokeWidth * 0.5, branch.strokeWidth * 0.5, branch.strokeWidth * 1.8, branch.strokeWidth * 1.3, branch.strokeWidth * 0.8, branch.strokeWidth * 0.3]
+                } : { pathLength: 0, opacity: 0 }}
                 transition={{
-                  duration: 0.4,
-                  delay: i * 0.3 + Math.random() * 3,
-                  repeat: Infinity,
-                  repeatDelay: 3 + Math.random() * 4,
-                  ease: "easeInOut"
+                  duration: shouldAnimate ? 0.3 + Math.random() * 0.2 : 0,
+                  delay: shouldAnimate ? branch.delay : 0,
+                  repeat: shouldAnimate ? Infinity : 0,
+                  repeatDelay: shouldAnimate ? branch.repeatDelay : 0,
+                  ease: [0.8, 0, 0.2, 1]
                 }}
               />
             ))}
           </svg>
 
           {/* Enhanced Particle System */}
-          {Array.from({ length: 12 }).map((_, i) => (
+          {Array.from({ length: particleCount }).map((_, i) => (
             <motion.div
               key={`particle-${i}`}
               className="absolute rounded-full bg-white"
@@ -253,16 +345,16 @@ export default function HeroSection() {
                 scale: [0.3, 1, 1, 0.3]
               }}
               transition={{
-                duration: 2 + Math.random() * 2,
-                delay: i * 0.2 + Math.random() * 2,
-                repeat: Infinity,
+                duration: shouldAnimate ? 2.5 + Math.random() * 1.5 : 0,
+                delay: shouldAnimate ? i * 0.2 + Math.random() * 2 : 0,
+                repeat: shouldAnimate ? Infinity : 0,
                 ease: "linear"
               }}
             />
           ))}
 
           {/* Floating Energy Orbs */}
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: orbCount }).map((_, i) => (
             <motion.div
               key={`orb-${i}`}
               className="absolute w-3 h-3 rounded-full"
@@ -285,9 +377,9 @@ export default function HeroSection() {
                 scale: [0.5, 1.2, 0.5]
               }}
               transition={{
-                duration: 4 + Math.random() * 2,
-                delay: i * 0.8 + Math.random() * 3,
-                repeat: Infinity,
+                duration: shouldAnimate ? 4.5 + Math.random() * 1.5 : 0,
+                delay: shouldAnimate ? i * 0.8 + Math.random() * 3 : 0,
+                repeat: shouldAnimate ? Infinity : 0,
                 ease: "easeInOut"
               }}
             />
@@ -310,8 +402,8 @@ export default function HeroSection() {
               scale: [1.2, 1.5, 1.2]
             }}
             transition={{
-              duration: 4,
-              repeat: Infinity,
+              duration: shouldAnimate ? 5 : 0,
+              repeat: shouldAnimate ? Infinity : 0,
               ease: "easeInOut"
             }}
           />
@@ -329,14 +421,14 @@ export default function HeroSection() {
               scale: [0.8, 1.3, 0.8]
             }}
             transition={{
-              duration: 2.5,
-              repeat: Infinity,
+              duration: shouldAnimate ? 3 : 0,
+              repeat: shouldAnimate ? Infinity : 0,
               ease: "easeInOut"
             }}
           />
 
           {/* Hover Particle Burst */}
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: hoverParticleCount }).map((_, i) => (
             <motion.div
               key={`hover-particle-${i}`}
               className="absolute w-2 h-2 rounded-full bg-white opacity-0 group-hover:opacity-100"
@@ -354,9 +446,9 @@ export default function HeroSection() {
                 scale: [0.5, 1.5, 0.5]
               }}
               transition={{
-                duration: 1.5,
-                delay: 0.2,
-                repeat: Infinity,
+                duration: shouldAnimate ? 2 : 0,
+                delay: shouldAnimate ? 0.3 : 0,
+                repeat: shouldAnimate ? Infinity : 0,
                 ease: "easeOut"
               }}
             />

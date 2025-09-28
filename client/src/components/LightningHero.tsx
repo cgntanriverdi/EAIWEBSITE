@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, DollarSign, Camera, Upload } from "lucide-react";
 
@@ -15,10 +15,54 @@ interface Agent {
 
 export default function LightningHero() {
   const [hoveredAgent, setHoveredAgent] = useState<string | null>(null);
-
+  
   // Check for reduced motion preference
-  const prefersReducedMotion = typeof window !== 'undefined' && 
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  // Viewport visibility detection
+  const [isInViewport, setIsInViewport] = useState(true);
+  
+  // Screen size detection for responsive arc/branch counts
+  const [screenSize, setScreenSize] = useState('large');
+  
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(motionQuery.matches);
+    
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    motionQuery.addEventListener('change', handleMotionChange);
+    
+    // Screen size detection
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      if (width < 768) setScreenSize('small');
+      else if (width < 1024) setScreenSize('medium');
+      else setScreenSize('large');
+    };
+    
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    // Intersection observer for viewport detection
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    
+    const section = document.querySelector('[data-testid="lightning-hero-section"]');
+    if (section) observer.observe(section);
+    
+    return () => {
+      motionQuery.removeEventListener('change', handleMotionChange);
+      window.removeEventListener('resize', updateScreenSize);
+      if (section) observer.unobserve(section);
+    };
+  }, []);
 
   const agents: Agent[] = [
     {
@@ -83,17 +127,67 @@ export default function LightningHero() {
     }
   ];
 
+  // Memoized paths to prevent re-renders
+  const memoizedLeftArcs = useMemo(() => {
+    const arcCount = screenSize === 'small' ? 3 : screenSize === 'medium' ? 5 : 8;
+    return Array.from({ length: arcCount }).map((_, i) => ({
+      id: `left-arc-${i}`,
+      path: `M400 ${50 + i * 70} L${320 - Math.random() * 80} ${80 + i * 70} L${280 - Math.random() * 100} ${110 + i * 70} L${240 - Math.random() * 120} ${140 + i * 70}`,
+      strokeWidth: Math.random() * 2 + 1,
+      delay: i * 0.03 + Math.random() * 4,
+      repeatDelay: 2 + Math.random() * 6
+    }));
+  }, [screenSize]);
+  
+  const memoizedRightArcs = useMemo(() => {
+    const arcCount = screenSize === 'small' ? 3 : screenSize === 'medium' ? 5 : 8;
+    return Array.from({ length: arcCount }).map((_, i) => ({
+      id: `right-arc-${i}`,
+      path: `M400 ${80 + i * 65} L${480 + Math.random() * 80} ${110 + i * 65} L${520 + Math.random() * 100} ${140 + i * 65} L${560 + Math.random() * 120} ${170 + i * 65}`,
+      strokeWidth: Math.random() * 2 + 0.8,
+      delay: i * 0.04 + Math.random() * 5,
+      repeatDelay: 1.8 + Math.random() * 7
+    }));
+  }, [screenSize]);
+  
+  const memoizedFractalBranches = useMemo(() => {
+    const branchCount = screenSize === 'small' ? 4 : screenSize === 'medium' ? 8 : 12;
+    return Array.from({ length: branchCount }).map((_, i) => {
+      const side = i % 2 === 0 ? -1 : 1;
+      const baseX = 400;
+      const offsetX = side * (40 + Math.random() * 60);
+      
+      return {
+        id: `fractal-${i}`,
+        path: `M${baseX} ${100 + i * 40} L${baseX + offsetX * 0.3} ${120 + i * 40} L${baseX + offsetX * 0.7} ${140 + i * 40} L${baseX + offsetX} ${160 + i * 40}`,
+        strokeWidth: 0.5 + Math.random() * 1.5,
+        color: i % 3 === 0 ? "rgba(255, 215, 0, 0.7)" : i % 3 === 1 ? "rgba(30, 144, 255, 0.8)" : "rgba(255, 255, 255, 0.9)",
+        delay: i * 0.06 + Math.random() * 6,
+        repeatDelay: 3 + Math.random() * 8
+      };
+    });
+  }, [screenSize]);
+
   // Single straight lightning bolt like huly.io - elegant and minimalist
   const mainLightningPath = "M400 0 L400 600";
 
   const getCurrentLightningColor = () => {
-    if (!hoveredAgent) return "#6366f1"; // Default indigo
+    if (!hoveredAgent) return "#00bfff"; // Electric blue default
     const agent = agents.find(a => a.id === hoveredAgent);
-    return agent?.lightningColor || "#6366f1";
+    // Map to realistic lightning colors
+    const colorMap: Record<string, string> = {
+      "#3b82f6": "#1e90ff", // Blue to electric blue
+      "#10b981": "#00ff7f", // Green to electric green
+      "#8b5cf6": "#8a2be2", // Purple to blue violet
+      "#f97316": "#ffd700"  // Orange to gold
+    };
+    return colorMap[agent?.lightningColor || ""] || "#00bfff";
   };
+  
+  const shouldAnimate = !prefersReducedMotion && isInViewport;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 overflow-hidden" data-testid="lightning-hero-section">
       {/* Animated background effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20"></div>
       
@@ -140,16 +234,16 @@ export default function LightningHero() {
               style={{ mixBlendMode: 'screen' }}
             >
               <defs>
-                {/* Animated gradients for color cycling in atmospheric glow */}
+                {/* Realistic Lightning Atmospheric Gradients */}
                 <linearGradient id="atmosphericGlow1" x1="0%" y1="0%" x2="0%" y2="100%">
                   <motion.stop 
                     offset="0%" 
-                    stopOpacity="0.6"
+                    stopOpacity="0.5"
                     animate={{ 
-                      stopColor: ["#8b5cf6", "#a855f7", "#9333ea", "#8b5cf6"]
+                      stopColor: ["#4b0082", "#8a2be2", "#9370db", "#4b0082"]
                     }}
                     transition={{ 
-                      duration: prefersReducedMotion ? 0 : 8,
+                      duration: prefersReducedMotion ? 0 : 6,
                       repeat: prefersReducedMotion ? 0 : Infinity,
                       ease: "easeInOut"
                     }}
@@ -158,10 +252,10 @@ export default function LightningHero() {
                     offset="50%" 
                     stopOpacity="0.8"
                     animate={{ 
-                      stopColor: ["#7c3aed", "#8b5cf6", "#7c3aed", "#6d28d9"]
+                      stopColor: ["#1e90ff", "#00bfff", "#87ceeb", "#1e90ff"]
                     }}
                     transition={{ 
-                      duration: prefersReducedMotion ? 0 : 10,
+                      duration: prefersReducedMotion ? 0 : 4,
                       repeat: prefersReducedMotion ? 0 : Infinity,
                       ease: "easeInOut",
                       delay: prefersReducedMotion ? 0 : 1
@@ -169,15 +263,15 @@ export default function LightningHero() {
                   />
                   <motion.stop 
                     offset="100%" 
-                    stopOpacity="0.6"
+                    stopOpacity="0.5"
                     animate={{ 
-                      stopColor: ["#6d28d9", "#7c3aed", "#8b5cf6", "#6d28d9"]
+                      stopColor: ["#ffd700", "#ffff00", "#ffa500", "#ffd700"]
                     }}
                     transition={{ 
-                      duration: 12,
-                      repeat: Infinity,
+                      duration: prefersReducedMotion ? 0 : 8,
+                      repeat: prefersReducedMotion ? 0 : Infinity,
                       ease: "easeInOut",
-                      delay: 2
+                      delay: prefersReducedMotion ? 0 : 2
                     }}
                   />
                 </linearGradient>
@@ -185,12 +279,12 @@ export default function LightningHero() {
                 <linearGradient id="atmosphericGlow2" x1="0%" y1="0%" x2="0%" y2="100%">
                   <motion.stop 
                     offset="0%" 
-                    stopOpacity="0.6"
+                    stopOpacity="0.7"
                     animate={{ 
-                      stopColor: ["#6366f1", "#4f46e5", "#6366f1", "#8b5cf6"]
+                      stopColor: ["#00bfff", "#1e90ff", "#87ceeb", "#00bfff"]
                     }}
                     transition={{ 
-                      duration: 6,
+                      duration: 5,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 1
@@ -198,12 +292,12 @@ export default function LightningHero() {
                   />
                   <motion.stop 
                     offset="50%" 
-                    stopOpacity="0.8"
+                    stopOpacity="0.9"
                     animate={{ 
-                      stopColor: ["#4f46e5", "#6366f1", "#4338ca", "#4f46e5"]
+                      stopColor: ["#ffffff", "#f0f8ff", "#e6f3ff", "#ffffff"]
                     }}
                     transition={{ 
-                      duration: 8,
+                      duration: 3,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 2
@@ -213,10 +307,10 @@ export default function LightningHero() {
                     offset="100%" 
                     stopOpacity="0.6"
                     animate={{ 
-                      stopColor: ["#4338ca", "#4f46e5", "#6366f1", "#4338ca"]
+                      stopColor: ["#8a2be2", "#9370db", "#ba55d3", "#8a2be2"]
                     }}
                     transition={{ 
-                      duration: 10,
+                      duration: 7,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 3
@@ -227,12 +321,12 @@ export default function LightningHero() {
                 <linearGradient id="atmosphericGlow3" x1="0%" y1="0%" x2="0%" y2="100%">
                   <motion.stop 
                     offset="0%" 
-                    stopOpacity="0.5"
+                    stopOpacity="0.6"
                     animate={{ 
-                      stopColor: ["#06b6d4", "#0891b2", "#06b6d4", "#4f46e5"]
+                      stopColor: ["#ffd700", "#ffff00", "#fff8dc", "#ffd700"]
                     }}
                     transition={{ 
-                      duration: 12,
+                      duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 2
@@ -240,12 +334,12 @@ export default function LightningHero() {
                   />
                   <motion.stop 
                     offset="50%" 
-                    stopOpacity="0.7"
+                    stopOpacity="0.8"
                     animate={{ 
-                      stopColor: ["#0891b2", "#06b6d4", "#0e7490", "#0891b2"]
+                      stopColor: ["#00bfff", "#1e90ff", "#4169e1", "#00bfff"]
                     }}
                     transition={{ 
-                      duration: 9,
+                      duration: 6,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 3
@@ -255,10 +349,10 @@ export default function LightningHero() {
                     offset="100%" 
                     stopOpacity="0.5"
                     animate={{ 
-                      stopColor: ["#0e7490", "#0891b2", "#06b6d4", "#0e7490"]
+                      stopColor: ["#4b0082", "#8a2be2", "#9400d3", "#4b0082"]
                     }}
                     transition={{ 
-                      duration: 11,
+                      duration: 8,
                       repeat: Infinity,
                       ease: "easeInOut",
                       delay: 4
@@ -351,6 +445,22 @@ export default function LightningHero() {
                   <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                   <feBlend mode="screen" in="coloredBlur" in2="SourceGraphic"/>
                 </filter>
+                {/* Electrical Discharge Gradients */}
+                <radialGradient id="electricalDischarge" cx="50%" cy="50%" r="80%">
+                  <stop offset="0%" stopColor="rgba(255, 255, 255, 1)" />
+                  <stop offset="20%" stopColor="rgba(240, 248, 255, 0.9)" />
+                  <stop offset="50%" stopColor="rgba(30, 144, 255, 0.7)" />
+                  <stop offset="80%" stopColor="rgba(138, 43, 226, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(75, 0, 130, 0.1)" />
+                </radialGradient>
+
+                {/* Lightning Branch Gradient */}
+                <linearGradient id="lightningBranch" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(255, 215, 0, 0.8)" />
+                  <stop offset="30%" stopColor="rgba(255, 255, 255, 1)" />
+                  <stop offset="70%" stopColor="rgba(30, 144, 255, 0.9)" />
+                  <stop offset="100%" stopColor="rgba(138, 43, 226, 0.3)" />
+                </linearGradient>
               </defs>
               
               {/* Atmospheric glow layers - 3 wide columns with gradients */}
@@ -401,42 +511,46 @@ export default function LightningHero() {
                 }}
               />
 
-              {/* Core beam - narrow rect elements with bloom effects */}
+              {/* Outer Atmospheric Plasma Channel */}
               <motion.rect
-                x="392" y="0" width="16" height="600"
-                fill="#ffffff"
+                x="390" y="0" width="20" height="600"
+                fill="#00bfff"
                 filter="url(#coreBlur1)"
                 mask="url(#energyFlowMask)"
-                initial={{ opacity: 0.7 }}
+                initial={{ opacity: 0.6 }}
                 animate={{ 
-                  opacity: [0.7, 0.9, 0.8, 1, 0.8]
+                  opacity: [0.6, 0.9, 0.7, 1, 0.5, 0.8],
+                  width: [20, 24, 18, 28, 16, 22]
                 }}
                 transition={{ 
-                  duration: 3,
+                  duration: 0.8,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: [0.9, 0, 0.1, 1]
                 }}
                 data-testid="lightning-core-beam-1"
               />
 
+              {/* Middle Electric Blue Channel */}
               <motion.rect
                 x="394" y="0" width="12" height="600"
-                fill="#ffffff"
+                fill="#1e90ff"
                 filter="url(#coreBlur2)"
                 mask="url(#energyFlowMask)"
                 initial={{ opacity: 0.8 }}
                 animate={{ 
-                  opacity: [0.8, 1, 0.9, 1, 0.9]
+                  opacity: [0.8, 1, 0.9, 1, 0.7, 0.95],
+                  width: [12, 16, 10, 20, 8, 14]
                 }}
                 transition={{ 
-                  duration: 2.5,
+                  duration: 0.6,
                   repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5
+                  ease: [0.8, 0, 0.2, 1],
+                  delay: 0.2
                 }}
                 data-testid="lightning-core-beam-2"
               />
               
+              {/* Bright White Plasma Core */}
               <motion.rect
                 x="396" y="0" width="8" height="600"
                 fill="#ffffff"
@@ -445,16 +559,139 @@ export default function LightningHero() {
                 style={{ filter: 'url(#organicWobble)' }}
                 initial={{ opacity: 0.9 }}
                 animate={{ 
-                  opacity: [0.9, 1, 1, 1, 1]
+                  opacity: [0.9, 1, 0.95, 1, 0.85, 1],
+                  width: [8, 12, 6, 16, 4, 10]
                 }}
                 transition={{ 
-                  duration: 2,
+                  duration: 0.4,
                   repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
+                  ease: [0.7, 0, 0.3, 1],
+                  delay: 0.5
                 }}
                 data-testid="lightning-core-beam-3"
               />
+              
+              {/* Inner Bright White Core - Hottest Part */}
+              <motion.rect
+                x="398" y="0" width="4" height="600"
+                fill="#f0f8ff"
+                filter="url(#coreBlur3)"
+                mask="url(#energyFlowMask)"
+                initial={{ opacity: 1 }}
+                animate={{ 
+                  opacity: [1, 1, 0.9, 1, 0.8, 1],
+                  width: [4, 6, 3, 8, 2, 5]
+                }}
+                transition={{ 
+                  duration: 0.3,
+                  repeat: Infinity,
+                  ease: [0.6, 0, 0.4, 1],
+                  delay: 0.1
+                }}
+                data-testid="lightning-inner-core"
+              />
+              {/* Chaotic Electrical Arcs - Left Side */}
+              {Array.from({ length: 8 }).map((_, i) => (
+                <motion.path
+                  key={`left-arc-${i}`}
+                  d={`M400 ${50 + i * 70} L${320 - Math.random() * 80} ${80 + i * 70} L${280 - Math.random() * 100} ${110 + i * 70} L${240 - Math.random() * 120} ${140 + i * 70}`}
+                  stroke="url(#lightningBranch)"
+                  strokeWidth={Math.random() * 2 + 1}
+                  fill="none"
+                  strokeLinecap="round"
+                  filter="url(#organicWobble)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ 
+                    pathLength: [0, 0, 1, 0.3, 0], 
+                    opacity: [0, 0, 1, 0.6, 0],
+                    strokeWidth: [1, 1, 4, 2, 0.5]
+                  }}
+                  transition={{
+                    duration: 0.1 + Math.random() * 0.1,
+                    delay: i * 0.03 + Math.random() * 4,
+                    repeat: Infinity,
+                    repeatDelay: 2 + Math.random() * 6,
+                    ease: [1, 0, 0, 1]
+                  }}
+                />
+              ))}
+
+              {/* Chaotic Electrical Arcs - Right Side */}
+              {Array.from({ length: 8 }).map((_, i) => (
+                <motion.path
+                  key={`right-arc-${i}`}
+                  d={`M400 ${80 + i * 65} L${480 + Math.random() * 80} ${110 + i * 65} L${520 + Math.random() * 100} ${140 + i * 65} L${560 + Math.random() * 120} ${170 + i * 65}`}
+                  stroke="url(#lightningBranch)"
+                  strokeWidth={Math.random() * 2 + 0.8}
+                  fill="none"
+                  strokeLinecap="round"
+                  filter="url(#organicWobble)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ 
+                    pathLength: [0, 0, 0.8, 0.2, 0], 
+                    opacity: [0, 0, 0.9, 0.4, 0],
+                    strokeWidth: [0.8, 0.8, 3.5, 1.5, 0.3]
+                  }}
+                  transition={{
+                    duration: 0.12 + Math.random() * 0.08,
+                    delay: i * 0.04 + Math.random() * 5,
+                    repeat: Infinity,
+                    repeatDelay: 1.8 + Math.random() * 7,
+                    ease: [0.9, 0, 0.1, 1]
+                  }}
+                />
+              ))}
+
+              {/* Secondary Fractal Branches */}
+              {memoizedFractalBranches.map((branch) => (
+                <motion.path
+                  key={branch.id}
+                  d={branch.path}
+                  stroke={hoveredAgent ? getCurrentLightningColor() : branch.color}
+                  strokeWidth={branch.strokeWidth}
+                  fill="none"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={shouldAnimate ? { 
+                    pathLength: [0, 0, 0.9, 0.3, 0], 
+                    opacity: [0, 0, 0.7, 0.25, 0]
+                  } : { pathLength: 0, opacity: 0 }}
+                  transition={{
+                    duration: shouldAnimate ? 0.25 + Math.random() * 0.2 : 0,
+                    delay: shouldAnimate ? branch.delay : 0,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    repeatDelay: shouldAnimate ? branch.repeatDelay : 0,
+                    ease: [0.7, 0, 0.3, 1]
+                  }}
+                />
+              ))}
+
+              {/* Micro Lightning Sparks */}
+              {shouldAnimate && Array.from({ length: screenSize === 'small' ? 10 : screenSize === 'medium' ? 15 : 20 }).map((_, i) => {
+                const x = 390 + Math.random() * 20;
+                const y = Math.random() * 600;
+                
+                return (
+                  <motion.circle
+                    key={`spark-${i}`}
+                    cx={x}
+                    cy={y}
+                    r={Math.random() * 2 + 0.5}
+                    fill={hoveredAgent ? getCurrentLightningColor() : "url(#electricalDischarge)"}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ 
+                      opacity: [0, 0.8, 0],
+                      scale: [0, 1, 0]
+                    }}
+                    transition={{
+                      duration: 0.15 + Math.random() * 0.1,
+                      delay: i * 0.03 + Math.random() * 8,
+                      repeat: Infinity,
+                      repeatDelay: 4 + Math.random() * 10
+                    }}
+                  />
+                );
+              })}
             </svg>
           </motion.div>
 
