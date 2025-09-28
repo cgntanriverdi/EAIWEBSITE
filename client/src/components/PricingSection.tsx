@@ -1,63 +1,87 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Star, Zap, Target } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Check, Star, Zap, Target, Users, Crown } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { type PricingPlan } from "@shared/schema";
 
 export default function PricingSection() {
-  const plans = [
-    {
-      name: "Individual Agents",
-      description: "Perfect for targeted improvements",
-      price: "$8-15",
-      period: "per agent use",
-      icon: Target,
-      features: [
-        "Choose specific agents",
-        "Pay only for what you use",
-        "No monthly commitments",
-        "Basic support",
-        "Standard processing speed"
-      ],
-      popular: false,
-      gradient: "from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
-    },
-    {
-      name: "Full Workflow",
-      description: "Complete automation for serious sellers",
-      price: "$35",
-      period: "per listing",
-      icon: Zap,
-      features: [
-        "All 4 agents included",
-        "End-to-end automation",
-        "Priority processing",
-        "Advanced analytics",
-        "Premium support",
-        "Bulk operations",
-        "$9 savings vs individual"
-      ],
-      popular: true,
-      gradient: "from-primary/5 to-primary/10"
-    },
-    {
-      name: "Enterprise",
-      description: "Custom solutions for large teams",
-      price: "Custom",
-      period: "contact sales",
-      icon: Star,
-      features: [
-        "Custom agent training",
-        "API access",
-        "White-label options",
-        "Dedicated account manager",
-        "Custom integrations",
-        "Volume discounts",
-        "SLA guarantees"
-      ],
-      popular: false,
-      gradient: "from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20"
+  const { data: plans, isLoading, error } = useQuery<PricingPlan[]>({
+    queryKey: ['/api/pricing-plans'],
+  });
+
+  const getPlanIcon = (planName: string) => {
+    switch (planName.toLowerCase()) {
+      case 'basic': return Target;
+      case 'pro': return Zap;
+      case 'plus': return Users;
+      case 'enterprise': return Crown;
+      default: return Star;
     }
-  ];
+  };
+
+  const getPlanGradient = (planName: string) => {
+    switch (planName.toLowerCase()) {
+      case 'basic': return "from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800";
+      case 'pro': return "from-primary/5 to-primary/10";
+      case 'plus': return "from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20";
+      case 'enterprise': return "from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20";
+      default: return "from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800";
+    }
+  };
+
+  const formatPrice = (price: number | null) => {
+    if (price === null) return "Custom";
+    return `$${(price / 100).toFixed(0)}`;
+  };
+
+  const formatPeriod = (plan: PricingPlan) => {
+    if (plan.isContactSales) return "contact sales";
+    return "per month";
+  };
+
+  const handlePlanSelect = async (plan: PricingPlan) => {
+    if (plan.isContactSales) {
+      // Handle Enterprise contact sales
+      // For now, we'll just scroll to a contact form or show a modal
+      console.log('Contact sales for Enterprise plan');
+      // You could implement a contact form modal here
+    } else {
+      // Handle regular plan selection/payment
+      console.log(`${plan.displayName} plan selected`);
+      // You would integrate with your payment processor here
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="py-20 px-4 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <Skeleton className="h-6 w-32 mx-auto mb-4" />
+            <Skeleton className="h-12 w-96 mx-auto mb-6" />
+            <Skeleton className="h-6 w-[600px] mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-[500px] rounded-lg" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !plans) {
+    return (
+      <section className="py-20 px-4 bg-background">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-destructive">Error loading pricing plans. Please try again later.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 px-4 bg-background">
@@ -75,70 +99,89 @@ export default function PricingSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <Card 
-              key={plan.name}
-              className={`relative overflow-hidden hover-elevate transition-all duration-300 ${
-                plan.popular 
-                ? 'ring-2 ring-primary shadow-xl scale-105' 
-                : ''
-              }`}
-              data-testid={`card-pricing-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              {plan.popular && (
-                <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground z-10" data-testid="badge-most-popular">
-                  Most Popular
-                </Badge>
-              )}
-              
-              <div className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} opacity-50`}></div>
-              
-              <CardHeader className="relative z-10 text-center pb-2">
-                <div className={`w-16 h-16 rounded-2xl ${plan.popular ? 'bg-primary' : 'bg-muted'} flex items-center justify-center mx-auto mb-4 shadow-lg`}>
-                  <plan.icon className={`w-8 h-8 ${plan.popular ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
-                </div>
-                <h3 className="text-2xl font-bold text-foreground" data-testid={`text-plan-name-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                  {plan.name}
-                </h3>
-                <p className="text-muted-foreground" data-testid={`text-plan-description-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                  {plan.description}
-                </p>
-              </CardHeader>
-              
-              <CardContent className="relative z-10 pt-0">
-                <div className="text-center mb-8">
-                  <div className="flex items-baseline justify-center gap-2">
-                    <span className="text-4xl font-bold text-foreground" data-testid={`text-plan-price-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {plan.price}
-                    </span>
-                    <span className="text-muted-foreground" data-testid={`text-plan-period-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {plan.period}
-                    </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {plans.map((plan) => {
+            const IconComponent = getPlanIcon(plan.name);
+            const gradient = getPlanGradient(plan.name);
+            
+            return (
+              <Card 
+                key={plan.id}
+                className={`relative overflow-hidden hover-elevate transition-all duration-300 ${
+                  plan.isPopular 
+                  ? 'ring-2 ring-primary shadow-xl scale-105' 
+                  : ''
+                }`}
+                data-testid={`card-pricing-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                {plan.isPopular && (
+                  <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground z-10" data-testid="badge-most-popular">
+                    Most Popular
+                  </Badge>
+                )}
+                
+                <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-50`}></div>
+                
+                <CardHeader className="relative z-10 text-center pb-2">
+                  <div className={`w-16 h-16 rounded-2xl ${plan.isPopular ? 'bg-primary' : 'bg-muted'} flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                    <IconComponent className={`w-8 h-8 ${plan.isPopular ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
                   </div>
-                </div>
+                  <h3 className="text-2xl font-bold text-foreground" data-testid={`text-plan-name-${plan.name.toLowerCase()}`}>
+                    {plan.displayName}
+                  </h3>
+                  <p className="text-muted-foreground" data-testid={`text-plan-description-${plan.name.toLowerCase()}`}>
+                    {plan.description}
+                  </p>
+                  {plan.productCredits && (
+                    <div className="mt-2">
+                      <Badge variant="outline" className="text-xs">
+                        {plan.productCredits} products/month
+                      </Badge>
+                    </div>
+                  )}
+                  {plan.productCredits === null && (
+                    <div className="mt-2">
+                      <Badge variant="outline" className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-none">
+                        Unlimited products
+                      </Badge>
+                    </div>
+                  )}
+                </CardHeader>
                 
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-3" data-testid={`feature-${featureIndex}`}>
-                      <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <Button 
-                  className={`w-full ${plan.popular ? 'shadow-lg' : ''} hover-elevate`}
-                  variant={plan.popular ? 'default' : 'outline'}
-                  size="lg"
-                  onClick={() => console.log(`${plan.name} plan selected`)}
-                  data-testid={`button-select-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}
-                >
-                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                <CardContent className="relative z-10 pt-0">
+                  <div className="text-center mb-8">
+                    <div className="flex items-baseline justify-center gap-2">
+                      <span className="text-4xl font-bold text-foreground" data-testid={`text-plan-price-${plan.name.toLowerCase()}`}>
+                        {formatPrice(plan.price)}
+                      </span>
+                      <span className="text-muted-foreground" data-testid={`text-plan-period-${plan.name.toLowerCase()}`}>
+                        {formatPeriod(plan)}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <ul className="space-y-3 mb-8">
+                    {plan.features?.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start gap-3" data-testid={`feature-${plan.name.toLowerCase()}-${featureIndex}`}>
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-muted-foreground">{feature}</span>
+                      </li>
+                    )) || []}
+                  </ul>
+                  
+                  <Button 
+                    className={`w-full ${plan.isPopular ? 'shadow-lg' : ''} hover-elevate`}
+                    variant={plan.isPopular ? 'default' : 'outline'}
+                    size="lg"
+                    onClick={() => handlePlanSelect(plan)}
+                    data-testid={`button-select-${plan.name.toLowerCase()}`}
+                  >
+                    {plan.isContactSales ? 'Contact Sales' : 'Get Started'}
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         
         <div className="text-center mt-12">
@@ -157,6 +200,10 @@ export default function PricingSection() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
               <span>99.9% Uptime SLA</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+              <span>Enterprise API Access Available</span>
             </div>
           </div>
         </div>
