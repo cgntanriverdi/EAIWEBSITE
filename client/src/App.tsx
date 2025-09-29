@@ -7,6 +7,10 @@ import LandingPage from "@/pages/LandingPage";
 import ProductsPage from "@/pages/ProductsPage";
 import PricingPage from "@/pages/PricingPage";
 import ResourcesPage from "@/pages/ResourcesPage";
+import ImageGenerationAgentPage from "@/pages/ImageGenerationAgentPage";
+import DescriptionAgentPage from "@/pages/DescriptionAgentPage";
+import PricingAgentPage from "@/pages/PricingAgentPage";
+import PublishingAgentPage from "@/pages/PublishingAgentPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +20,13 @@ function Router() {
       <Route path="/products" component={ProductsPage} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/resources" component={ResourcesPage} />
+      
+      {/* Agent Pages */}
+      <Route path="/agents/image-generation" component={ImageGenerationAgentPage} />
+      <Route path="/agents/description" component={DescriptionAgentPage} />
+      <Route path="/agents/pricing" component={PricingAgentPage} />
+      <Route path="/agents/publishing" component={PublishingAgentPage} />
+      
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

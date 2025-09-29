@@ -47,25 +47,25 @@ export default function Navigation() {
           icon: Image,
           title: "Image Generation Agent",
           description: "AI-powered product photography and visual content creation",
-          href: "#image-agent"
+          href: "/agents/image-generation"
         },
         {
           icon: FileText,
           title: "Description Agent",
           description: "Compelling product descriptions optimized for conversion",
-          href: "#description-agent"
+          href: "/agents/description"
         },
         {
           icon: DollarSign,
           title: "Pricing Agent",
           description: "Intelligent pricing optimization based on market data",
-          href: "#pricing-agent"
+          href: "/agents/pricing"
         },
         {
           icon: Upload,
           title: "Publishing Agent",
           description: "Automated listing distribution across multiple platforms",
-          href: "#publishing-agent"
+          href: "/agents/publishing"
         }
       ],
 // Removed platform section as requested
