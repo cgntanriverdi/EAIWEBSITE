@@ -51,13 +51,13 @@ export default function HeroStripe() {
                 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight"
                 data-testid="text-hero-stripe-title"
               >
-                Financial
+                Agentic AI
                 <br />
-                infrastructure
+                for perfect
                 <br />
-                to grow your
+                e-commerce
                 <br />
-                revenue
+                listings
               </h1>
             </motion.div>
 
@@ -68,7 +68,7 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.4 }}
               data-testid="text-hero-stripe-subtitle"
             >
-              Join the millions of companies that use AI Commerce Studio to accept payments online and in person, embed financial services, power custom revenue models, and build a more profitable business.
+              Create compelling product descriptions, calculate optimal pricing, generate professional AI model photography, and publish perfect listings in one click.
             </motion.p>
 
             {/* Email signup form */}

@@ -467,9 +467,9 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             data-testid="text-hero-title"
           >
-            <span className="block">Everything App</span>
-            <span className="block">for your</span>
-            <span className="block">commerce</span>
+            <span className="block">AI agents</span>
+            <span className="block">that perfect</span>
+            <span className="block">your listings</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -480,7 +480,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             data-testid="text-hero-subtitle"
           >
-            AI Commerce Studio, an advanced platform, serves as an all-in-one replacement of manual e-commerce workflows, pricing strategies, and content creation.
+            Intelligent AI agents work autonomously to craft compelling descriptions, optimize pricing strategies, generate professional model photography, and publish your perfect e-commerce listings instantly.
           </motion.p>
 
           {/* CTA Button */}

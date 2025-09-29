@@ -63,53 +63,53 @@ export default function LandingPage() {
       
       {/* Stripe-style Feature Sections */}
       <StripeFeatureSection
-        badge="Payments"
-        title="Accept and optimize payments, globally"
-        description="Increase authorization rates, offer local payment methods, and reduce fraud using machine learning models trained on billions of transactions across the AI Commerce Studio network."
+        badge="Descriptions"
+        title="AI-powered product descriptions that convert"
+        description="Generate compelling, SEO-optimized product descriptions that drive sales using advanced language models trained on high-converting e-commerce copy across millions of successful listings."
         features={[
-          "135+ global payment methods",
-          "Machine learning optimization",
-          "Real-time fraud detection",
-          "Global processing at scale"
+          "SEO-optimized content",
+          "Conversion-focused copy",
+          "Brand voice matching",
+          "Multi-language support"
         ]}
         mockupType="mobile"
       />
       
       <StripeFeatureSection
-        badge="Billing"
-        title="Capture recurring revenue"
-        description="Manage your subscription business, minimize churn, and automate invoice operations with customizable pricing models, subscription intelligence, and automated billing."
+        badge="Pricing"
+        title="Smart pricing that maximizes profit"
+        description="Calculate optimal prices with AI-powered market analysis, competitor tracking, and demand forecasting to maximize your margins while staying competitive."
         features={[
-          "Flexible pricing models",
-          "Automated billing workflows",
-          "Subscription intelligence",
-          "Revenue optimization"
+          "Dynamic pricing models",
+          "Competitor price tracking",
+          "Profit margin optimization",
+          "Market demand analysis"
         ]}
         mockupType="billing"
         reverse={true}
       />
       
       <StripeFeatureSection
-        badge="Connect"
-        title="Set up multiparty payments and payouts"
-        description="Integrate payments into your platform or marketplace with tools to handle KYC, compliance, fraud, reporting, and revenue—so you can focus on your core business."
+        badge="Photography"
+        title="Professional AI model photography"
+        description="Transform basic product photos into stunning professional images with AI models, perfect lighting, and premium backgrounds that make your products irresistible."
         features={[
-          "Marketplace payments",
-          "Automated KYC compliance",
-          "Split payments",
-          "Real-time reporting"
+          "AI model generation",
+          "Professional backgrounds",
+          "Lighting optimization",
+          "Multiple style variants"
         ]}
         mockupType="card"
       />
       
       <StripeFeatureSection
-        title="A fully integrated suite of financial and payments products"
-        description="Reduce costs, grow revenue, and run your business more efficiently on a fully integrated platform. Use AI Commerce Studio to handle all of your payments-related needs, or integrate with your existing financial stack."
+        title="One-click publishing to all your sales channels"
+        description="Instantly publish your perfected listings across multiple marketplaces and platforms with a single click. Our agentic system handles formatting, optimization, and platform-specific requirements automatically."
         features={[
-          "Unified commerce platform",
-          "Advanced analytics",
-          "Global scale infrastructure",
-          "Developer-friendly APIs"
+          "Multi-platform publishing",
+          "Automated formatting",
+          "Real-time sync",
+          "Performance tracking"
         ]}
         mockupType="dashboard"
         reverse={true}
@@ -169,7 +169,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Trusted by E-commerce Leaders
+              Powered by Agentic AI Success
             </motion.h2>
             <motion.p 
               className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed" 
@@ -179,7 +179,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              Join thousands of successful sellers who have transformed their businesses with our AI-powered platform.
+              Discover how autonomous AI agents have revolutionized e-commerce for businesses of all sizes with perfect descriptions, optimal pricing, and professional photography.
             </motion.p>
           </motion.div>
           
@@ -288,7 +288,7 @@ export default function LandingPage() {
             <span className="text-xl font-bold text-foreground">AI Commerce Studio</span>
           </div>
           <p className="text-muted-foreground mb-6">
-            Elevating e-commerce with professional AI automation
+            Autonomous AI agents perfecting e-commerce listings worldwide
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <span>© 2024 AI Commerce Studio</span>
