@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, CreditCard, Users, DollarSign } from "lucide-react";
+import { TrendingUp, Zap, Bot, Target } from "lucide-react";
 import { useRef } from "react";
 
 export default function DashboardPreview() {
@@ -24,7 +24,7 @@ export default function DashboardPreview() {
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-medium text-gray-600">
-                Revenue Analytics
+                Listings Optimized
               </CardTitle>
               <Badge className="text-xs bg-indigo-50 text-indigo-700 border-indigo-200">
                 Today
@@ -34,19 +34,19 @@ export default function DashboardPreview() {
           <CardContent>
             <div className="space-y-4">
               <div>
-                <div className="text-3xl font-bold text-gray-900">$3,528,106.72</div>
-                <div className="text-sm text-gray-500">Net volume today 7:50 AM</div>
+                <div className="text-3xl font-bold text-gray-900">2,847</div>
+                <div className="text-sm text-gray-500">Product descriptions generated today 7:50 AM</div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-lg font-semibold text-gray-900">$2,001,069.56</div>
+                  <div className="text-lg font-semibold text-gray-900">1,892</div>
                   <div className="text-xs text-gray-500">Yesterday</div>
                 </div>
                 <div>
                   <div className="flex items-center text-green-600 text-sm font-medium">
                     <TrendingUp className="w-3 h-3 mr-1" />
-                    +26.1%
+                    +50.5%
                   </div>
                 </div>
               </div>
@@ -78,16 +78,16 @@ export default function DashboardPreview() {
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-white" />
+                <Bot className="w-4 h-4 text-white" />
               </div>
               <div>
-                <div className="text-sm font-medium text-gray-900">Card Payment</div>
-                <div className="text-xs text-gray-500">•••• 4242</div>
+                <div className="text-sm font-medium text-gray-900">AI Processing</div>
+                <div className="text-xs text-gray-500">Model: GPT-4</div>
               </div>
             </div>
             <div className="mt-3">
-              <div className="text-xs text-gray-500">Amount</div>
-              <div className="text-lg font-bold text-gray-900">$1,247.50</div>
+              <div className="text-xs text-gray-500">Time Saved</div>
+              <div className="text-lg font-bold text-gray-900">147.2 hrs</div>
             </div>
           </CardContent>
         </Card>
@@ -102,23 +102,23 @@ export default function DashboardPreview() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center">
               <div className="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center mr-2">
-                <Users className="w-3 h-3 text-white" />
+                <Target className="w-3 h-3 text-white" />
               </div>
-              New customers
+              Performance Impact
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold text-gray-900 mb-2">+37</div>
-            <div className="text-xs text-green-600 font-medium">+8.1% vs last week</div>
+            <div className="text-xl font-bold text-gray-900 mb-2">+34%</div>
+            <div className="text-xs text-green-600 font-medium">Conversion boost this week</div>
             
             <div className="mt-3 space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="text-gray-500">Net volume from sales</span>
-                <span className="text-gray-900 font-medium">+25.6%</span>
+                <span className="text-gray-500">Click-through rate</span>
+                <span className="text-gray-900 font-medium">+28.3%</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-gray-500">Average order value</span>
-                <span className="text-gray-900 font-medium">$89.34</span>
+                <span className="text-gray-500">Avg. listing quality</span>
+                <span className="text-gray-900 font-medium">9.2/10</span>
               </div>
             </div>
           </CardContent>
