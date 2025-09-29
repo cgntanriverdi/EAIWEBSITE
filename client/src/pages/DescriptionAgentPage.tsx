@@ -3,6 +3,7 @@ import { FileText, PenTool, Target, Zap, ArrowRight, Play, Check, TrendingUp } f
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
+import Navigation from '@/components/Navigation';
 
 const features = [
   {
@@ -58,7 +59,9 @@ const copyExamples = [
 
 const DescriptionAgentPage = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <Navigation />
+      <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
@@ -345,6 +348,7 @@ const DescriptionAgentPage = () => {
           </motion.div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

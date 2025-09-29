@@ -3,6 +3,7 @@ import { DollarSign, TrendingUp, BarChart3, Zap, ArrowRight, Play, Check, Target
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
+import Navigation from '@/components/Navigation';
 
 const features = [
   {
@@ -81,8 +82,10 @@ const pricingStrategies = [
 
 const PricingAgentPage = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 overflow-hidden">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <Navigation />
+      <div className="overflow-hidden">
+        {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -403,6 +406,7 @@ const PricingAgentPage = () => {
           </motion.div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

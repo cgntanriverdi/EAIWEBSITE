@@ -3,6 +3,7 @@ import { Image, Camera, Zap, Sparkles, ArrowRight, Play, Check } from 'lucide-re
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
+import Navigation from '@/components/Navigation';
 
 const features = [
   {
@@ -42,9 +43,11 @@ const useCases = [
 
 const ImageGenerationAgentPage = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <Navigation />
+      <div className="overflow-hidden">
+        {/* Hero Section */}
+        <section className="relative pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -259,6 +262,7 @@ const ImageGenerationAgentPage = () => {
           </motion.div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

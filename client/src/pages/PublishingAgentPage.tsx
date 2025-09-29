@@ -3,6 +3,7 @@ import { Upload, Globe, Zap, ArrowRight, Play, Check, ShoppingCart, Share2, Cloc
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
+import Navigation from '@/components/Navigation';
 
 const features = [
   {
@@ -98,7 +99,9 @@ const automationSteps = [
 
 const PublishingAgentPage = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <Navigation />
+      <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
@@ -452,6 +455,7 @@ const PublishingAgentPage = () => {
           </motion.div>
         </div>
       </section>
+      </div>
     </div>
   );
 };
