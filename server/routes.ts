@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { insertLeadSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Test endpoint to verify API is working
@@ -64,6 +65,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing contact sales request:", error);
       res.status(500).json({ error: "Failed to process contact request" });
+    }
+  });
+
+  // Leads endpoint for email signup
+  app.post("/api/leads", async (req, res) => {
+    try {
+      const validatedData = insertLeadSchema.parse(req.body);
+      const lead = await storage.createLead(validatedData);
+      
+      console.log("New lead created:", lead);
+      
+      res.status(201).json({ 
+        success: true, 
+        message: "Thank you for your interest! We'll be in touch soon.",
+        id: lead.id
+      });
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      res.status(500).json({ error: "Failed to process signup" });
+    }
+  });
+
+  app.get("/api/leads", async (req, res) => {
+    try {
+      const leads = await storage.getAllLeads();
+      res.json(leads);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ error: "Failed to fetch leads" });
     }
   });
 

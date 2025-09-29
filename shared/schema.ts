@@ -64,3 +64,20 @@ export type InsertPricingPlan = z.infer<typeof insertPricingPlanSchema>;
 export type PricingPlan = typeof pricingPlans.$inferSelect;
 export type InsertUserSubscription = z.infer<typeof insertUserSubscriptionSchema>;
 export type UserSubscription = typeof userSubscriptions.$inferSelect;
+
+// Leads Schema
+export const leads = pgTable("leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull(),
+  company: text("company"),
+  consent: boolean("consent").default(true),
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const insertLeadSchema = createInsertSchema(leads).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type Lead = typeof leads.$inferSelect;

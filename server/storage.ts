@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription } from "@shared/schema";
+import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription, type Lead, type InsertLead } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -18,17 +18,23 @@ export interface IStorage {
   getUserSubscription(userId: string): Promise<UserSubscription | undefined>;
   createUserSubscription(subscription: InsertUserSubscription): Promise<UserSubscription>;
   updateUserSubscription(id: string, updates: Partial<UserSubscription>): Promise<UserSubscription | undefined>;
+  
+  // Leads
+  getAllLeads(): Promise<Lead[]>;
+  createLead(lead: InsertLead): Promise<Lead>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private pricingPlans: Map<string, PricingPlan>;
   private userSubscriptions: Map<string, UserSubscription>;
+  private leads: Map<string, Lead>;
 
   constructor() {
     this.users = new Map();
     this.pricingPlans = new Map();
     this.userSubscriptions = new Map();
+    this.leads = new Map();
     
     // Initialize default pricing plans
     this.initializeDefaultPlans();
@@ -119,6 +125,25 @@ export class MemStorage implements IStorage {
     };
     this.userSubscriptions.set(id, updatedSubscription);
     return updatedSubscription;
+  }
+
+  // Leads Methods
+  async getAllLeads(): Promise<Lead[]> {
+    return Array.from(this.leads.values());
+  }
+
+  async createLead(insertLead: InsertLead): Promise<Lead> {
+    const id = randomUUID();
+    const now = new Date();
+    const lead: Lead = { 
+      id,
+      email: insertLead.email,
+      company: insertLead.company ?? null,
+      consent: insertLead.consent ?? true,
+      createdAt: now
+    };
+    this.leads.set(id, lead);
+    return lead;
   }
 
   private async initializeDefaultPlans(): Promise<void> {

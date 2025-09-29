@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
+import HeroStripe from "@/components/HeroStripe";
+import CompanyLogosMarquee from "@/components/CompanyLogosMarquee";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -40,8 +41,11 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Stripe-style Hero Section */}
+      <HeroStripe />
+      
+      {/* Company Logos Marquee */}
+      <CompanyLogosMarquee />
       
       {/* Problem/Solution Section */}
       <section className="py-20 px-4 bg-muted/30" id="features">
@@ -109,7 +113,7 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={testimonial.name} className="animate-stagger-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={testimonial.name} className="animate-fadeUpStagger" style={{ animationDelay: `${index * 0.1}s` }}>
                 <TestimonialCard {...testimonial} />
               </div>
             ))}

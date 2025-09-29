@@ -6,10 +6,12 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Features", href: "#features" },
-    { label: "Workflow", href: "#workflow" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" }
+    { label: "Products", href: "#features" },
+    { label: "Solutions", href: "#workflow" },
+    { label: "Developers", href: "#workflow" },
+    { label: "Startups", href: "#pricing" },
+    { label: "Enterprise", href: "#contact" },
+    { label: "Pricing", href: "#pricing" }
   ];
 
   return (
@@ -56,11 +58,11 @@ export default function Navigation() {
             </Button>
             
             <Button
-              className="bg-primary text-primary-foreground font-medium px-6 rounded-full"
-              onClick={() => console.log('Start trial clicked')}
-              data-testid="button-start-trial-nav"
+              className="bg-primary text-primary-foreground font-medium px-6 rounded-md"
+              onClick={() => console.log('Contact sales clicked')}
+              data-testid="button-contact-sales-nav"
             >
-              SEE IN ACTION
+              Contact sales
             </Button>
           </div>
 
@@ -111,14 +113,14 @@ export default function Navigation() {
                 </Button>
                 
                 <Button
-                  className="w-full bg-primary text-primary-foreground font-medium rounded-full"
+                  className="w-full bg-primary text-primary-foreground font-medium rounded-md"
                   onClick={() => {
                     setIsMenuOpen(false);
-                    console.log('Start trial clicked');
+                    console.log('Contact sales clicked');
                   }}
-                  data-testid="mobile-button-start-trial"
+                  data-testid="mobile-button-contact-sales"
                 >
-                  SEE IN ACTION
+                  Contact sales
                 </Button>
               </div>
             </div>
