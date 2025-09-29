@@ -99,7 +99,7 @@ export default function LandingPage() {
           "Lighting optimization",
           "Multiple style variants"
         ]}
-        mockupType="card"
+        mockupType="photography"
       />
       
       <StripeFeatureSection
