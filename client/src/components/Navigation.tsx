@@ -192,7 +192,7 @@ export default function Navigation() {
                               <div className="text-sm font-medium text-gray-900">{item.title}</div>
                               <div className="text-xs text-gray-500 mt-1">{item.description}</div>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })}
                     </div>
