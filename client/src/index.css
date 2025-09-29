@@ -401,6 +401,54 @@
     100% { background-position: 0% 50%; }
   }
 
+  @keyframes textLighting {
+    0% { 
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        0 0 20px hsla(260, 80%, 60%, 0.4),
+        0 0 40px hsla(270, 90%, 50%, 0.2),
+        0 0 60px hsla(280, 85%, 55%, 0.15),
+        -2px -2px 8px hsla(260, 70%, 40%, 0.3),
+        2px 2px 8px hsla(270, 80%, 60%, 0.25);
+    }
+    25% { 
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        0 0 20px hsla(280, 80%, 60%, 0.4),
+        0 0 40px hsla(290, 90%, 50%, 0.2),
+        0 0 60px hsla(300, 85%, 55%, 0.15),
+        -2px -2px 8px hsla(280, 70%, 40%, 0.3),
+        2px 2px 8px hsla(290, 80%, 60%, 0.25);
+    }
+    50% { 
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        0 0 20px hsla(300, 80%, 60%, 0.4),
+        0 0 40px hsla(310, 90%, 50%, 0.2),
+        0 0 60px hsla(20, 85%, 55%, 0.15),
+        -2px -2px 8px hsla(300, 70%, 40%, 0.3),
+        2px 2px 8px hsla(20, 80%, 60%, 0.25);
+    }
+    75% { 
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        0 0 20px hsla(20, 80%, 60%, 0.4),
+        0 0 40px hsla(30, 90%, 50%, 0.2),
+        0 0 60px hsla(35, 85%, 55%, 0.15),
+        -2px -2px 8px hsla(20, 70%, 40%, 0.3),
+        2px 2px 8px hsla(35, 80%, 60%, 0.25);
+    }
+    100% { 
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        0 0 20px hsla(260, 80%, 60%, 0.4),
+        0 0 40px hsla(270, 90%, 50%, 0.2),
+        0 0 60px hsla(280, 85%, 55%, 0.15),
+        -2px -2px 8px hsla(260, 70%, 40%, 0.3),
+        2px 2px 8px hsla(270, 80%, 60%, 0.25);
+    }
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
