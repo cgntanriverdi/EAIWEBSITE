@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Sparkles, Image, FileText, DollarSign, Upload, BookOpen, HeadphonesIcon, CreditCard, Zap, Star, ChevronDown } from "lucide-react";
 
@@ -175,12 +176,11 @@ export default function Navigation() {
                       {dropdownItems.products.agents.map((item, index) => {
                         const IconComponent = item.icon;
                         return (
-                          <a
+                          <Link
                             key={index}
-                            href={item.href}
+                            href="/products"
                             className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                            onClick={(e) => {
-                              e.preventDefault();
+                            onClick={() => {
                               setActiveDropdown(null);
                               console.log(`Navigate to ${item.title}`);
                             }}
@@ -202,24 +202,13 @@ export default function Navigation() {
             </div>
 
             {/* Pricing Link */}
-            <a
-              href="#pricing"
+            <Link
+              href="/pricing"
               className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-              onClick={(e) => {
-                e.preventDefault();
-                // Scroll to pricing section using the correct ID
-                const pricingSection = document.getElementById('pricing');
-                if (pricingSection) {
-                  pricingSection.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  console.log('Pricing section not found');
-                }
-                console.log('Navigate to Pricing section');
-              }}
               data-testid="nav-link-pricing"
             >
               Pricing
-            </a>
+            </Link>
 
             {/* Resources Dropdown */}
             <div className="relative">
@@ -362,25 +351,17 @@ export default function Navigation() {
 
               {/* Mobile Pricing Link */}
               <div className="border-b border-gray-100 pb-3 mb-3">
-                <a
-                  href="#pricing"
+                <Link
+                  href="/pricing"
                   className="block px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     setIsMenuOpen(false);
-                    // Scroll to pricing section using the correct ID
-                    const pricingSection = document.getElementById('pricing');
-                    if (pricingSection) {
-                      pricingSection.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                      console.log('Pricing section not found');
-                    }
-                    console.log('Navigate to Pricing section');
+                    console.log('Navigate to Pricing page');
                   }}
                   data-testid="mobile-nav-link-pricing"
                 >
                   Pricing
-                </a>
+                </Link>
               </div>
 
               {/* Mobile Resources Section */}
