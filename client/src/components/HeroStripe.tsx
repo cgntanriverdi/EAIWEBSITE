@@ -4,26 +4,20 @@ import DashboardPreview from "./DashboardPreview";
 
 export default function HeroStripe() {
   return (
-    <section className="relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
-      {/* Stripe's signature gradient background with animation */}
+    <section className="hero-stripe relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
+      {/* Stripe's signature gradient background with animation - this will be inherited by text */}
       <div 
-        className="absolute inset-0"
+        className="hero-background absolute inset-0"
         style={{
           background: `
             radial-gradient(ellipse 80% 50% at 50% -20%, 
               hsla(260, 100%, 60%, 0.3) 0%, 
               transparent 60%
             ),
-            linear-gradient(135deg, 
-              hsl(260, 80%, 20%) 0%,
-              hsl(270, 85%, 25%) 20%,
-              hsl(280, 90%, 35%) 40%,
-              hsl(290, 95%, 45%) 60%,
-              hsl(20, 90%, 55%) 80%,
-              hsl(35, 85%, 65%) 100%
-            )
+            var(--hero-gradient)
           `,
           backgroundSize: '400% 400%',
+          backgroundAttachment: 'fixed',
           animation: 'gradientShift 20s ease infinite'
         }}
       />
@@ -48,23 +42,23 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
+                className="stripe-gradient-text relative text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
                 data-testid="text-hero-stripe-title"
+                data-text="Agentic AI for perfect e-commerce listings"
                 style={{
-                  color: '#000000',
-                  textShadow: `
-                    0 2px 4px rgba(0,0,0,0.3),
-                    0 0 20px hsla(280, 80%, 60%, 0.4),
-                    0 0 40px hsla(290, 90%, 50%, 0.2),
-                    0 0 60px hsla(20, 85%, 55%, 0.15),
-                    -2px -2px 8px hsla(260, 70%, 40%, 0.3),
-                    2px 2px 8px hsla(35, 80%, 60%, 0.25)
+                  background: `
+                    radial-gradient(ellipse 80% 50% at 50% -20%, 
+                      hsla(260, 100%, 60%, 0.3) 0%, 
+                      transparent 60%
+                    ),
+                    var(--hero-gradient)
                   `,
-                  filter: `
-                    drop-shadow(0 0 15px hsla(280, 80%, 60%, 0.3))
-                    drop-shadow(0 0 30px hsla(290, 90%, 50%, 0.2))
-                  `,
-                  animation: 'textLighting 20s ease infinite'
+                  backgroundSize: '400% 400%',
+                  backgroundAttachment: 'fixed',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                  animation: 'gradientShift 20s ease infinite'
                 }}
               >
                 Agentic AI
