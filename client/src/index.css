@@ -19,39 +19,39 @@
   --elevate-glow: rgba(255, 255, 255, 0.05);
 
   /* Premium Purple Dark Theme as Default */
-  --background: 260 15% 2%;
+  --background: 265 35% 8%;
   --foreground: 280 10% 98%;
-  --border: 270 20% 12%;
+  --border: 270 40% 18%;
   
-  --card: 265 18% 4%;
+  --card: 270 45% 12%;
   --card-foreground: 280 8% 95%;
-  --card-border: 270 25% 14%;
+  --card-border: 270 50% 22%;
   
-  --sidebar: 265 18% 4%;
+  --sidebar: 270 45% 12%;
   --sidebar-foreground: 275 12% 90%;
-  --sidebar-border: 270 25% 14%;
+  --sidebar-border: 270 50% 22%;
   --sidebar-primary: 270 85% 60%;
   --sidebar-primary-foreground: 280 10% 98%;
-  --sidebar-accent: 270 20% 12%;
+  --sidebar-accent: 270 40% 20%;
   --sidebar-accent-foreground: 275 15% 85%;
   --sidebar-ring: 270 85% 60%;
   
-  --popover: 265 18% 4%;
+  --popover: 270 45% 12%;
   --popover-foreground: 275 12% 90%;
-  --popover-border: 270 25% 14%;
+  --popover-border: 270 50% 22%;
   
   --primary: 270 85% 60%;
   --primary-foreground: 280 10% 98%;
-  --secondary: 270 20% 12%;
+  --secondary: 270 40% 18%;
   --secondary-foreground: 275 15% 90%;
-  --muted: 265 15% 6%;
-  --muted-foreground: 270 10% 65%;
-  --accent: 275 30% 18%;
+  --muted: 265 35% 14%;
+  --muted-foreground: 270 15% 65%;
+  --accent: 275 50% 24%;
   --accent-foreground: 275 15% 90%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 280 10% 98%;
 
-  --input: 270 20% 12%;
+  --input: 270 40% 18%;
   --ring: 270 85% 60%;
   --chart-1: 270 85% 60%;
   --chart-2: 290 100% 70%;
