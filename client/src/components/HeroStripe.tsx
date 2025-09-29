@@ -42,23 +42,13 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 
-                className="stripe-gradient-text relative text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
+                className="stripe-layered-text relative text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
                 data-testid="text-hero-stripe-title"
                 data-text="Agentic AI for perfect e-commerce listings"
                 style={{
-                  background: `
-                    radial-gradient(ellipse 80% 50% at 50% -20%, 
-                      hsla(260, 100%, 60%, 0.3) 0%, 
-                      transparent 60%
-                    ),
-                    var(--hero-gradient)
-                  `,
-                  backgroundSize: '400% 400%',
-                  backgroundAttachment: 'fixed',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                  animation: 'gradientShift 20s ease infinite'
+                  color: '#000000',
+                  position: 'relative',
+                  zIndex: 1
                 }}
               >
                 Agentic AI
