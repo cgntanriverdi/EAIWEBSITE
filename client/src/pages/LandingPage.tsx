@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import HeroStripe from "@/components/HeroStripe";
 import CompanyLogosMarquee from "@/components/CompanyLogosMarquee";
@@ -7,9 +9,20 @@ import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
 import ContactForm from "@/components/ContactForm";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Camera, Target, Users, TrendingUp } from "lucide-react";
+import { DollarSign, Camera, Target, Users, TrendingUp, Star } from "lucide-react";
 
 export default function LandingPage() {
+  const testimonialsRef = useRef(null);
+  const { scrollYProgress: testimonialsProgress } = useScroll({
+    target: testimonialsRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Parallax transforms for testimonials section
+  const backgroundY = useTransform(testimonialsProgress, [0, 1], [0, -100]);
+  const cardY = useTransform(testimonialsProgress, [0, 1], [0, -50]);
+  const glowY = useTransform(testimonialsProgress, [0, 1], [0, -75]);
+
   // todo: remove mock functionality
   const testimonials = [
     {
@@ -102,30 +115,157 @@ export default function LandingPage() {
         reverse={true}
       />
 
-      {/* Social Proof */}
-      <section className="py-20 px-4 bg-muted/30" id="testimonials">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary/10 text-primary" data-testid="badge-testimonials">
-              <Users className="w-3 h-3 mr-1" />
-              Customer Success
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground" data-testid="text-testimonials-title">
+      {/* Social Proof - Stripe-inspired glassmorphic design */}
+      <section ref={testimonialsRef} className="relative py-32 px-4 overflow-hidden" id="testimonials">
+        {/* Parallax background layers */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100"
+          style={{ y: backgroundY }}
+        />
+        <motion.div
+          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
+          style={{ y: glowY }}
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Additional parallax background layer */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
+          style={{ y: useTransform(testimonialsProgress, [0, 1], [0, -25]) }}
+        />
+        
+        <div className="relative max-w-7xl mx-auto">
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="mb-6 bg-indigo-50 text-indigo-700 border-indigo-200 px-4 py-2" data-testid="badge-testimonials">
+                <Users className="w-3 h-3 mr-2" />
+                Customer Success
+              </Badge>
+            </motion.div>
+            <motion.h2 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gray-900 leading-tight" 
+              data-testid="text-testimonials-title"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
               Trusted by E-commerce Leaders
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-testimonials-subtitle">
+            </motion.h2>
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed" 
+              data-testid="text-testimonials-subtitle"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
               Join thousands of successful sellers who have transformed their businesses with our AI-powered platform.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Glassmorphic testimonial cards with parallax */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
+            style={{ y: cardY }}
+          >
             {testimonials.map((testimonial, index) => (
-              <div key={testimonial.name} className="animate-fadeUpStagger" style={{ animationDelay: `${index * 0.1}s` }}>
-                <TestimonialCard {...testimonial} />
-              </div>
+                <motion.div
+                  key={testimonial.name}
+                  className="group"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.15 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-8 hover:shadow-3xl transition-all duration-500 group-hover:bg-white">
+                    <div className="relative">
+                      {/* Testimonial content */}
+                      <div className="mb-6">
+                        <div className="flex items-center mb-4">
+                          <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                            ))}
+                          </div>
+                        </div>
+                        <blockquote className="text-gray-700 text-lg leading-relaxed mb-6 font-medium">
+                          "{testimonial.content}"
+                        </blockquote>
+                      </div>
+                      
+                      {/* Author info */}
+                      <div className="flex items-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">
+                          {testimonial.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                          <div className="text-sm text-gray-600">{testimonial.role}</div>
+                          <div className="text-sm text-indigo-600 font-medium">{testimonial.company}</div>
+                        </div>
+                      </div>
+                      
+                      {/* Hover glow effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-indigo-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                        animate={{
+                          scale: [1, 1.02, 1],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
+        
+        {/* Subtle floating particles */}
+        {Array.from({ length: 6 }).map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
+            className="absolute w-2 h-2 bg-indigo-400/20 rounded-full"
+            style={{
+              left: `${20 + i * 15}%`,
+              top: `${30 + (i % 3) * 20}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.6, 0.2],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
       </section>
 
       {/* Pricing */}
