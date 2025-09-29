@@ -5,28 +5,21 @@ import DashboardPreview from "./DashboardPreview";
 export default function HeroStripe() {
   return (
     <section className="hero-stripe relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
-      {/* Stripe's signature gradient background with animation - this will be inherited by text */}
+      {/* Stripe's signature vibrant gradient background */}
       <div 
         className="hero-background absolute inset-0"
         style={{
-          background: `
-            radial-gradient(ellipse 80% 50% at 50% -20%, 
-              hsla(260, 100%, 60%, 0.3) 0%, 
-              transparent 60%
-            ),
-            var(--hero-gradient)
-          `,
+          backgroundImage: 'linear-gradient(135deg, #6ec3f4 0%, #3a3aff 25%, #ff61ab 50%, #E63946 75%, #6ec3f4 100%)',
           backgroundSize: '400% 400%',
-          backgroundAttachment: 'fixed',
-          animation: 'gradientShift 20s ease infinite'
+          animation: 'gradientShift 15s ease infinite'
         }}
       />
 
-      {/* Darker overlay for proper white text contrast */}
+      {/* Light overlay to ensure text readability while maintaining color interaction */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%)'
+          backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
         }}
       />
 
@@ -42,13 +35,16 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 
-                className="stripe-layered-text relative text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
+                className="stripe-layered-text text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight text-black relative"
                 data-testid="text-hero-stripe-title"
-                data-text="Agentic AI for perfect e-commerce listings"
+                data-text="Agentic AI
+for perfect
+e-commerce
+listings"
                 style={{
-                  color: '#000000',
-                  position: 'relative',
-                  zIndex: 1
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+                  fontWeight: '800',
+                  letterSpacing: '-0.02em'
                 }}
               >
                 Agentic AI
