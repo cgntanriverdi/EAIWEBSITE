@@ -4,23 +4,35 @@ import DashboardPreview from "./DashboardPreview";
 
 export default function HeroStripe() {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-16" data-testid="hero-stripe-section">
-      {/* Stripe-style animated gradient background */}
+    <section className="relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
+      {/* Stripe's signature gradient background with animation */}
       <div 
         className="absolute inset-0"
         style={{
           background: `
+            radial-gradient(ellipse 80% 50% at 50% -20%, 
+              hsla(260, 100%, 60%, 0.3) 0%, 
+              transparent 60%
+            ),
             linear-gradient(135deg, 
-              hsl(265 45% 12%) 0%, 
-              hsl(270 50% 18%) 20%, 
-              hsl(275 55% 24%) 40%, 
-              hsl(280 60% 30%) 60%, 
-              hsl(270 50% 20%) 80%, 
-              hsl(265 45% 12%) 100%
+              hsl(260, 80%, 20%) 0%,
+              hsl(270, 85%, 25%) 20%,
+              hsl(280, 90%, 35%) 40%,
+              hsl(290, 95%, 45%) 60%,
+              hsl(20, 90%, 55%) 80%,
+              hsl(35, 85%, 65%) 100%
             )
           `,
           backgroundSize: '400% 400%',
-          animation: 'gradientShift 15s ease infinite'
+          animation: 'gradientShift 20s ease infinite'
+        }}
+      />
+
+      {/* Darker overlay for proper white text contrast */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%)'
         }}
       />
 
@@ -36,7 +48,7 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-8 leading-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight"
                 data-testid="text-hero-stripe-title"
               >
                 Financial
@@ -45,12 +57,12 @@ export default function HeroStripe() {
                 <br />
                 to grow your
                 <br />
-                <span className="text-primary">revenue</span>
+                revenue
               </h1>
             </motion.div>
 
             <motion.p
-              className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed max-w-lg"
+              className="text-lg md:text-xl text-white/80 mb-12 leading-relaxed max-w-lg"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}

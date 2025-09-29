@@ -86,11 +86,11 @@ export default function EmailSignupForm() {
                   <Input
                     placeholder="Email address"
                     {...field}
-                    className="h-12 bg-background/50 border-border/50 backdrop-blur text-foreground placeholder:text-muted-foreground"
+                    className="h-12 bg-white/90 border-gray-300 text-gray-900 placeholder:text-gray-500 rounded-md shadow-sm backdrop-blur-sm focus:border-indigo-500 focus:ring-indigo-500"
                     data-testid="input-email-signup"
                   />
                 </FormControl>
-                <FormMessage className="text-red-400" />
+                <FormMessage className="text-red-500" />
               </FormItem>
             )}
           />
@@ -99,7 +99,7 @@ export default function EmailSignupForm() {
         <Button
           type="submit"
           disabled={createLeadMutation.isPending}
-          className="h-12 px-6 bg-foreground text-background hover:bg-foreground/90 font-medium flex items-center gap-2"
+          className="h-12 px-6 bg-gray-900 text-white hover:bg-gray-800 font-medium flex items-center gap-2 rounded-md shadow-sm transition-colors"
           data-testid="button-email-signup"
         >
           {createLeadMutation.isPending ? (

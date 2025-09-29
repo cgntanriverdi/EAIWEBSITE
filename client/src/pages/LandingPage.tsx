@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import HeroStripe from "@/components/HeroStripe";
 import CompanyLogosMarquee from "@/components/CompanyLogosMarquee";
+import StripeFeatureSection from "@/components/StripeFeatureSection";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
 import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -47,53 +48,59 @@ export default function LandingPage() {
       {/* Company Logos Marquee */}
       <CompanyLogosMarquee />
       
-      {/* Problem/Solution Section */}
-      <section className="py-20 px-4 bg-muted/30" id="features">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary/10 text-primary" data-testid="badge-problem-solution">
-              <Target className="w-3 h-3 mr-1" />
-              The E-commerce Challenge
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground" data-testid="text-problem-title">
-              Amateur Listings Kill Sales
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-problem-description">
-              Generic descriptions, poor pricing strategies, and low-quality images are costing you thousands in lost revenue. Transform your e-commerce presence with professional-grade AI automation.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-8 h-8 text-red-500" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-foreground" data-testid="text-problem-low-conversions">Low Conversions</h3>
-              <p className="text-muted-foreground">Poor product descriptions fail to engage customers and drive sales</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <DollarSign className="w-8 h-8 text-orange-500" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-foreground" data-testid="text-problem-pricing">Wrong Pricing</h3>
-              <p className="text-muted-foreground">Manual pricing leads to lost profits and competitive disadvantage</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Camera className="w-8 h-8 text-yellow-500" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-foreground" data-testid="text-problem-images">Amateur Images</h3>
-              <p className="text-muted-foreground">Low-quality photos make products look unprofessional and cheap</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Workflow Visualization */}
-      <WorkflowVisualization />
+      {/* Stripe-style Feature Sections */}
+      <StripeFeatureSection
+        badge="Payments"
+        title="Accept and optimize payments, globally"
+        description="Increase authorization rates, offer local payment methods, and reduce fraud using machine learning models trained on billions of transactions across the AI Commerce Studio network."
+        features={[
+          "135+ global payment methods",
+          "Machine learning optimization",
+          "Real-time fraud detection",
+          "Global processing at scale"
+        ]}
+        mockupType="mobile"
+      />
+      
+      <StripeFeatureSection
+        badge="Billing"
+        title="Capture recurring revenue"
+        description="Manage your subscription business, minimize churn, and automate invoice operations with customizable pricing models, subscription intelligence, and automated billing."
+        features={[
+          "Flexible pricing models",
+          "Automated billing workflows",
+          "Subscription intelligence",
+          "Revenue optimization"
+        ]}
+        mockupType="billing"
+        reverse={true}
+      />
+      
+      <StripeFeatureSection
+        badge="Connect"
+        title="Set up multiparty payments and payouts"
+        description="Integrate payments into your platform or marketplace with tools to handle KYC, compliance, fraud, reporting, and revenue—so you can focus on your core business."
+        features={[
+          "Marketplace payments",
+          "Automated KYC compliance",
+          "Split payments",
+          "Real-time reporting"
+        ]}
+        mockupType="card"
+      />
+      
+      <StripeFeatureSection
+        title="A fully integrated suite of financial and payments products"
+        description="Reduce costs, grow revenue, and run your business more efficiently on a fully integrated platform. Use AI Commerce Studio to handle all of your payments-related needs, or integrate with your existing financial stack."
+        features={[
+          "Unified commerce platform",
+          "Advanced analytics",
+          "Global scale infrastructure",
+          "Developer-friendly APIs"
+        ]}
+        mockupType="dashboard"
+        reverse={true}
+      />
 
       {/* Social Proof */}
       <section className="py-20 px-4 bg-muted/30" id="testimonials">
