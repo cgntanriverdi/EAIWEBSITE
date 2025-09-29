@@ -152,184 +152,223 @@ export default function StripeFeatureSection({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
             viewport={{ once: true }}
-            className="relative w-full max-w-2xl mx-auto"
+            className="relative w-full max-w-[720px] mx-auto"
           >
-            {/* Clean, minimal background */}
-            <div className="relative bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden min-h-[480px]">
+            {/* Apple-like stage with 16:9 aspect ratio and perspective */}
+            <div 
+              className="relative aspect-[16/9] overflow-hidden rounded-3xl transform-gpu"
+              style={{
+                background: 'radial-gradient(120% 120% at 50% 20%, #fff 0%, #fafafa 60%, #f5f5f5 100%)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 20px 40px rgba(0,0,0,0.08)',
+                perspective: '1200px',
+                transformStyle: 'preserve-3d'
+              }}
+            >
               
-              {/* Subtle light sweep effect */}
+              {/* Refined light sweep effect */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                animate={{
-                  x: ["-100%", "200%"]
-                }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/6 to-transparent"
+                initial={{ x: "-100%" }}
+                animate={{ x: "200%" }}
                 transition={{
-                  duration: 3,
-                  ease: [0.25, 0.1, 0.25, 1],
+                  duration: 6,
+                  ease: [0.2, 0.8, 0.2, 1],
+                  delay: 1.5,
                   repeat: Infinity,
-                  repeatDelay: 5
+                  repeatDelay: 8
                 }}
               />
 
               {/* Main transformation container */}
-              <div className="relative flex items-center justify-center h-full p-12">
+              <div className="relative flex items-center justify-center h-full px-8">
                 
-                {/* Stage 1: Plain product - completely disappears */}
+                {/* Stage 1: Plain product with depth blur */}
                 <motion.div
                   initial={{ opacity: 1, scale: 1 }}
                   animate={{ 
-                    opacity: [1, 1, 0, 0, 1],
-                    scale: [1, 1.02, 0.95, 0.95, 1],
-                    y: [0, -5, -15, -15, 0]
+                    opacity: [1, 1, 0, 0, 0, 1, 1],
+                    scale: [1, 1, 0.96, 0.96, 0.96, 1, 1],
+                    filter: ["blur(0px)", "blur(0px)", "blur(6px)", "blur(6px)", "blur(6px)", "blur(0px)", "blur(0px)"]
                   }}
                   transition={{ 
-                    duration: 8,
-                    times: [0, 0.25, 0.35, 0.9, 1],
-                    ease: [0.25, 0.1, 0.25, 1],
-                    repeat: Infinity
+                    duration: 14,
+                    times: [0, 0.075, 0.175, 0.7, 0.85, 0.925, 1],
+                    ease: [0.2, 0.8, 0.2, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2
                   }}
-                  className="absolute"
+                  className="absolute origin-center"
+                  style={{ willChange: 'transform, opacity' }}
                 >
-                  <div className="relative">
-                    <img
-                      src={animationPlainImg}
-                      alt="Plain product before AI transformation"
-                      className="w-56 h-56 object-contain"
-                      style={{
-                        filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.1))'
-                      }}
-                    />
-                  </div>
+                  <img
+                    src={animationPlainImg}
+                    alt="Plain product before AI transformation"
+                    className="object-contain rounded-[28px]"
+                    style={{
+                      width: 'clamp(240px, 56vw, 420px)',
+                      height: 'auto',
+                      aspectRatio: '1',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.06)',
+                      border: '1px solid rgba(0,0,0,0.05)'
+                    }}
+                  />
                 </motion.div>
 
-                {/* Stage 2: Hero model photo with staggered supporting frames */}
+                {/* Stage 2: Professional photos arrangement */}
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0 }}
                   animate={{ 
-                    opacity: [0, 1, 1, 1, 0],
-                    scale: [0.8, 1, 1, 1, 0.8],
-                    y: [20, 0, 0, 0, 20]
+                    opacity: [0, 0, 1, 1, 1, 0, 0]
                   }}
                   transition={{ 
-                    duration: 8,
-                    times: [0, 0.35, 0.4, 0.92, 1],
-                    ease: [0.25, 0.1, 0.25, 1],
-                    repeat: Infinity
+                    duration: 14,
+                    times: [0, 0.075, 0.175, 0.7, 0.85, 0.925, 1],
+                    ease: [0.2, 0.8, 0.2, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2
                   }}
                   className="absolute"
+                  style={{ willChange: 'transform, opacity' }}
                 >
-                  <div className="flex items-center justify-center gap-6">
+                  {/* Continuous breathing animation for idle state */}
+                  <motion.div
+                    animate={{ 
+                      y: [0, -2, 0],
+                      rotateZ: [-0.1, 0.1, -0.1]
+                    }}
+                    transition={{ 
+                      duration: 8,
+                      ease: "easeInOut",
+                      repeat: Infinity
+                    }}
+                    className="flex items-center justify-center origin-center"
+                    style={{ gap: 'clamp(12px, 3vw, 24px)' }}
+                  >
                     
                     {/* Supporting frame - Back view */}
                     <motion.div
-                      initial={{ opacity: 0, x: -30, scale: 0.85 }}
+                      initial={{ opacity: 0, x: -32, scale: 0.94 }}
                       animate={{ 
-                        opacity: [0, 0.6, 0.6, 0.6, 0],
-                        x: [-30, 0, 0, 0, -30],
-                        scale: [0.85, 0.9, 0.9, 0.9, 0.85]
+                        opacity: [0, 0, 0.7, 0.7, 0.7, 0, 0],
+                        x: [-32, -32, 0, 0, 0, -32, -32],
+                        scale: [0.94, 0.94, 0.98, 0.98, 0.98, 0.94, 0.94]
                       }}
                       transition={{ 
-                        duration: 8,
-                        times: [0, 0.37, 0.4, 0.92, 1],
-                        ease: [0.25, 0.1, 0.25, 1],
-                        repeat: Infinity
+                        duration: 14,
+                        times: [0, 0.15, 0.25, 0.7, 0.82, 0.92, 1],
+                        ease: [0.2, 0.8, 0.2, 1],
+                        repeat: Infinity,
+                        repeatDelay: 2
                       }}
-                      className="relative"
+                      className="relative origin-center"
+                      style={{ 
+                        transform: 'translateZ(8px) rotateY(-2deg)',
+                        willChange: 'transform, opacity'
+                      }}
                     >
                       <img
                         src={animationBackImg}
                         alt="Professional back view"
-                        className="w-32 h-40 object-cover rounded-2xl shadow-lg"
+                        className="object-cover rounded-[20px]"
                         style={{
-                          filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.15))'
+                          width: 'clamp(120px, 26vw, 180px)',
+                          height: 'auto',
+                          aspectRatio: '4/5',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.06)',
+                          border: '1px solid rgba(0,0,0,0.05)'
                         }}
                       />
                     </motion.div>
 
                     {/* Hero frame - Side view (main focus) */}
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.96 }}
                       animate={{ 
-                        opacity: [0, 1, 1, 1, 0],
-                        scale: [0.8, 1, 1, 1, 0.8]
+                        opacity: [0, 0, 1, 1, 1, 0, 0],
+                        scale: [0.96, 0.96, 1.00, 1.00, 1.00, 0.96, 0.96]
                       }}
                       transition={{ 
-                        duration: 8,
-                        times: [0, 0.35, 0.4, 0.92, 1],
-                        ease: [0.25, 0.1, 0.25, 1],
-                        repeat: Infinity
+                        duration: 14,
+                        times: [0, 0.075, 0.175, 0.7, 0.85, 0.925, 1],
+                        ease: [0.2, 0.8, 0.2, 1],
+                        repeat: Infinity,
+                        repeatDelay: 2
                       }}
-                      className="relative z-10"
+                      className="relative z-10 origin-center"
+                      style={{ 
+                        transform: 'translateZ(24px)',
+                        willChange: 'transform, opacity'
+                      }}
                     >
                       <img
                         src={animationSideImg}
                         alt="Professional hero view"
-                        className="w-48 h-56 object-cover rounded-3xl shadow-2xl"
+                        className="object-cover rounded-[28px]"
                         style={{
-                          filter: 'drop-shadow(0 25px 50px rgba(0,0,0,0.2))'
+                          width: 'clamp(240px, 56vw, 420px)',
+                          height: 'auto',
+                          aspectRatio: '4/5',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.06)',
+                          border: '1px solid rgba(0,0,0,0.05)'
                         }}
                       />
-                      {/* Hero glow */}
+                      {/* Subtle premium glow */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-t from-indigo-500/5 via-transparent to-white/10 rounded-3xl"
+                        className="absolute inset-0 bg-gradient-to-t from-indigo-500/2 via-transparent to-white/5 rounded-[28px]"
                         animate={{
-                          opacity: [0, 0.3, 0.3, 0.3, 0],
+                          opacity: [0, 0, 0.3, 0.3, 0.3, 0, 0]
                         }}
                         transition={{
-                          duration: 8,
-                          times: [0, 0.35, 0.4, 0.92, 1],
-                          ease: [0.25, 0.1, 0.25, 1],
-                          repeat: Infinity
+                          duration: 14,
+                          times: [0, 0.075, 0.175, 0.7, 0.85, 0.925, 1],
+                          ease: [0.2, 0.8, 0.2, 1],
+                          repeat: Infinity,
+                          repeatDelay: 2
                         }}
                       />
                     </motion.div>
 
                     {/* Supporting frame - Detail view */}
                     <motion.div
-                      initial={{ opacity: 0, x: 30, scale: 0.85 }}
+                      initial={{ opacity: 0, x: 32, scale: 0.94 }}
                       animate={{ 
-                        opacity: [0, 0.6, 0.6, 0.6, 0],
-                        x: [30, 0, 0, 0, 30],
-                        scale: [0.85, 0.9, 0.9, 0.9, 0.85]
+                        opacity: [0, 0, 0.7, 0.7, 0.7, 0, 0],
+                        x: [32, 32, 0, 0, 0, 32, 32],
+                        scale: [0.94, 0.94, 0.98, 0.98, 0.98, 0.94, 0.94]
                       }}
                       transition={{ 
-                        duration: 8,
-                        times: [0, 0.42, 0.45, 0.92, 1],
-                        ease: [0.25, 0.1, 0.25, 1],
-                        repeat: Infinity
+                        duration: 14,
+                        times: [0, 0.21, 0.31, 0.7, 0.82, 0.92, 1],
+                        ease: [0.2, 0.8, 0.2, 1],
+                        repeat: Infinity,
+                        repeatDelay: 2
                       }}
-                      className="relative"
+                      className="relative origin-center"
+                      style={{ 
+                        transform: 'translateZ(8px) rotateY(2deg)',
+                        willChange: 'transform, opacity'
+                      }}
                     >
                       <img
                         src={animationDetailImg}
                         alt="Professional detail view"
-                        className="w-32 h-40 object-cover rounded-2xl shadow-lg"
+                        className="object-cover rounded-[20px]"
                         style={{
-                          filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.15))'
+                          width: 'clamp(120px, 26vw, 180px)',
+                          height: 'auto',
+                          aspectRatio: '4/5',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.06)',
+                          border: '1px solid rgba(0,0,0,0.05)'
                         }}
                       />
                     </motion.div>
 
-                  </div>
+                  </motion.div>
                 </motion.div>
 
               </div>
-
-              {/* Minimal depth cue */}
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"
-                animate={{
-                  opacity: [0, 0, 0.5, 0.5, 0]
-                }}
-                transition={{
-                  duration: 8,
-                  times: [0, 0.35, 0.4, 0.92, 1],
-                  ease: [0.25, 0.1, 0.25, 1],
-                  repeat: Infinity
-                }}
-              />
 
             </div>
           </motion.div>
