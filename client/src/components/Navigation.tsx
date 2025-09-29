@@ -178,7 +178,7 @@ export default function Navigation() {
                         return (
                           <Link
                             key={index}
-                            href="/products"
+                            href={item.href}
                             className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                             onClick={() => {
                               setActiveDropdown(null);
@@ -330,12 +330,11 @@ export default function Navigation() {
                 {dropdownItems.products.agents.map((item, index) => {
                   const IconComponent = item.icon;
                   return (
-                    <a
+                    <Link
                       key={index}
                       href={item.href}
                       className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={() => {
                         setIsMenuOpen(false);
                         console.log(`Navigate to ${item.title}`);
                       }}
@@ -343,7 +342,7 @@ export default function Navigation() {
                     >
                       <IconComponent className="w-4 h-4 text-indigo-600" />
                       {item.title}
-                    </a>
+                    </Link>
                   );
                 })}
                 {/* Platform section removed */}
