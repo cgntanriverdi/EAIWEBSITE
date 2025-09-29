@@ -156,9 +156,9 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative w-full max-w-[720px] mx-auto"
           >
-            {/* Apple-like stage with 16:9 aspect ratio and perspective */}
+            {/* Apple-like stage with 4:3 aspect ratio and perspective */}
             <div 
-              className="relative aspect-[16/9] overflow-hidden rounded-3xl transform-gpu"
+              className="relative aspect-[4/3] overflow-hidden rounded-3xl transform-gpu"
               style={{
                 background: 'radial-gradient(120% 120% at 50% 20%, #fff 0%, #fafafa 60%, #f5f5f5 100%)',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 20px 40px rgba(0,0,0,0.08)',
