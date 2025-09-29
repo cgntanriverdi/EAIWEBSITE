@@ -48,8 +48,30 @@ export default function HeroStripe() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
                 data-testid="text-hero-stripe-title"
+                style={{
+                  background: `
+                    linear-gradient(135deg, 
+                      hsl(260, 80%, 20%) 0%,
+                      hsl(270, 85%, 25%) 20%,
+                      hsl(280, 90%, 35%) 40%,
+                      hsl(290, 95%, 45%) 60%,
+                      hsl(20, 90%, 55%) 80%,
+                      hsl(35, 85%, 65%) 100%
+                    ),
+                    linear-gradient(135deg, 
+                      rgba(0,0,0,0.8) 0%,
+                      rgba(0,0,0,0.7) 100%
+                    )
+                  `,
+                  backgroundSize: '400% 400%, 100% 100%',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                  animation: 'gradientShift 20s ease infinite',
+                  textShadow: '0 0 1px rgba(0,0,0,0.1)'
+                }}
               >
                 Agentic AI
                 <br />
