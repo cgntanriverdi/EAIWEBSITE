@@ -29,25 +29,21 @@ const studioModes = [
     name: 'Natural Light',
     description: 'Soft, diffused lighting perfect for lifestyle products',
     icon: '☀️',
-    gradient: 'from-amber-400 via-orange-300 to-yellow-400'
   },
   {
     name: 'Studio Pro',
     description: 'Professional three-point lighting setup',
     icon: '💡',
-    gradient: 'from-gray-300 via-white to-gray-200'
   },
   {
     name: 'Dramatic',
     description: 'High-contrast with deep shadows for luxury items',
     icon: '🌙',
-    gradient: 'from-purple-900 via-indigo-800 to-black'
   },
   {
     name: 'Neon Glow',
     description: 'Vibrant neon accents for modern tech products',
     icon: '✨',
-    gradient: 'from-violet-500 via-fuchsia-500 to-pink-500'
   }
 ];
 
@@ -66,178 +62,104 @@ const ImageGenerationAgentPage = () => {
     offset: ["start start", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
-      {/* Ambient Background Effects - Subtle like landing page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4
-          }}
-          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
-        />
-      </div>
 
       <div className="relative overflow-hidden">
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative pt-32 pb-32 px-4 min-h-screen flex items-center">
+        {/* Hero Section - Navy Blue */}
+        <section ref={heroRef} className="relative pt-32 pb-32 px-4 min-h-screen flex items-center bg-[#0A2540]">
           <div className="max-w-7xl mx-auto w-full">
             <motion.div
               style={{ y, opacity }}
               className="text-center relative z-10"
             >
-              {/* Holographic Camera Frame */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotateY: -45 }}
-                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-0 left-1/4 w-40 h-40 opacity-20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-6"
               >
-                <div className="w-full h-full border-2 border-violet-400/50 rounded-2xl transform rotate-45" />
-              </motion.div>
-
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.2, duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
-                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
-              >
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent rounded-[2.5rem]" />
-                <Image className="w-16 h-16 text-white relative z-10" strokeWidth={1.5} />
+                <p className="text-sm uppercase tracking-wider text-gray-400 font-medium mb-8">
+                  AI-POWERED VISUAL CREATION
+                </p>
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 rounded-2xl mb-8">
+                  <Image className="w-10 h-10 text-white" strokeWidth={1.5} />
+                </div>
               </motion.div>
               
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.2, duration: 0.8 }}
                 className="mb-8"
               >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 mb-6 leading-[0.9] tracking-tight">
-                  Image Generation
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 mt-4">
-                    Agent
-                  </span>
+                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
+                  Image Generation Agent
                 </h1>
               </motion.div>
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
               >
-                Transform products into{' '}
-                <span className="font-medium text-indigo-600">visual masterpieces</span> with AI-powered photography that rivals professional studios.
+                Transform products into visual masterpieces with AI-powered photography that rivals professional studios.
               </motion.p>
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-indigo-500/50 hover:shadow-indigo-600/60 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
                   data-testid="button-start-free-trial"
                 >
-                  Start Creating <ArrowRight className="ml-3 w-6 h-6" />
+                  Start Creating <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Button 
-                  variant="ghost" 
+                  variant="outline" 
                   size="lg" 
-                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-gray-50 backdrop-blur-sm transition-all duration-500 text-gray-700"
+                  className="px-8 py-6 text-lg rounded-lg bg-transparent border-2 border-white text-white hover:bg-white/10 transition-all duration-300"
                   data-testid="button-watch-demo"
                 >
-                  <Play className="mr-3 w-6 h-6" fill="currentColor" /> Watch Demo
+                  <Play className="mr-2 w-5 h-5" /> Watch Demo
                 </Button>
               </motion.div>
-            </motion.div>
-
-            {/* Floating Lens Elements */}
-            <motion.div
-              animate={{ 
-                y: [0, -25, 0],
-                rotate: [0, 180, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute top-40 right-32 opacity-20 pointer-events-none hidden lg:block"
-            >
-              <Aperture className="w-24 h-24 text-violet-400" strokeWidth={1} />
-            </motion.div>
-            <motion.div
-              animate={{ 
-                y: [0, 30, 0],
-                rotate: [0, -90, 0],
-                scale: [1, 0.9, 1]
-              }}
-              transition={{ 
-                duration: 12,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 4
-              }}
-              className="absolute bottom-40 left-28 opacity-20 pointer-events-none hidden lg:block"
-            >
-              <Camera className="w-20 h-20 text-fuchsia-400" strokeWidth={1} />
             </motion.div>
           </div>
         </section>
 
-        {/* Studio Modes Showcase */}
-        <section className="py-32 px-4 relative">
+        {/* Studio Modes Showcase - Light Cream Background */}
+        <section className="py-24 px-4 relative bg-[#F7F4F0]">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-16"
             >
-              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-indigo-50 text-indigo-700 border-indigo-200">
-                <Sparkles className="w-4 h-4 mr-2 inline" />
-                AI-Powered Studio Modes
-              </Badge>
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
+              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
+                AI-POWERED STUDIO MODES
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
                 Perfect Lighting,<br />Every Time
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
-                Choose from professional lighting presets or let AI select the{' '}
-                <span className="text-indigo-600 font-medium">perfect setup</span>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Choose from professional lighting presets or let AI select the perfect setup
               </p>
             </motion.div>
 
             {/* Interactive Studio Mode Selector */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
               {studioModes.map((mode, index) => (
                 <motion.button
                   key={index}
@@ -246,28 +168,21 @@ const ImageGenerationAgentPage = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   onClick={() => setSelectedMode(index)}
-                  className={`group relative p-8 rounded-3xl transition-all duration-500 text-left ${
+                  className={`group relative p-6 rounded-xl transition-all duration-300 text-left ${
                     selectedMode === index
-                      ? 'bg-white border-2 border-violet-400 shadow-2xl shadow-violet-500/20'
-                      : 'bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
+                      ? 'bg-white border-2 border-indigo-600 shadow-md'
+                      : 'bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm'
                   }`}
                   data-testid={`button-mode-${index}`}
                 >
-                  <div className="text-5xl mb-4">{mode.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{mode.name}</h3>
+                  <div className="text-4xl mb-3">{mode.icon}</div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{mode.name}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">{mode.description}</p>
-                  
-                  {selectedMode === index && (
-                    <motion.div
-                      layoutId="activeMode"
-                      className={`absolute inset-0 bg-gradient-to-br ${mode.gradient} opacity-5 rounded-3xl -z-10`}
-                    />
-                  )}
                 </motion.button>
               ))}
             </div>
 
-            {/* Light Product Frame Preview */}
+            {/* Product Preview */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -275,62 +190,48 @@ const ImageGenerationAgentPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="relative max-w-5xl mx-auto"
             >
-              <div className="relative bg-white rounded-[3rem] p-12 border border-gray-200 shadow-2xl overflow-hidden">
-                {/* Selected Mode Gradient Overlay */}
-                <motion.div
-                  key={selectedMode}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.08 }}
-                  transition={{ duration: 0.8 }}
-                  className={`absolute inset-0 bg-gradient-to-br ${studioModes[selectedMode].gradient} rounded-[3rem]`}
-                />
-                
-                {/* Product Showcase Area */}
-                <div className="relative z-10 aspect-video bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl flex items-center justify-center border border-gray-200">
+              <div className="relative bg-white rounded-2xl p-12 border border-gray-200 shadow-lg">
+                <div className="relative aspect-video bg-gray-50 rounded-xl flex items-center justify-center border border-gray-200">
                   <motion.div
                     key={selectedMode}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.5 }}
                     className="text-center"
                   >
-                    <Camera className="w-32 h-32 text-gray-400 mx-auto mb-6" strokeWidth={1} />
-                    <h3 className="text-3xl font-bold text-gray-900 mb-3">{studioModes[selectedMode].name}</h3>
-                    <p className="text-gray-600 text-lg max-w-md mx-auto">
+                    <Camera className="w-24 h-24 text-gray-400 mx-auto mb-4" strokeWidth={1} />
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{studioModes[selectedMode].name}</h3>
+                    <p className="text-gray-600 text-base max-w-md mx-auto">
                       {studioModes[selectedMode].description}
                     </p>
-                    <div className="mt-8 flex items-center justify-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                    <div className="mt-6 flex items-center justify-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
                       <span className="text-sm text-gray-500 uppercase tracking-wider font-semibold">AI Rendering Preview</span>
                     </div>
                   </motion.div>
-                </div>
-
-                {/* Holographic UI Elements */}
-                <div className="absolute top-6 right-6 flex gap-2">
-                  {[...Array(3)].map((_, i) => (
-                    <div key={i} className="w-3 h-3 rounded-full bg-violet-400/40 border border-violet-300" />
-                  ))}
                 </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-32 px-4 relative">
+        {/* Features Section - White Background */}
+        <section className="py-24 px-4 relative bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-16"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
+              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
+                PROFESSIONAL FEATURES
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
                 Professional Results
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Every feature designed to deliver studio-grade imagery for your products
               </p>
             </motion.div>
@@ -342,46 +243,41 @@ const ImageGenerationAgentPage = () => {
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: index * 0.15, duration: 0.6 }}
-                  whileHover={{ 
-                    y: -8,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="group relative bg-white/95 backdrop-blur-md border border-gray-200 p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  className="group relative bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-110 transition-all duration-500">
-                      <feature.icon className="w-10 h-10 text-white" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      {feature.title}
-                    </h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">
-                      {feature.description}
-                    </p>
+                  <div className="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center mb-6">
+                    <feature.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
                   </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-base text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Results Showcase */}
-        <section className="py-32 px-4 relative">
+        {/* Results Showcase - Light Cream Background */}
+        <section className="py-24 px-4 relative bg-[#F7F4F0]">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-16"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
+              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
+                PROVEN RESULTS
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
                 Proven Impact
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Businesses transforming visual content with measurable results
               </p>
             </motion.div>
@@ -393,15 +289,14 @@ const ImageGenerationAgentPage = () => {
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.15, duration: 0.6 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
                   className="group relative"
                 >
-                  <div className="relative bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl overflow-hidden border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-500">
-                    <div className="aspect-square flex items-center justify-center p-12">
-                      <Camera className="w-24 h-24 text-gray-300 group-hover:text-gray-400 transition-colors duration-500" strokeWidth={1} />
+                  <div className="relative bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div className="aspect-square flex items-center justify-center p-12 bg-gray-50">
+                      <Camera className="w-20 h-20 text-gray-300" strokeWidth={1} />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="p-6">
                       <div className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-2">
                         {item.category}
                       </div>
@@ -416,13 +311,8 @@ const ImageGenerationAgentPage = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-32 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700" />
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
-          </div>
-          
+        {/* CTA Section - Navy Blue */}
+        <section className="py-24 px-4 relative overflow-hidden bg-[#0A2540]">
           <div className="max-w-5xl mx-auto text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -430,25 +320,25 @@ const ImageGenerationAgentPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
                 Transform Your<br />Product Images
               </h2>
-              <p className="text-2xl text-indigo-100 mb-12 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
                 Join thousands creating stunning visuals with our Image Generation Agent
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
                   data-testid="button-get-started"
                 >
-                  Get Started Today <ArrowRight className="ml-3 w-6 h-6" />
+                  Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Link href="/pricing">
                   <Button 
-                    variant="ghost" 
+                    variant="outline" 
                     size="lg" 
-                    className="text-white hover:bg-white/10 px-10 py-7 text-xl rounded-[1.25rem] backdrop-blur-sm transition-all duration-500"
+                    className="text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg border-2 border-white bg-transparent transition-all duration-300"
                     data-testid="link-view-pricing"
                   >
                     View Pricing

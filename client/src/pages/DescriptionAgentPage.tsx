@@ -29,25 +29,21 @@ const beforeAfterExamples = [
     category: "Premium Electronics",
     before: "Wireless headphones with noise cancellation. 30-hour battery life. Available in black and silver colors. Bluetooth 5.0 compatible.",
     after: "Escape into your sanctuary of pure sound. These premium wireless headphones don't just block noise—they create your personal oasis of acoustic perfection. With 30 hours of uninterrupted bliss and buttery-soft ear cushions, every listening session becomes a luxurious retreat from the everyday chaos.",
-    color: "from-indigo-500 via-purple-500 to-indigo-600"
   },
   {
     category: "Luxury Fashion",
     before: "Black leather jacket. Made from genuine leather. Multiple sizes available. Classic motorcycle style design.",
     after: "Command every room with timeless rebellion. This isn't just a leather jacket—it's your armor of confidence, crafted from buttery-soft genuine leather that tells your story. The kind of piece that gets better with every adventure, developing character that reflects your journey. A legacy piece that transcends trends.",
-    color: "from-purple-500 via-pink-500 to-purple-600"
   },
   {
     category: "Home & Living",
     before: "Ceramic coffee mug. 12 oz capacity. Microwave and dishwasher safe. White with simple design.",
     after: "Transform your morning ritual into a moment of zen. This hand-crafted ceramic sanctuary holds 12 oz of pure potential—whether it's your meditation brew or afternoon comfort. Perfectly weighted to feel substantial yet intimate, with a silky-smooth finish that makes every sip a tactile pleasure. Because mornings deserve this kind of poetry.",
-    color: "from-indigo-500 via-purple-500 to-indigo-600"
   }
 ];
 
 const DescriptionAgentPage = () => {
   const [selectedExample, setSelectedExample] = useState(0);
-  const [sliderValue, setSliderValue] = useState(50);
   const heroRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -55,173 +51,99 @@ const DescriptionAgentPage = () => {
     offset: ["start start", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
-      {/* Ambient Background Elements - Subtle like landing page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4
-          }}
-          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
-        />
-      </div>
 
       <div className="relative overflow-hidden">
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative pt-32 pb-32 px-4 min-h-screen flex items-center">
+        {/* Hero Section - Navy Blue */}
+        <section ref={heroRef} className="relative pt-32 pb-32 px-4 min-h-screen flex items-center bg-[#0A2540]">
           <div className="max-w-7xl mx-auto w-full">
             <motion.div
               style={{ y, opacity }}
               className="text-center relative z-10"
             >
-              {/* Floating Glass Notebook Overlay */}
               <motion.div
-                initial={{ opacity: 0, y: 60, rotateX: 45 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-0 right-0 w-64 h-80 opacity-10 dark:opacity-5"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-6"
               >
-                <div className="w-full h-full bg-gradient-to-br from-indigo-400/40 via-purple-300/30 to-indigo-500/40 dark:from-indigo-400/20 dark:via-purple-300/10 dark:to-indigo-500/20 backdrop-blur-3xl rounded-3xl shadow-2xl border border-white/20 dark:border-white/10 transform rotate-12" />
-              </motion.div>
-
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.2, duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
-                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
-              >
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-[2.5rem]" />
-                <FileText className="w-16 h-16 text-white relative z-10" strokeWidth={1.5} />
+                <p className="text-sm uppercase tracking-wider text-gray-400 font-medium mb-8">
+                  AI-POWERED COPYWRITING
+                </p>
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 rounded-2xl mb-8">
+                  <FileText className="w-10 h-10 text-white" strokeWidth={1.5} />
+                </div>
               </motion.div>
               
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.2, duration: 0.8 }}
                 className="mb-8"
               >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 mb-6 leading-[0.9] tracking-tight">
-                  Description
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 mt-4">
-                    Agent
-                  </span>
+                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
+                  Description Agent
                 </h1>
               </motion.div>
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
               >
-                Transform ordinary words into{' '}
-                <span className="font-medium text-indigo-600">extraordinary stories</span> that captivate, convince, and convert.
+                Transform ordinary words into extraordinary stories that captivate, convince, and convert.
               </motion.p>
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-indigo-500/50 hover:shadow-indigo-600/60 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
                   data-testid="button-start-writing"
                 >
-                  Start Writing <ArrowRight className="ml-3 w-6 h-6" />
+                  Start Writing <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Button 
-                  variant="ghost" 
+                  variant="outline" 
                   size="lg" 
-                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-gray-50 backdrop-blur-sm transition-all duration-500 text-gray-700"
+                  className="px-8 py-6 text-lg rounded-lg bg-transparent border-2 border-white text-white hover:bg-white/10 transition-all duration-300"
                   data-testid="button-see-examples"
                 >
-                  <Play className="mr-3 w-6 h-6" fill="currentColor" /> See Examples
+                  <Play className="mr-2 w-5 h-5" /> See Examples
                 </Button>
               </motion.div>
-            </motion.div>
-
-            {/* Floating Typography Elements */}
-            <motion.div
-              animate={{ 
-                y: [0, -20, 0],
-                x: [0, 10, 0],
-                rotate: [0, 5, 0]
-              }}
-              transition={{ 
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute top-20 right-20 opacity-30 dark:opacity-20 pointer-events-none hidden lg:block"
-            >
-              <div className="text-8xl font-serif italic text-indigo-500 dark:text-purple-400">A</div>
-            </motion.div>
-            <motion.div
-              animate={{ 
-                y: [0, 25, 0],
-                x: [0, -15, 0],
-                rotate: [0, -8, 0]
-              }}
-              transition={{ 
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 3
-              }}
-              className="absolute bottom-32 left-16 opacity-30 dark:opacity-20 pointer-events-none hidden lg:block"
-            >
-              <div className="text-6xl font-serif italic text-purple-500 dark:text-pink-400">a</div>
             </motion.div>
           </div>
         </section>
 
-        {/* Interactive Before/After Showcase */}
-        <section className="py-32 px-4 relative">
+        {/* Before/After Showcase - Light Cream Background */}
+        <section className="py-24 px-4 relative bg-[#F7F4F0]">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-16"
             >
-              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-indigo-50 text-indigo-700 border-indigo-200">
-                <Sparkles className="w-4 h-4 mr-2 inline" />
-                See the Transformation
-              </Badge>
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
+              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
+                SEE THE TRANSFORMATION
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
                 Before & After
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
-                Watch ordinary descriptions become{' '}
-                <span className="text-indigo-600 font-medium">extraordinary selling tools</span>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Watch ordinary descriptions become extraordinary selling tools
               </p>
             </motion.div>
 
@@ -231,19 +153,16 @@ const DescriptionAgentPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="flex flex-wrap gap-4 justify-center mb-16"
+              className="flex flex-wrap gap-3 justify-center mb-12"
             >
               {beforeAfterExamples.map((example, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    setSelectedExample(index);
-                    setSliderValue(50);
-                  }}
-                  className={`px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${
+                  onClick={() => setSelectedExample(index)}
+                  className={`px-6 py-3 rounded-lg font-medium text-base transition-all duration-300 ${
                     selectedExample === index
-                      ? 'bg-gradient-to-r ' + example.color + ' text-white shadow-xl scale-105'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                   }`}
                   data-testid={`button-category-${index}`}
                 >
@@ -252,7 +171,7 @@ const DescriptionAgentPage = () => {
               ))}
             </motion.div>
 
-            {/* Glass Panel with Slider Comparison */}
+            {/* Comparison Container */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -260,115 +179,95 @@ const DescriptionAgentPage = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="relative max-w-6xl mx-auto"
             >
-              {/* Light Container */}
-              <div className="relative bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-gray-200 overflow-hidden">
-                {/* Ambient Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${beforeAfterExamples[selectedExample].color} opacity-5 rounded-[2.5rem]`} />
-                
-                <div className="relative z-10">
-                  {/* Before/After Labels */}
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-3">
-                      <div className="w-4 h-4 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
-                      <span className="text-lg font-semibold text-gray-600 uppercase tracking-wider">Before</span>
+              <div className="relative bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Before */}
+                  <motion.div
+                    key={`before-${selectedExample}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Before</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-lg font-semibold text-gray-600 uppercase tracking-wider">After</span>
-                      <div className="w-4 h-4 rounded-full bg-green-500 shadow-lg shadow-green-500/50" />
+                    <p className="text-base text-gray-700 leading-relaxed italic border-l-4 border-gray-200 pl-4">
+                      "{beforeAfterExamples[selectedExample].before}"
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Generic product description</span>
                     </div>
-                  </div>
+                  </motion.div>
+                  
+                  {/* After */}
+                  <motion.div
+                    key={`after-${selectedExample}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                      <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">After</span>
+                    </div>
+                    <p className="text-base text-gray-900 leading-relaxed font-medium border-l-4 border-indigo-600 pl-4">
+                      "{beforeAfterExamples[selectedExample].after}"
+                    </p>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-indigo-600">
+                      <Sparkles className="w-4 h-4" />
+                      <span>AI-enhanced compelling copy</span>
+                    </div>
+                  </motion.div>
+                </div>
 
-                  {/* Comparison Container */}
-                  <div className="relative min-h-[300px] flex items-center">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-                      {/* Before */}
-                      <motion.div
-                        key={`before-${selectedExample}`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="bg-gray-50 p-8 rounded-3xl border border-gray-200"
-                      >
-                        <p className="text-lg text-gray-700 leading-relaxed italic">
-                          "{beforeAfterExamples[selectedExample].before}"
-                        </p>
-                        <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">
-                          <MessageCircle className="w-4 h-4" />
-                          <span>Generic product description</span>
-                        </div>
-                      </motion.div>
-                      
-                      {/* After - Light Gradient Effect */}
-                      <motion.div
-                        key={`after-${selectedExample}`}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className={`bg-gradient-to-br ${beforeAfterExamples[selectedExample].color} bg-opacity-10 p-8 rounded-3xl border-2 border-indigo-200 shadow-xl relative overflow-hidden`}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-transparent" />
-                        <div className="relative z-10">
-                          <p className="text-lg text-gray-900 leading-relaxed font-medium">
-                            "{beforeAfterExamples[selectedExample].after}"
-                          </p>
-                          <div className="mt-6 flex items-center gap-2 text-sm font-semibold">
-                            <Sparkles className="w-4 h-4 text-yellow-500" />
-                            <span className="text-gray-700">AI-enhanced compelling copy</span>
-                          </div>
-                        </div>
-                      </motion.div>
+                {/* Metrics */}
+                <div className="mt-12 pt-8 border-t border-gray-200 grid grid-cols-3 gap-6">
+                  {[
+                    { label: 'Word Count', before: '18', after: '68', increase: '+278%' },
+                    { label: 'Emotional Impact', before: 'Low', after: 'High', increase: '+500%' },
+                    { label: 'Conversion Lift', before: 'Baseline', after: '2.4x', increase: '+140%' }
+                  ].map((metric, idx) => (
+                    <div key={idx} className="text-center">
+                      <div className="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">
+                        {metric.label}
+                      </div>
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-gray-400 line-through text-sm">{metric.before}</span>
+                        <ArrowRight className="w-4 h-4 text-indigo-600" />
+                        <span className="text-xl font-bold text-gray-900">{metric.after}</span>
+                      </div>
+                      <div className="text-sm text-green-600 font-semibold mt-1">
+                        {metric.increase}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Metrics */}
-                  <div className="mt-12 pt-8 border-t border-gray-200 grid grid-cols-3 gap-6">
-                    {[
-                      { label: 'Word Count', before: '18', after: '68', increase: '+278%' },
-                      { label: 'Emotional Impact', before: 'Low', after: 'High', increase: '+500%' },
-                      { label: 'Conversion Lift', before: 'Baseline', after: '2.4x', increase: '+140%' }
-                    ].map((metric, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5 + idx * 0.1, duration: 0.5 }}
-                        className="text-center"
-                      >
-                        <div className="text-sm uppercase tracking-wider text-gray-500 mb-2 font-semibold">
-                          {metric.label}
-                        </div>
-                        <div className="flex items-center justify-center gap-3">
-                          <span className="text-gray-400 line-through text-lg">{metric.before}</span>
-                          <ArrowRight className="w-5 h-5 text-blue-500" />
-                          <span className="text-2xl font-bold text-gray-900">{metric.after}</span>
-                        </div>
-                        <div className="text-sm text-green-600 font-semibold mt-2">
-                          {metric.increase}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-32 px-4 relative bg-gradient-to-b from-transparent via-gray-50/50 to-transparent">
+        {/* Features Section - White Background */}
+        <section className="py-24 px-4 relative bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-16"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
+              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
+                INTELLIGENT FEATURES
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
                 Powered by Intelligence
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Every word leverages proven psychological principles that influence buying decisions
               </p>
             </motion.div>
@@ -380,39 +279,26 @@ const DescriptionAgentPage = () => {
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: index * 0.15, duration: 0.6 }}
-                  whileHover={{ 
-                    y: -8,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="group relative bg-white/95 backdrop-blur-md border border-gray-200 p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  className="group relative bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-110 transition-all duration-500">
-                      <feature.icon className="w-10 h-10 text-white" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      {feature.title}
-                    </h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">
-                      {feature.description}
-                    </p>
+                  <div className="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center mb-6">
+                    <feature.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
                   </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-base text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-32 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700" />
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
-          </div>
-          
+        {/* CTA Section - Navy Blue */}
+        <section className="py-24 px-4 relative overflow-hidden bg-[#0A2540]">
           <div className="max-w-5xl mx-auto text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -420,25 +306,25 @@ const DescriptionAgentPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
                 Ready to Write Copy<br />That Converts?
               </h2>
-              <p className="text-2xl text-indigo-100 mb-12 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
                 Transform your product descriptions and watch your conversion rates soar
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
                   data-testid="button-start-today"
                 >
-                  Start Writing Today <ArrowRight className="ml-3 w-6 h-6" />
+                  Start Writing Today <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Link href="/pricing">
                   <Button 
-                    variant="ghost" 
+                    variant="outline" 
                     size="lg" 
-                    className="text-white hover:bg-white/10 px-10 py-7 text-xl rounded-[1.25rem] backdrop-blur-sm transition-all duration-500"
+                    className="text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg border-2 border-white bg-transparent transition-all duration-300"
                     data-testid="link-see-pricing"
                   >
                     See Pricing
