@@ -70,7 +70,7 @@ const ImageGenerationAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Ambient Background Effects - Subtle like landing page */}
@@ -248,26 +248,26 @@ const ImageGenerationAgentPage = () => {
                   onClick={() => setSelectedMode(index)}
                   className={`group relative p-8 rounded-3xl transition-all duration-500 text-left ${
                     selectedMode === index
-                      ? 'bg-white/10 backdrop-blur-xl border-2 border-violet-500/50 shadow-2xl shadow-violet-500/20'
-                      : 'bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/8 hover:border-white/20'
+                      ? 'bg-white border-2 border-violet-400 shadow-2xl shadow-violet-500/20'
+                      : 'bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
                   }`}
                   data-testid={`button-mode-${index}`}
                 >
                   <div className="text-5xl mb-4">{mode.icon}</div>
-                  <h3 className="text-xl font-bold text-white mb-2">{mode.name}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">{mode.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{mode.name}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{mode.description}</p>
                   
                   {selectedMode === index && (
                     <motion.div
                       layoutId="activeMode"
-                      className={`absolute inset-0 bg-gradient-to-br ${mode.gradient} opacity-10 rounded-3xl -z-10`}
+                      className={`absolute inset-0 bg-gradient-to-br ${mode.gradient} opacity-5 rounded-3xl -z-10`}
                     />
                   )}
                 </motion.button>
               ))}
             </div>
 
-            {/* Glass Product Frame Preview */}
+            {/* Light Product Frame Preview */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -275,18 +275,18 @@ const ImageGenerationAgentPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="relative max-w-5xl mx-auto"
             >
-              <div className="relative bg-white/5 backdrop-blur-2xl rounded-[3rem] p-12 border border-white/10 shadow-2xl overflow-hidden">
+              <div className="relative bg-white rounded-[3rem] p-12 border border-gray-200 shadow-2xl overflow-hidden">
                 {/* Selected Mode Gradient Overlay */}
                 <motion.div
                   key={selectedMode}
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.15 }}
+                  animate={{ opacity: 0.08 }}
                   transition={{ duration: 0.8 }}
                   className={`absolute inset-0 bg-gradient-to-br ${studioModes[selectedMode].gradient} rounded-[3rem]`}
                 />
                 
                 {/* Product Showcase Area */}
-                <div className="relative z-10 aspect-video bg-gradient-to-br from-gray-900/50 to-gray-800/30 rounded-3xl flex items-center justify-center border border-white/5">
+                <div className="relative z-10 aspect-video bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl flex items-center justify-center border border-gray-200">
                   <motion.div
                     key={selectedMode}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -294,9 +294,9 @@ const ImageGenerationAgentPage = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center"
                   >
-                    <Camera className="w-32 h-32 text-gray-600 mx-auto mb-6" strokeWidth={1} />
-                    <h3 className="text-3xl font-bold text-white mb-3">{studioModes[selectedMode].name}</h3>
-                    <p className="text-gray-400 text-lg max-w-md mx-auto">
+                    <Camera className="w-32 h-32 text-gray-400 mx-auto mb-6" strokeWidth={1} />
+                    <h3 className="text-3xl font-bold text-gray-900 mb-3">{studioModes[selectedMode].name}</h3>
+                    <p className="text-gray-600 text-lg max-w-md mx-auto">
                       {studioModes[selectedMode].description}
                     </p>
                     <div className="mt-8 flex items-center justify-center gap-2">
@@ -309,7 +309,7 @@ const ImageGenerationAgentPage = () => {
                 {/* Holographic UI Elements */}
                 <div className="absolute top-6 right-6 flex gap-2">
                   {[...Array(3)].map((_, i) => (
-                    <div key={i} className="w-3 h-3 rounded-full bg-violet-400/30 backdrop-blur-sm" />
+                    <div key={i} className="w-3 h-3 rounded-full bg-violet-400/40 border border-violet-300" />
                   ))}
                 </div>
               </div>
@@ -396,16 +396,16 @@ const ImageGenerationAgentPage = () => {
                   transition={{ delay: index * 0.15, duration: 0.6 }}
                   className="group relative"
                 >
-                  <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-500">
+                  <div className="relative bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl overflow-hidden border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-500">
                     <div className="aspect-square flex items-center justify-center p-12">
-                      <Camera className="w-24 h-24 text-gray-700 group-hover:text-gray-600 transition-colors duration-500" strokeWidth={1} />
+                      <Camera className="w-24 h-24 text-gray-300 group-hover:text-gray-400 transition-colors duration-500" strokeWidth={1} />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <div className="text-sm uppercase tracking-wider text-gray-400 font-semibold mb-2">
+                      <div className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-2">
                         {item.category}
                       </div>
-                      <div className="text-3xl font-bold text-white">
+                      <div className="text-3xl font-bold text-gray-900">
                         {item.result}
                       </div>
                     </div>

@@ -59,7 +59,7 @@ const DescriptionAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Ambient Background Elements - Subtle like landing page */}
@@ -243,7 +243,7 @@ const DescriptionAgentPage = () => {
                   className={`px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 ${
                     selectedExample === index
                       ? 'bg-gradient-to-r ' + example.color + ' text-white shadow-xl scale-105'
-                      : 'bg-white/60 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-800/80 backdrop-blur-sm'
+                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
                   }`}
                   data-testid={`button-category-${index}`}
                 >
@@ -260,8 +260,8 @@ const DescriptionAgentPage = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="relative max-w-6xl mx-auto"
             >
-              {/* Glassmorphic Container */}
-              <div className="relative bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/50 dark:border-gray-700/50 overflow-hidden">
+              {/* Light Container */}
+              <div className="relative bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-gray-200 overflow-hidden">
                 {/* Ambient Gradient Overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${beforeAfterExamples[selectedExample].color} opacity-5 rounded-[2.5rem]`} />
                 
@@ -270,10 +270,10 @@ const DescriptionAgentPage = () => {
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
-                      <span className="text-lg font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Before</span>
+                      <span className="text-lg font-semibold text-gray-600 uppercase tracking-wider">Before</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-lg font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">After</span>
+                      <span className="text-lg font-semibold text-gray-600 uppercase tracking-wider">After</span>
                       <div className="w-4 h-4 rounded-full bg-green-500 shadow-lg shadow-green-500/50" />
                     </div>
                   </div>
@@ -287,33 +287,33 @@ const DescriptionAgentPage = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-3xl border border-gray-200 dark:border-gray-700"
+                        className="bg-gray-50 p-8 rounded-3xl border border-gray-200"
                       >
-                        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed italic">
+                        <p className="text-lg text-gray-700 leading-relaxed italic">
                           "{beforeAfterExamples[selectedExample].before}"
                         </p>
-                        <div className="mt-6 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">
                           <MessageCircle className="w-4 h-4" />
                           <span>Generic product description</span>
                         </div>
                       </motion.div>
                       
-                      {/* After - Glass Effect */}
+                      {/* After - Light Gradient Effect */}
                       <motion.div
                         key={`after-${selectedExample}`}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
-                        className={`bg-gradient-to-br ${beforeAfterExamples[selectedExample].color} bg-opacity-10 backdrop-blur-xl p-8 rounded-3xl border-2 border-white/30 dark:border-white/10 shadow-xl relative overflow-hidden`}
+                        className={`bg-gradient-to-br ${beforeAfterExamples[selectedExample].color} bg-opacity-10 p-8 rounded-3xl border-2 border-indigo-200 shadow-xl relative overflow-hidden`}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-transparent" />
                         <div className="relative z-10">
-                          <p className="text-lg text-gray-900 dark:text-white leading-relaxed font-medium">
+                          <p className="text-lg text-gray-900 leading-relaxed font-medium">
                             "{beforeAfterExamples[selectedExample].after}"
                           </p>
                           <div className="mt-6 flex items-center gap-2 text-sm font-semibold">
                             <Sparkles className="w-4 h-4 text-yellow-500" />
-                            <span className="text-gray-700 dark:text-gray-200">AI-enhanced compelling copy</span>
+                            <span className="text-gray-700">AI-enhanced compelling copy</span>
                           </div>
                         </div>
                       </motion.div>
@@ -321,7 +321,7 @@ const DescriptionAgentPage = () => {
                   </div>
 
                   {/* Metrics */}
-                  <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 grid grid-cols-3 gap-6">
+                  <div className="mt-12 pt-8 border-t border-gray-200 grid grid-cols-3 gap-6">
                     {[
                       { label: 'Word Count', before: '18', after: '68', increase: '+278%' },
                       { label: 'Emotional Impact', before: 'Low', after: 'High', increase: '+500%' },
@@ -335,15 +335,15 @@ const DescriptionAgentPage = () => {
                         transition={{ delay: 0.5 + idx * 0.1, duration: 0.5 }}
                         className="text-center"
                       >
-                        <div className="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 font-semibold">
+                        <div className="text-sm uppercase tracking-wider text-gray-500 mb-2 font-semibold">
                           {metric.label}
                         </div>
                         <div className="flex items-center justify-center gap-3">
-                          <span className="text-gray-400 dark:text-gray-600 line-through text-lg">{metric.before}</span>
+                          <span className="text-gray-400 line-through text-lg">{metric.before}</span>
                           <ArrowRight className="w-5 h-5 text-blue-500" />
-                          <span className="text-2xl font-bold text-gray-900 dark:text-white">{metric.after}</span>
+                          <span className="text-2xl font-bold text-gray-900">{metric.after}</span>
                         </div>
-                        <div className="text-sm text-green-600 dark:text-green-400 font-semibold mt-2">
+                        <div className="text-sm text-green-600 font-semibold mt-2">
                           {metric.increase}
                         </div>
                       </motion.div>
@@ -356,7 +356,7 @@ const DescriptionAgentPage = () => {
         </section>
 
         {/* Features Section */}
-        <section className="py-32 px-4 relative bg-gradient-to-b from-transparent via-white/50 to-transparent dark:via-gray-900/50">
+        <section className="py-32 px-4 relative bg-gradient-to-b from-transparent via-gray-50/50 to-transparent">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

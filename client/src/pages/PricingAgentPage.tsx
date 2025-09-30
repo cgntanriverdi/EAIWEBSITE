@@ -70,7 +70,7 @@ const PricingAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Ambient Background Effects - Subtle like landing page */}
@@ -239,31 +239,31 @@ const PricingAgentPage = () => {
                   onClick={() => setSelectedStrategy(index)}
                   className={`group relative p-8 rounded-3xl transition-all duration-500 text-left ${
                     selectedStrategy === index
-                      ? 'bg-white/10 backdrop-blur-xl border-2 border-indigo-500/50 shadow-2xl shadow-indigo-500/20'
-                      : 'bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/8 hover:border-white/20'
+                      ? 'bg-white border-2 border-indigo-400 shadow-2xl shadow-indigo-500/20'
+                      : 'bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
                   }`}
                   data-testid={`button-strategy-${index}`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-white">{strategy.name}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900">{strategy.name}</h3>
                     <div className={`text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${strategy.color}`}>
                       {strategy.impact}
                     </div>
                   </div>
-                  <p className="text-gray-400 mb-6 leading-relaxed">{strategy.description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{strategy.description}</p>
                   <div className={`h-1.5 bg-gradient-to-r ${strategy.color} rounded-full`} />
                   
                   {selectedStrategy === index && (
                     <motion.div
                       layoutId="activeStrategy"
-                      className={`absolute inset-0 bg-gradient-to-br ${strategy.color} opacity-10 rounded-3xl -z-10`}
+                      className={`absolute inset-0 bg-gradient-to-br ${strategy.color} opacity-5 rounded-3xl -z-10`}
                     />
                   )}
                 </motion.button>
               ))}
             </div>
 
-            {/* Glass Dashboard Preview */}
+            {/* Light Dashboard Preview */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -271,12 +271,12 @@ const PricingAgentPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="relative max-w-6xl mx-auto"
             >
-              <div className="relative bg-white/5 backdrop-blur-2xl rounded-[3rem] p-12 border border-white/10 shadow-2xl overflow-hidden">
+              <div className="relative bg-white rounded-[3rem] p-12 border border-gray-200 shadow-2xl overflow-hidden">
                 {/* Selected Strategy Gradient */}
                 <motion.div
                   key={selectedStrategy}
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.15 }}
+                  animate={{ opacity: 0.08 }}
                   transition={{ duration: 0.8 }}
                   className={`absolute inset-0 bg-gradient-to-br ${pricingStrategies[selectedStrategy].color} rounded-[3rem]`}
                 />
@@ -285,10 +285,10 @@ const PricingAgentPage = () => {
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-8">
                     <div>
-                      <h3 className="text-3xl font-bold text-white mb-2">
+                      <h3 className="text-3xl font-bold text-gray-900 mb-2">
                         {pricingStrategies[selectedStrategy].fullName}
                       </h3>
-                      <p className="text-gray-400">
+                      <p className="text-gray-600">
                         {pricingStrategies[selectedStrategy].description}
                       </p>
                     </div>
@@ -303,7 +303,7 @@ const PricingAgentPage = () => {
                     </motion.div>
                   </div>
 
-                  {/* KPI Cards with 3D Depth */}
+                  {/* KPI Cards with Light Design */}
                   <div className="grid grid-cols-3 gap-6">
                     {Object.entries(pricingStrategies[selectedStrategy].stats).map(([key, value], idx) => (
                       <motion.div
@@ -313,12 +313,9 @@ const PricingAgentPage = () => {
                         transition={{ delay: 0.2 + idx * 0.1, duration: 0.5 }}
                         className="relative group"
                       >
-                        {/* Shadow layer for 3D effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-black/20 rounded-2xl transform translate-y-1 blur-sm" />
-                        
                         {/* Main card */}
-                        <div className="relative bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 group-hover:border-white/30 transition-all duration-300">
-                          <div className="text-sm uppercase tracking-wider text-gray-400 font-semibold mb-3">
+                        <div className="relative bg-gray-50 p-8 rounded-2xl border border-gray-200 group-hover:border-indigo-300 group-hover:bg-white transition-all duration-300 shadow-sm">
+                          <div className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-3">
                             {key.replace(/([A-Z])/g, ' $1').trim()}
                           </div>
                           <motion.div
@@ -326,11 +323,11 @@ const PricingAgentPage = () => {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.4 + idx * 0.1, type: "spring", stiffness: 200 }}
-                            className="text-5xl font-bold text-white mb-2"
+                            className="text-5xl font-bold text-gray-900 mb-2"
                           >
                             {value}
                           </motion.div>
-                          <div className="flex items-center gap-2 text-indigo-400">
+                          <div className="flex items-center gap-2 text-indigo-600">
                             <TrendingUp className="w-4 h-4" />
                             <span className="text-sm font-semibold">Projected increase</span>
                           </div>
@@ -340,7 +337,7 @@ const PricingAgentPage = () => {
                   </div>
 
                   {/* Animated Chart Visualization */}
-                  <div className="mt-12 pt-8 border-t border-white/10">
+                  <div className="mt-12 pt-8 border-t border-gray-200">
                     <div className="flex items-end gap-4 h-32">
                       {[...Array(12)].map((_, i) => {
                         const height = 30 + (Math.sin((i + selectedStrategy * 3) * 0.5) * 30) + (selectedStrategy * 15);
@@ -363,10 +360,10 @@ const PricingAgentPage = () => {
                   </div>
                 </div>
 
-                {/* Holographic UI Elements */}
+                {/* UI Elements */}
                 <div className="absolute top-6 right-6 flex gap-2">
                   {[...Array(3)].map((_, i) => (
-                    <div key={i} className="w-3 h-3 rounded-full bg-indigo-400/30 backdrop-blur-sm" />
+                    <div key={i} className="w-3 h-3 rounded-full bg-indigo-400/40 border border-indigo-300" />
                   ))}
                 </div>
               </div>
@@ -433,20 +430,20 @@ const PricingAgentPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative bg-white/5 backdrop-blur-xl border border-amber-500/30 rounded-[2rem] p-10 overflow-hidden"
+              className="relative bg-amber-50 border border-amber-200 rounded-[2rem] p-10 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-100/50 via-orange-50/30 to-transparent" />
               
               <div className="relative z-10 flex items-start gap-6">
-                <div className="w-16 h-16 bg-amber-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0 border border-amber-500/30">
-                  <AlertCircle className="w-8 h-8 text-amber-400" />
+                <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center flex-shrink-0 border border-amber-300">
+                  <AlertCircle className="w-8 h-8 text-amber-600" />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     Don't Leave Money on the Table
                   </h3>
-                  <p className="text-xl text-gray-300 leading-relaxed">
-                    Studies show that <span className="text-amber-400 font-semibold">60% of businesses</span> are leaving 20-40% of potential revenue on the table due to suboptimal pricing. Our AI-powered pricing agent ensures you capture every opportunity while remaining competitive.
+                  <p className="text-xl text-gray-700 leading-relaxed">
+                    Studies show that <span className="text-amber-700 font-semibold">60% of businesses</span> are leaving 20-40% of potential revenue on the table due to suboptimal pricing. Our AI-powered pricing agent ensures you capture every opportunity while remaining competitive.
                   </p>
                 </div>
               </div>

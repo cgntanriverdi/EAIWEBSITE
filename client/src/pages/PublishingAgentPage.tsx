@@ -83,7 +83,7 @@ const PublishingAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Ambient Background Effects - Subtle like landing page */}
@@ -270,18 +270,18 @@ const PublishingAgentPage = () => {
                       className="group relative text-left"
                       data-testid={`button-step-${index}`}
                     >
-                      {/* Glass Capsule */}
-                      <div className={`relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border transition-all duration-500 ${
+                      {/* Light Capsule */}
+                      <div className={`relative bg-white rounded-3xl p-8 border transition-all duration-500 shadow-lg ${
                         isActive 
-                          ? 'border-indigo-500/50 shadow-2xl shadow-indigo-500/20 bg-white/10' 
+                          ? 'border-indigo-400 shadow-2xl shadow-indigo-500/20' 
                           : isCompleted
-                          ? 'border-green-500/30 bg-white/8'
-                          : 'border-white/10 hover:border-white/20 hover:bg-white/8'
+                          ? 'border-green-400 shadow-green-500/10'
+                          : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                       }`}>
                         {/* Progress Pulse */}
                         {isActive && (
                           <motion.div
-                            className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10"
+                            className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5"
                             animate={{ opacity: [0.5, 0.8, 0.5] }}
                             transition={{ duration: 2, repeat: Infinity }}
                           />
@@ -299,23 +299,23 @@ const PublishingAgentPage = () => {
                                 ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-indigo-500/50'
                                 : isCompleted
                                 ? 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-500/30'
-                                : 'bg-white/10'
+                                : 'bg-gray-100 border border-gray-200'
                             }`}
                           >
                             {isCompleted ? (
                               <Check className="w-8 h-8 text-white" strokeWidth={2.5} />
                             ) : (
-                              <Icon className="w-8 h-8 text-white" strokeWidth={1.5} />
+                              <Icon className={`w-8 h-8 ${isActive ? 'text-white' : 'text-gray-600'}`} strokeWidth={1.5} />
                             )}
                           </motion.div>
                           
-                          <h3 className="text-2xl font-bold text-white mb-2">
+                          <h3 className="text-2xl font-bold text-gray-900 mb-2">
                             {step.title}
                           </h3>
-                          <p className="text-gray-400 mb-4 leading-relaxed">
+                          <p className="text-gray-600 mb-4 leading-relaxed">
                             {step.description}
                           </p>
-                          <div className="inline-flex items-center gap-2 bg-cyan-500/10 text-indigo-400 px-4 py-2 rounded-full text-sm font-semibold">
+                          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full text-sm font-semibold border border-indigo-200">
                             <Clock className="w-4 h-4" />
                             {step.time}
                           </div>
@@ -360,16 +360,16 @@ const PublishingAgentPage = () => {
                     y: -5,
                     transition: { duration: 0.2 }
                   }}
-                  className="group relative bg-white/5 backdrop-blur-xl p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20 text-center"
+                  className="group relative bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 hover:border-indigo-300 text-center"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
                   
                   <div className="relative z-10">
                     <div className="text-5xl mb-4">{platform.icon}</div>
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
                       {platform.name}
                     </h3>
-                    <p className="text-sm text-gray-400 font-semibold">
+                    <p className="text-sm text-gray-600 font-semibold">
                       {platform.users} users
                     </p>
                     <div className={`mt-4 h-1 bg-gradient-to-r ${platform.color} rounded-full`} />
