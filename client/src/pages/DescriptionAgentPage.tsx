@@ -29,7 +29,7 @@ const beforeAfterExamples = [
     category: "Premium Electronics",
     before: "Wireless headphones with noise cancellation. 30-hour battery life. Available in black and silver colors. Bluetooth 5.0 compatible.",
     after: "Escape into your sanctuary of pure sound. These premium wireless headphones don't just block noise—they create your personal oasis of acoustic perfection. With 30 hours of uninterrupted bliss and buttery-soft ear cushions, every listening session becomes a luxurious retreat from the everyday chaos.",
-    color: "from-blue-500 via-cyan-500 to-blue-600"
+    color: "from-indigo-500 via-purple-500 to-indigo-600"
   },
   {
     category: "Luxury Fashion",
@@ -41,7 +41,7 @@ const beforeAfterExamples = [
     category: "Home & Living",
     before: "Ceramic coffee mug. 12 oz capacity. Microwave and dishwasher safe. White with simple design.",
     after: "Transform your morning ritual into a moment of zen. This hand-crafted ceramic sanctuary holds 12 oz of pure potential—whether it's your meditation brew or afternoon comfort. Perfectly weighted to feel substantial yet intimate, with a silky-smooth finish that makes every sip a tactile pleasure. Because mornings deserve this kind of poetry.",
-    color: "from-emerald-500 via-teal-500 to-emerald-600"
+    color: "from-indigo-500 via-purple-500 to-indigo-600"
   }
 ];
 
@@ -59,35 +59,35 @@ const DescriptionAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#faf6f1] dark:bg-[#0b1220]">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Ambient Background Elements */}
+      {/* Ambient Background Elements - Subtle like landing page */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 20,
+            duration: 8,
             repeat: Infinity,
-            ease: "linear"
+            ease: "easeInOut"
           }}
-          className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-blue-200/30 via-cyan-200/20 to-transparent dark:from-blue-500/10 dark:via-cyan-500/5 rounded-full blur-3xl"
+          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
         />
         <motion.div
           animate={{
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 25,
+            duration: 8,
             repeat: Infinity,
-            ease: "linear",
-            delay: 2
+            ease: "easeInOut",
+            delay: 4
           }}
-          className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] bg-gradient-to-tr from-purple-200/30 via-pink-200/20 to-transparent dark:from-purple-500/10 dark:via-pink-500/5 rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
         />
       </div>
 
@@ -106,14 +106,14 @@ const DescriptionAgentPage = () => {
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute top-0 right-0 w-64 h-80 opacity-10 dark:opacity-5"
               >
-                <div className="w-full h-full bg-gradient-to-br from-blue-400/40 via-cyan-300/30 to-blue-500/40 dark:from-blue-400/20 dark:via-cyan-300/10 dark:to-blue-500/20 backdrop-blur-3xl rounded-3xl shadow-2xl border border-white/20 dark:border-white/10 transform rotate-12" />
+                <div className="w-full h-full bg-gradient-to-br from-indigo-400/40 via-purple-300/30 to-indigo-500/40 dark:from-indigo-400/20 dark:via-purple-300/10 dark:to-indigo-500/20 backdrop-blur-3xl rounded-3xl shadow-2xl border border-white/20 dark:border-white/10 transform rotate-12" />
               </motion.div>
 
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.2, duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
-                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
+                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-[2.5rem]" />
                 <FileText className="w-16 h-16 text-white relative z-10" strokeWidth={1.5} />
@@ -125,9 +125,9 @@ const DescriptionAgentPage = () => {
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="mb-8"
               >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-[#0b1220] dark:text-white mb-6 leading-[0.9] tracking-tight">
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 mb-6 leading-[0.9] tracking-tight">
                   Description
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 mt-4">
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 mt-4">
                     Agent
                   </span>
                 </h1>
@@ -137,10 +137,10 @@ const DescriptionAgentPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+                className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
               >
                 Transform ordinary words into{' '}
-                <span className="font-medium text-blue-600 dark:text-cyan-400">extraordinary stories</span> that captivate, convince, and convert.
+                <span className="font-medium text-indigo-600">extraordinary stories</span> that captivate, convince, and convert.
               </motion.p>
               
               <motion.div
@@ -151,7 +151,7 @@ const DescriptionAgentPage = () => {
               >
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-blue-500/50 dark:shadow-blue-500/30 hover:shadow-blue-600/60 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-indigo-500/50 hover:shadow-indigo-600/60 transition-all duration-500 hover:scale-105 border-0"
                   data-testid="button-start-writing"
                 >
                   Start Writing <ArrowRight className="ml-3 w-6 h-6" />
@@ -159,7 +159,7 @@ const DescriptionAgentPage = () => {
                 <Button 
                   variant="ghost" 
                   size="lg" 
-                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-white/60 dark:hover:bg-white/5 backdrop-blur-sm transition-all duration-500 text-gray-700 dark:text-gray-300"
+                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-gray-50 backdrop-blur-sm transition-all duration-500 text-gray-700"
                   data-testid="button-see-examples"
                 >
                   <Play className="mr-3 w-6 h-6" fill="currentColor" /> See Examples
@@ -181,7 +181,7 @@ const DescriptionAgentPage = () => {
               }}
               className="absolute top-20 right-20 opacity-30 dark:opacity-20 pointer-events-none hidden lg:block"
             >
-              <div className="text-8xl font-serif italic text-blue-500 dark:text-cyan-400">A</div>
+              <div className="text-8xl font-serif italic text-indigo-500 dark:text-purple-400">A</div>
             </motion.div>
             <motion.div
               animate={{ 
@@ -212,16 +212,16 @@ const DescriptionAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700">
+              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-indigo-50 text-indigo-700 border-indigo-200">
                 <Sparkles className="w-4 h-4 mr-2 inline" />
                 See the Transformation
               </Badge>
-              <h2 className="text-6xl md:text-7xl font-bold text-[#0b1220] dark:text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Before & After
               </h2>
-              <p className="text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Watch ordinary descriptions become{' '}
-                <span className="text-blue-600 dark:text-cyan-400 font-medium">extraordinary selling tools</span>
+                <span className="text-indigo-600 font-medium">extraordinary selling tools</span>
               </p>
             </motion.div>
 
@@ -365,10 +365,10 @@ const DescriptionAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-[#0b1220] dark:text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Powered by Intelligence
               </h2>
-              <p className="text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Every word leverages proven psychological principles that influence buying decisions
               </p>
             </motion.div>
@@ -385,18 +385,18 @@ const DescriptionAgentPage = () => {
                     y: -8,
                     transition: { duration: 0.3 }
                   }}
-                  className="group relative bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 dark:border-gray-700/50 overflow-hidden"
+                  className="group relative bg-white/95 backdrop-blur-md border border-gray-200 p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-blue-500/30 group-hover:shadow-blue-500/50 group-hover:scale-110 transition-all duration-500">
+                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-110 transition-all duration-500">
                       <feature.icon className="w-10 h-10 text-white" strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p className="text-lg text-gray-600 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
@@ -408,7 +408,7 @@ const DescriptionAgentPage = () => {
 
         {/* CTA Section */}
         <section className="py-32 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-600 to-blue-700" />
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700" />
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
           </div>
@@ -423,13 +423,13 @@ const DescriptionAgentPage = () => {
               <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
                 Ready to Write Copy<br />That Converts?
               </h2>
-              <p className="text-2xl text-blue-100 mb-12 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-indigo-100 mb-12 max-w-3xl mx-auto font-light">
                 Transform your product descriptions and watch your conversion rates soar
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
                   data-testid="button-start-today"
                 >
                   Start Writing Today <ArrowRight className="ml-3 w-6 h-6" />

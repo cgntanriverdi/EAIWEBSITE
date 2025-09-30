@@ -70,48 +70,35 @@ const ImageGenerationAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#020205] dark:bg-[#020205]">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Ambient Background Effects */}
+      {/* Ambient Background Effects - Subtle like landing page */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
-            scale: [1, 1.4, 1],
-            opacity: [0.3, 0.5, 0.3],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 15,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-violet-500/20 via-purple-500/10 to-transparent rounded-full blur-3xl"
+          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
         />
         <motion.div
           animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.2, 0.4, 0.2],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 18,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 3
+            delay: 4
           }}
-          className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-tr from-fuchsia-500/20 via-pink-500/10 to-transparent rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.25, 0.35, 0.25],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 6
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
         />
       </div>
 
@@ -137,7 +124,7 @@ const ImageGenerationAgentPage = () => {
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.2, duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
-                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-600 rounded-[2.5rem] mb-12 shadow-2xl shadow-violet-500/40 relative"
+                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent rounded-[2.5rem]" />
                 <Image className="w-16 h-16 text-white relative z-10" strokeWidth={1.5} />
@@ -149,9 +136,9 @@ const ImageGenerationAgentPage = () => {
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="mb-8"
               >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-6 leading-[0.9] tracking-tight">
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 mb-6 leading-[0.9] tracking-tight">
                   Image Generation
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 mt-4">
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 mt-4">
                     Agent
                   </span>
                 </h1>
@@ -161,10 +148,10 @@ const ImageGenerationAgentPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+                className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
               >
                 Transform products into{' '}
-                <span className="font-medium text-violet-400">visual masterpieces</span> with AI-powered photography that rivals professional studios.
+                <span className="font-medium text-indigo-600">visual masterpieces</span> with AI-powered photography that rivals professional studios.
               </motion.p>
               
               <motion.div
@@ -175,7 +162,7 @@ const ImageGenerationAgentPage = () => {
               >
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 hover:from-violet-700 hover:via-fuchsia-700 hover:to-pink-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-violet-500/50 hover:shadow-violet-600/60 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-indigo-500/50 hover:shadow-indigo-600/60 transition-all duration-500 hover:scale-105 border-0"
                   data-testid="button-start-free-trial"
                 >
                   Start Creating <ArrowRight className="ml-3 w-6 h-6" />
@@ -183,7 +170,7 @@ const ImageGenerationAgentPage = () => {
                 <Button 
                   variant="ghost" 
                   size="lg" 
-                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-white/5 backdrop-blur-sm transition-all duration-500 text-gray-300"
+                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-gray-50 backdrop-blur-sm transition-all duration-500 text-gray-700"
                   data-testid="button-watch-demo"
                 >
                   <Play className="mr-3 w-6 h-6" fill="currentColor" /> Watch Demo
@@ -236,16 +223,16 @@ const ImageGenerationAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-white/5 backdrop-blur-sm border-violet-500/30">
-                <Sparkles className="w-4 h-4 mr-2 inline text-violet-400" />
+              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-indigo-50 text-indigo-700 border-indigo-200">
+                <Sparkles className="w-4 h-4 mr-2 inline" />
                 AI-Powered Studio Modes
               </Badge>
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Perfect Lighting,<br />Every Time
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Choose from professional lighting presets or let AI select the{' '}
-                <span className="text-violet-400 font-medium">perfect setup</span>
+                <span className="text-indigo-600 font-medium">perfect setup</span>
               </p>
             </motion.div>
 
@@ -340,10 +327,10 @@ const ImageGenerationAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Professional Results
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Every feature designed to deliver studio-grade imagery for your products
               </p>
             </motion.div>
@@ -360,18 +347,18 @@ const ImageGenerationAgentPage = () => {
                     y: -8,
                     transition: { duration: 0.3 }
                   }}
-                  className="group relative bg-white/5 backdrop-blur-xl p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 overflow-hidden"
+                  className="group relative bg-white/95 backdrop-blur-md border border-gray-200 p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-fuchsia-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-violet-500 via-fuchsia-600 to-pink-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-violet-500/30 group-hover:shadow-violet-500/50 group-hover:scale-110 transition-all duration-500">
+                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-110 transition-all duration-500">
                       <feature.icon className="w-10 h-10 text-white" strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-lg text-gray-400 leading-relaxed">
+                    <p className="text-lg text-gray-600 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
@@ -391,10 +378,10 @@ const ImageGenerationAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Proven Impact
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Businesses transforming visual content with measurable results
               </p>
             </motion.div>
@@ -431,7 +418,7 @@ const ImageGenerationAgentPage = () => {
 
         {/* CTA Section */}
         <section className="py-32 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-fuchsia-600 to-pink-700" />
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700" />
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAwdjJoMnYtMmgtMnptLTIgMHYyaDJ2LTJoLTJ6bS0yIDB2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnptMCAydjJoMnYtMmgtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
           </div>
@@ -446,13 +433,13 @@ const ImageGenerationAgentPage = () => {
               <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
                 Transform Your<br />Product Images
               </h2>
-              <p className="text-2xl text-violet-100 mb-12 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-indigo-100 mb-12 max-w-3xl mx-auto font-light">
                 Join thousands creating stunning visuals with our Image Generation Agent
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-violet-600 hover:bg-violet-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl hover:shadow-white/40 transition-all duration-500 hover:scale-105 border-0"
                   data-testid="button-get-started"
                 >
                   Get Started Today <ArrowRight className="ml-3 w-6 h-6" />

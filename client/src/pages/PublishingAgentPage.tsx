@@ -27,7 +27,7 @@ const features = [
 const platforms = [
   { name: 'Amazon', icon: '🛒', color: 'from-orange-400 to-amber-600', users: '300M+' },
   { name: 'eBay', icon: '🏪', color: 'from-blue-400 to-indigo-600', users: '180M+' },
-  { name: 'Shopify', icon: '🏬', color: 'from-green-400 to-emerald-600', users: '1.7M+' },
+  { name: 'Shopify', icon: '🏬', color: 'from-indigo-400 to-purple-600', users: '1.7M+' },
   { name: 'Etsy', icon: '🎨', color: 'from-orange-400 to-red-500', users: '90M+' },
   { name: 'Facebook', icon: '👥', color: 'from-blue-500 to-blue-700', users: '2.9B+' },
   { name: 'Instagram', icon: '📸', color: 'from-pink-400 to-purple-600', users: '2B+' },
@@ -83,48 +83,35 @@ const PublishingAgentPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#071833] dark:bg-[#071833]">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Ambient Background Effects */}
+      {/* Ambient Background Effects - Subtle like landing page */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.35, 0.2],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 17,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute top-0 right-0 w-[700px] h-[700px] bg-gradient-to-br from-cyan-400/15 via-blue-500/8 to-transparent rounded-full blur-3xl"
+          className="absolute inset-0 bg-indigo-500/5 blur-3xl"
         />
         <motion.div
           animate={{
-            scale: [1, 1.4, 1],
-            opacity: [0.25, 0.4, 0.25],
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
-            duration: 20,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 5
+            delay: 4
           }}
-          className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/8 to-transparent rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15],
-          }}
-          transition={{
-            duration: 22,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 10
-          }}
-          className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-amber-400/10 via-yellow-500/5 to-transparent rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-r from-purple-400/5 via-transparent to-indigo-400/5"
         />
       </div>
 
@@ -151,14 +138,14 @@ const PublishingAgentPage = () => {
                 {[...Array(6)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-12 h-12 bg-cyan-400/30 rounded-xl"
+                    className="absolute w-12 h-12 bg-indigo-400/30 rounded-xl"
                     style={{
                       top: '50%',
                       left: '50%',
                       transform: `rotate(${i * 60}deg) translateY(-280px)`
                     }}
                   >
-                    <ShoppingCart className="w-6 h-6 text-cyan-400 m-auto mt-3" />
+                    <ShoppingCart className="w-6 h-6 text-indigo-400 m-auto mt-3" />
                   </motion.div>
                 ))}
               </motion.div>
@@ -167,7 +154,7 @@ const PublishingAgentPage = () => {
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.2, duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
-                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-blue-600 to-cyan-600 rounded-[2.5rem] mb-12 shadow-2xl shadow-cyan-500/40 relative"
+                className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 rounded-[2.5rem] mb-12 shadow-2xl relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent rounded-[2.5rem]" />
                 <Upload className="w-16 h-16 text-white relative z-10" strokeWidth={1.5} />
@@ -179,9 +166,9 @@ const PublishingAgentPage = () => {
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="mb-8"
               >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-6 leading-[0.9] tracking-tight">
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 mb-6 leading-[0.9] tracking-tight">
                   Publishing
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 mt-4">
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 mt-4">
                     Agent
                   </span>
                 </h1>
@@ -191,10 +178,10 @@ const PublishingAgentPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+                className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
               >
                 Distribute your products across{' '}
-                <span className="font-medium text-cyan-400">50+ platforms</span> simultaneously. One click, unlimited reach, maximum sales.
+                <span className="font-medium text-indigo-600">50+ platforms</span> simultaneously. One click, unlimited reach, maximum sales.
               </motion.p>
               
               <motion.div
@@ -205,7 +192,7 @@ const PublishingAgentPage = () => {
               >
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 hover:from-indigo-700 hover:via-blue-700 hover:to-cyan-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-cyan-500/50 hover:shadow-cyan-600/60 transition-all duration-500 hover:scale-105 border-0"
+                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 text-white px-10 py-7 text-xl font-medium rounded-[1.25rem] shadow-2xl shadow-indigo-500/50 hover:shadow-cyan-600/60 transition-all duration-500 hover:scale-105 border-0"
                   data-testid="button-start-publishing"
                 >
                   Start Publishing <ArrowRight className="ml-3 w-6 h-6" />
@@ -213,7 +200,7 @@ const PublishingAgentPage = () => {
                 <Button 
                   variant="ghost" 
                   size="lg" 
-                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-white/5 backdrop-blur-sm transition-all duration-500 text-gray-300"
+                  className="px-10 py-7 text-xl rounded-[1.25rem] hover:bg-gray-50 backdrop-blur-sm transition-all duration-500 text-gray-700"
                   data-testid="button-see-platforms"
                 >
                   <Play className="mr-3 w-6 h-6" fill="currentColor" /> See Platforms
@@ -233,7 +220,7 @@ const PublishingAgentPage = () => {
               }}
               className="absolute bottom-20 right-20 opacity-10 pointer-events-none hidden lg:block"
             >
-              <Globe className="w-48 h-48 text-cyan-400" strokeWidth={0.5} />
+              <Globe className="w-48 h-48 text-indigo-400" strokeWidth={0.5} />
             </motion.div>
           </div>
         </section>
@@ -248,23 +235,23 @@ const PublishingAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-white/5 backdrop-blur-sm border-cyan-500/30">
-                <Rocket className="w-4 h-4 mr-2 inline text-cyan-400" />
+              <Badge variant="outline" className="mb-6 text-base px-6 py-3 rounded-full bg-indigo-50 text-indigo-700 border-indigo-200">
+                <Rocket className="w-4 h-4 mr-2 inline text-indigo-400" />
                 Launch Pipeline
               </Badge>
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 From Setup to<br />Success in Minutes
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Our intelligent pipeline guides you through{' '}
-                <span className="text-cyan-400 font-medium">every step</span>
+                <span className="text-indigo-400 font-medium">every step</span>
               </p>
             </motion.div>
 
             {/* Interactive Pipeline */}
             <div className="relative max-w-6xl mx-auto">
               {/* Connection Lines */}
-              <div className="absolute top-20 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500/20 via-blue-500/30 to-indigo-500/20 hidden lg:block" />
+              <div className="absolute top-20 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500/20 via-purple-500/30 to-indigo-500/20 hidden lg:block" />
               
               <div className="grid lg:grid-cols-4 gap-8 relative">
                 {pipelineSteps.map((step, index) => {
@@ -286,7 +273,7 @@ const PublishingAgentPage = () => {
                       {/* Glass Capsule */}
                       <div className={`relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border transition-all duration-500 ${
                         isActive 
-                          ? 'border-cyan-500/50 shadow-2xl shadow-cyan-500/20 bg-white/10' 
+                          ? 'border-indigo-500/50 shadow-2xl shadow-indigo-500/20 bg-white/10' 
                           : isCompleted
                           ? 'border-green-500/30 bg-white/8'
                           : 'border-white/10 hover:border-white/20 hover:bg-white/8'
@@ -294,7 +281,7 @@ const PublishingAgentPage = () => {
                         {/* Progress Pulse */}
                         {isActive && (
                           <motion.div
-                            className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10"
+                            className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10"
                             animate={{ opacity: [0.5, 0.8, 0.5] }}
                             transition={{ duration: 2, repeat: Infinity }}
                           />
@@ -309,7 +296,7 @@ const PublishingAgentPage = () => {
                             transition={{ delay: index * 0.15 + 0.3, duration: 0.5, type: "spring" }}
                             className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-xl transition-all duration-500 ${
                               isActive
-                                ? 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-500/50'
+                                ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-indigo-500/50'
                                 : isCompleted
                                 ? 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-500/30'
                                 : 'bg-white/10'
@@ -328,7 +315,7 @@ const PublishingAgentPage = () => {
                           <p className="text-gray-400 mb-4 leading-relaxed">
                             {step.description}
                           </p>
-                          <div className="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-full text-sm font-semibold">
+                          <div className="inline-flex items-center gap-2 bg-cyan-500/10 text-indigo-400 px-4 py-2 rounded-full text-sm font-semibold">
                             <Clock className="w-4 h-4" />
                             {step.time}
                           </div>
@@ -352,10 +339,10 @@ const PublishingAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Reach Billions<br />of Customers
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Instant access to the world's largest marketplaces
               </p>
             </motion.div>
@@ -403,10 +390,10 @@ const PublishingAgentPage = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-20"
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Intelligent Distribution
               </h2>
-              <p className="text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-2xl text-gray-600 max-w-3xl mx-auto font-light">
                 Advanced features ensuring optimal performance on every platform
               </p>
             </motion.div>
@@ -423,18 +410,18 @@ const PublishingAgentPage = () => {
                     y: -8,
                     transition: { duration: 0.3 }
                   }}
-                  className="group relative bg-white/5 backdrop-blur-xl p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 overflow-hidden"
+                  className="group relative bg-white/95 backdrop-blur-md border border-gray-200 p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-blue-600 to-cyan-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-cyan-500/30 group-hover:shadow-cyan-500/50 group-hover:scale-110 transition-all duration-500">
+                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-blue-600 to-cyan-600 rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl shadow-indigo-500/30 group-hover:shadow-indigo-500/50 group-hover:scale-110 transition-all duration-500">
                       <feature.icon className="w-10 h-10 text-white" strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-lg text-gray-400 leading-relaxed">
+                    <p className="text-lg text-gray-600 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
@@ -458,7 +445,7 @@ const PublishingAgentPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
                 Scale Your<br />Distribution
               </h2>
               <p className="text-2xl text-cyan-100 mb-12 max-w-3xl mx-auto font-light">
