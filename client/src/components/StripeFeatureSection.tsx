@@ -197,16 +197,13 @@ export default function StripeFeatureSection({
                       </div>
                     </div>
                     
-                    <div className="space-y-2 mb-4">
-                      <div className="h-2 bg-gray-100 rounded-full w-full" />
-                      <div className="h-2 bg-gray-100 rounded-full w-11/12" />
-                      <div className="h-2 bg-gray-100 rounded-full w-4/5" />
-                      <div className="h-2 bg-gray-100 rounded-full w-3/4" />
+                    <div className="text-xs text-gray-700 leading-relaxed mb-4 line-clamp-4">
+                      Experience studio-quality sound with our Premium Wireless Headphones featuring advanced active noise cancellation and 40-hour battery life. These over-ear headphones deliver crystal-clear audio with deep, punchy bass and crisp highs, perfect for music lovers and professionals alike. The ergonomic design ensures all-day comfort, while Bluetooth 5.2 provides seamless connectivity to all your devices. With premium materials including memory foam cushions and durable aluminum construction, these headphones are built to last.
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <span className="font-medium">184 words</span>
+                        <span className="font-medium">84 words</span>
                         <span>•</span>
                         <span className="text-green-600 font-semibold flex items-center gap-1">
                           <Check className="w-3 h-3" /> SEO optimized
@@ -262,15 +259,13 @@ export default function StripeFeatureSection({
                       </div>
                     </div>
                     
-                    <div className="space-y-2 mb-4">
-                      <div className="h-2 bg-gray-100 rounded-full w-full" />
-                      <div className="h-2 bg-gray-100 rounded-full w-10/12" />
-                      <div className="h-2 bg-gray-100 rounded-full w-9/12" />
+                    <div className="text-xs text-gray-700 leading-relaxed mb-4 line-clamp-3">
+                      Transform your workspace with our Ergonomic Office Chair designed for maximum comfort during long work sessions. Featuring adjustable lumbar support, breathable mesh backing, and premium cushioning, this chair promotes healthy posture and reduces back pain. The 360-degree swivel base and smooth-rolling casters provide effortless mobility.
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <span className="font-medium">156 words</span>
+                        <span className="font-medium">56 words</span>
                         <span>•</span>
                         <span className="text-green-600 font-semibold flex items-center gap-1">
                           <Check className="w-3 h-3" /> SEO optimized
