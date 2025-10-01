@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CreditCard, TrendingUp } from "lucide-react";
 import animationPlainImg from "@assets/animation_plain_1759133742500.png";
 import animationBackImg from "@assets/animation_back_1759133767968.png";
 import animationSideImg from "@assets/animation_side_1759133769482.png";
@@ -35,25 +36,45 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-white border border-gray-200 shadow-2xl rounded-2xl w-80 mx-auto">
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm font-medium text-gray-600">Payment</div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <Card className="bg-gradient-to-br from-white via-white/95 to-blue-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl w-[400px] mx-auto overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl" />
+              <CardHeader className="pb-3 relative">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-xl">
+                      <CreditCard className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-base font-bold text-gray-900">
+                        Payment
+                      </CardTitle>
+                      <p className="text-xs text-gray-500 mt-1">Secure checkout</p>
+                    </div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900">$89.00</div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="text-xs text-gray-500 mb-2">Card information</div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full shadow-lg"></div>
+                </div>
+              </CardHeader>
+              <CardContent className="relative">
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 border border-blue-100">
+                    <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                      $89.00
+                    </div>
+                    <div className="text-sm text-gray-600 mt-1">Total amount</div>
+                  </div>
+                  
+                  <div className="bg-white/60 rounded-lg p-4 border border-gray-100">
+                    <div className="text-xs text-gray-500 mb-3 font-medium">Card information</div>
                     <div className="space-y-3">
-                      <div className="h-4 bg-gray-200 rounded"></div>
-                      <div className="flex gap-2">
-                        <div className="h-4 bg-gray-200 rounded flex-1"></div>
-                        <div className="h-4 bg-gray-200 rounded w-16"></div>
+                      <div className="h-10 bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg border border-gray-200"></div>
+                      <div className="flex gap-3">
+                        <div className="h-10 bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg flex-1 border border-gray-200"></div>
+                        <div className="h-10 bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg w-20 border border-gray-200"></div>
                       </div>
                     </div>
                   </div>
-                  <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium">
+                  
+                  <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-3.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow">
                     Pay $89.00
                   </button>
                 </div>
@@ -106,39 +127,47 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-white border border-gray-200 shadow-2xl rounded-2xl w-96 mx-auto">
-              <CardContent className="p-6">
+            <Card className="bg-gradient-to-br from-white via-white/95 to-purple-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl w-[400px] mx-auto overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
+              <CardHeader className="pb-3 relative">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base font-bold text-gray-900">
+                    Subscription
+                  </CardTitle>
+                  <Badge className="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 shadow-lg">
+                    Active
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="relative">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="text-lg font-semibold text-gray-900">Subscription</div>
-                    <Badge className="bg-green-50 text-green-700 border-green-200">Active</Badge>
-                  </div>
-                  
-                  <div className="border-b border-gray-100 pb-4">
-                    <div className="flex justify-between items-center">
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
+                    <div className="flex justify-between items-start mb-1">
                       <div>
-                        <div className="font-medium text-gray-900">Pro Plan</div>
-                        <div className="text-sm text-gray-500">Billed monthly</div>
+                        <div className="text-lg font-bold text-gray-900">Pro Plan</div>
+                        <div className="text-xs text-gray-500">Billed monthly</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-semibold text-gray-900">$99</div>
-                        <div className="text-sm text-gray-500">/month</div>
+                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                          $99
+                        </div>
+                        <div className="text-xs text-gray-500">/month</div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Next billing date</span>
-                      <span className="text-gray-900">Jan 1, 2024</span>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                      <div className="text-xs text-gray-500 mb-1">Next billing</div>
+                      <div className="text-sm font-bold text-gray-900">Jan 1, 2024</div>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Payment method</span>
-                      <span className="text-gray-900">•••• 4242</span>
+                    <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                      <div className="text-xs text-gray-500 mb-1">Payment</div>
+                      <div className="text-sm font-bold text-gray-900">•••• 4242</div>
                     </div>
                   </div>
                   
-                  <button className="w-full bg-gray-900 text-white py-2 rounded-lg text-sm font-medium">
+                  <button className="w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-shadow">
                     Manage subscription
                   </button>
                 </div>
@@ -383,34 +412,49 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-white border border-gray-200 shadow-2xl rounded-2xl w-96 mx-auto">
-              <CardContent className="p-6">
+            <Card className="bg-gradient-to-br from-white via-white/95 to-indigo-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl w-[400px] mx-auto overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl" />
+              <CardHeader className="pb-3 relative">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
+                      <TrendingUp className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-base font-bold text-gray-900">
+                        Analytics
+                      </CardTitle>
+                      <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="relative">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="text-lg font-semibold text-gray-900">Analytics</div>
-                    <div className="text-sm text-gray-500">Last 30 days</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        $47K
+                      </div>
+                      <div className="text-xs text-gray-600 mt-1">Revenue</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        1,234
+                      </div>
+                      <div className="text-xs text-gray-600 mt-1">Customers</div>
+                    </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-2xl font-bold text-gray-900">$47,200</div>
-                      <div className="text-sm text-gray-500">Revenue</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-gray-900">1,234</div>
-                      <div className="text-sm text-gray-500">Customers</div>
-                    </div>
-                  </div>
-                  
-                  <div className="h-32 bg-gray-50 rounded-lg flex items-end justify-between p-4">
+                  <div className="h-32 bg-gradient-to-br from-gray-50 to-indigo-50/50 rounded-xl flex items-end justify-between p-3 gap-1 border border-gray-100">
                     {[40, 65, 45, 80, 55, 70, 60, 85, 75, 90, 65, 95].map((height, i) => (
                       <motion.div
                         key={i}
-                        className="bg-indigo-500 rounded-sm w-3"
+                        className="flex-1 bg-gradient-to-t from-indigo-500 to-purple-500 rounded-t-md shadow-lg"
                         style={{ height: `${height}%` }}
                         initial={{ height: 0 }}
                         animate={{ height: `${height}%` }}
-                        transition={{ duration: 0.8, delay: i * 0.1 }}
+                        transition={{ duration: 0.8, delay: i * 0.08 }}
                       />
                     ))}
                   </div>
