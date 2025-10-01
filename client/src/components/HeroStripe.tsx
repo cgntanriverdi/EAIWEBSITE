@@ -5,21 +5,61 @@ import DashboardPreview from "./DashboardPreview";
 export default function HeroStripe() {
   return (
     <section className="hero-stripe relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
-      {/* Stripe's signature vibrant gradient background */}
+      {/* 3D Layered gradient background with distinct color boundaries and looping animation */}
+      
+      {/* Base animated gradient layer - creates the flowing loop effect */}
       <div 
-        className="hero-background absolute inset-0"
+        className="absolute inset-0"
         style={{
-          backgroundImage: 'linear-gradient(135deg, #6ec3f4 0%, #3a3aff 25%, #ff61ab 50%, #E63946 75%, #6ec3f4 100%)',
+          backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 20%, #3B82F6 40%, #06B6D4 60%, #EC4899 80%, #8B5CF6 100%)',
           backgroundSize: '400% 400%',
           animation: 'gradientShift 15s ease infinite'
         }}
       />
 
-      {/* Light overlay to ensure text readability while maintaining color interaction */}
+      {/* Second layer - Cyan/Teal overlay with radial gradient for 3D depth */}
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
+          background: 'radial-gradient(ellipse at 30% 50%, #06B6D4 0%, rgba(6, 182, 212, 0.6) 30%, transparent 60%)',
+          mixBlendMode: 'screen',
+          opacity: 0.7
+        }}
+      />
+
+      {/* Third layer - Pink/Rose accent overlay for color distinction */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at 70% 40%, #EC4899 0%, rgba(236, 72, 153, 0.5) 25%, transparent 50%)',
+          mixBlendMode: 'screen',
+          opacity: 0.6
+        }}
+      />
+
+      {/* Color boundary layer - creates distinct color separations for 3D depth */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(to bottom, 
+              transparent 0%, 
+              rgba(99, 102, 241, 0.3) 35%, 
+              rgba(59, 130, 246, 0.4) 50%,
+              rgba(6, 182, 212, 0.3) 65%,
+              transparent 100%
+            )
+          `,
+          mixBlendMode: 'overlay'
+        }}
+      />
+
+      {/* Subtle noise texture for additional depth */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.05\'/%3E%3C/svg%3E")',
+          opacity: 0.3
         }}
       />
 
