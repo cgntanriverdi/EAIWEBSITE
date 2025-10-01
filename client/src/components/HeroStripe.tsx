@@ -7,11 +7,11 @@ export default function HeroStripe() {
     <section className="hero-stripe relative min-h-screen overflow-hidden" data-testid="hero-stripe-section">
       {/* 3D Layered gradient background with distinct color boundaries and looping animation */}
       
-      {/* Base animated gradient layer - creates the flowing loop effect */}
+      {/* Base animated gradient layer - creates the flowing loop effect with full spectrum */}
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 20%, #3B82F6 40%, #06B6D4 60%, #EC4899 80%, #8B5CF6 100%)',
+          backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 12%, #3B82F6 24%, #06B6D4 36%, #EC4899 48%, #EF4444 60%, #F97316 72%, #FBBF24 84%, #8B5CF6 100%)',
           backgroundSize: '400% 400%',
           animation: 'gradientShift 15s ease infinite'
         }}
