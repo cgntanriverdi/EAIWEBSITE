@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CreditCard, TrendingUp } from "lucide-react";
+import { CreditCard, TrendingUp, DollarSign, Send, ShoppingBag, Store, Package } from "lucide-react";
 import animationPlainImg from "@assets/animation_plain_1759133742500.png";
 import animationBackImg from "@assets/animation_back_1759133767968.png";
 import animationSideImg from "@assets/animation_side_1759133769482.png";
@@ -127,50 +127,72 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-gradient-to-br from-white via-white/95 to-purple-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl w-[400px] mx-auto overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
-              <CardHeader className="pb-3 relative">
+            <Card className="bg-gradient-to-br from-white via-white/95 to-purple-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-3xl w-full max-w-[500px] mx-auto overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
+              <CardHeader className="pb-4 relative">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base font-bold text-gray-900">
-                    Subscription
-                  </CardTitle>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl">
+                      <DollarSign className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg font-bold text-gray-900">
+                        Smart Pricing
+                      </CardTitle>
+                      <p className="text-xs text-gray-500 mt-1">AI Price Optimizer</p>
+                    </div>
+                  </div>
                   <Badge className="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 shadow-lg">
-                    Active
+                    Optimized
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="relative">
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
-                    <div className="flex justify-between items-start mb-1">
-                      <div>
-                        <div className="text-lg font-bold text-gray-900">Pro Plan</div>
-                        <div className="text-xs text-gray-500">Billed monthly</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                          $99
-                        </div>
-                        <div className="text-xs text-gray-500">/month</div>
+              <CardContent className="relative space-y-5">
+                {/* Current vs Recommended Price */}
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-5 border border-purple-100">
+                  <div className="flex justify-between items-center mb-3">
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">Current Price</div>
+                      <div className="text-2xl font-bold text-gray-400 line-through">$79.99</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-gray-500 mb-1">AI Recommended</div>
+                      <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        $89.99
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
-                      <div className="text-xs text-gray-500 mb-1">Next billing</div>
-                      <div className="text-sm font-bold text-gray-900">Jan 1, 2024</div>
-                    </div>
-                    <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
-                      <div className="text-xs text-gray-500 mb-1">Payment</div>
-                      <div className="text-sm font-bold text-gray-900">•••• 4242</div>
-                    </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="bg-green-500 text-white px-2 py-1 rounded-full font-semibold">+12.5%</div>
+                    <span className="text-gray-600">Price increase recommended</span>
                   </div>
-                  
-                  <button className="w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-shadow">
-                    Manage subscription
-                  </button>
                 </div>
+                
+                {/* Impact Metrics */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-100">
+                    <div className="text-xs text-gray-500 mb-2">Revenue Impact</div>
+                    <div className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                      +$2.4K
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">per month</div>
+                  </div>
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-100">
+                    <div className="text-xs text-gray-500 mb-2">Market Position</div>
+                    <div className="text-2xl font-bold text-gray-900">
+                      2nd
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">in category</div>
+                  </div>
+                </div>
+                
+                {/* Action Button */}
+                <button 
+                  data-testid="button-apply-pricing"
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl text-sm font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02]"
+                >
+                  Apply Optimal Pricing
+                </button>
               </CardContent>
             </Card>
           </motion.div>
@@ -412,53 +434,98 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-gradient-to-br from-white via-white/95 to-indigo-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl w-[400px] mx-auto overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl" />
-              <CardHeader className="pb-3 relative">
+            <Card className="bg-gradient-to-br from-white via-white/95 to-indigo-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-3xl w-full max-w-[550px] mx-auto overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/20 to-blue-500/20 rounded-full blur-3xl" />
+              <CardHeader className="pb-4 relative">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
-                      <TrendingUp className="w-7 h-7 text-white" />
+                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl">
+                      <Send className="w-7 h-7 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-base font-bold text-gray-900">
-                        Analytics
+                      <CardTitle className="text-lg font-bold text-gray-900">
+                        Multi-Platform Publishing
                       </CardTitle>
-                      <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
+                      <p className="text-xs text-gray-500 mt-1">Distribution Hub</p>
                     </div>
                   </div>
+                  <Badge className="text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0 shadow-lg">
+                    6 Active
+                  </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="relative">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
-                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        $47K
+              <CardContent className="relative space-y-4">
+                {/* Platform Grid */}
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { name: 'Amazon', icon: ShoppingBag, status: 'active', color: 'from-orange-500 to-amber-500' },
+                    { name: 'eBay', icon: Package, status: 'syncing', color: 'from-blue-500 to-cyan-500' },
+                    { name: 'Shopify', icon: Store, status: 'active', color: 'from-green-500 to-emerald-500' },
+                    { name: 'Etsy', icon: ShoppingBag, status: 'active', color: 'from-orange-500 to-red-500' },
+                    { name: 'Walmart', icon: Package, status: 'active', color: 'from-blue-600 to-blue-500' },
+                    { name: 'Facebook', icon: Store, status: 'syncing', color: 'from-blue-500 to-indigo-500' }
+                  ].map((platform, i) => (
+                    <motion.div
+                      key={platform.name}
+                      className="bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-gray-100 hover:border-indigo-200 transition-all"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.4, delay: i * 0.05 }}
+                    >
+                      <div className={`w-9 h-9 bg-gradient-to-br ${platform.color} rounded-lg flex items-center justify-center mb-2 shadow-lg`}>
+                        <platform.icon className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-xs text-gray-600 mt-1">Revenue</div>
+                      <div className="text-xs font-semibold text-gray-900 mb-1">{platform.name}</div>
+                      <div className="flex items-center gap-1.5">
+                        {platform.status === 'active' ? (
+                          <>
+                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                            <span className="text-[10px] text-green-600 font-medium">Active</span>
+                          </>
+                        ) : (
+                          <>
+                            <motion.div 
+                              className="w-1.5 h-1.5 bg-blue-500 rounded-full"
+                              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            ></motion.div>
+                            <span className="text-[10px] text-blue-600 font-medium">Syncing</span>
+                          </>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Stats */}
+                <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-5 border border-indigo-100">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">Products Distributed</div>
+                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                        2,847
+                      </div>
                     </div>
-                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
-                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        1,234
+                    <div className="text-right">
+                      <div className="text-xs text-gray-500 mb-1">Total Reach</div>
+                      <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                        12.4M
                       </div>
-                      <div className="text-xs text-gray-600 mt-1">Customers</div>
                     </div>
                   </div>
-                  
-                  <div className="h-32 bg-gradient-to-br from-gray-50 to-indigo-50/50 rounded-xl flex items-end justify-between p-3 gap-1 border border-gray-100">
-                    {[40, 65, 45, 80, 55, 70, 60, 85, 75, 90, 65, 95].map((height, i) => (
-                      <motion.div
-                        key={i}
-                        className="flex-1 bg-gradient-to-t from-indigo-500 to-purple-500 rounded-t-md shadow-lg"
-                        style={{ height: `${height}%` }}
-                        initial={{ height: 0 }}
-                        animate={{ height: `${height}%` }}
-                        transition={{ duration: 0.8, delay: i * 0.08 }}
-                      />
-                    ))}
+                  <div className="flex items-center gap-2 text-xs mt-3">
+                    <div className="bg-green-500 text-white px-2 py-1 rounded-full font-semibold">+245%</div>
+                    <span className="text-gray-600">vs. single platform</span>
                   </div>
                 </div>
+                
+                {/* Action Button */}
+                <button 
+                  data-testid="button-publish-platforms"
+                  className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-4 rounded-xl text-sm font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02]"
+                >
+                  Publish to All Platforms
+                </button>
               </CardContent>
             </Card>
           </motion.div>
