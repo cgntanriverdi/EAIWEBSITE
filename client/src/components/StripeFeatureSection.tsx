@@ -520,16 +520,69 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative w-full max-w-[720px] mx-auto"
           >
-            {/* Apple-like stage with 4:3 aspect ratio and perspective */}
-            <div 
-              className="relative aspect-[4/3] overflow-hidden rounded-3xl transform-gpu"
-              style={{
-                background: 'radial-gradient(120% 120% at 50% 20%, #fff 0%, #fafafa 60%, #f5f5f5 100%)',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 20px 40px rgba(0,0,0,0.08)',
-                perspective: '1200px',
-                transformStyle: 'preserve-3d'
-              }}
-            >
+            <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+              {/* Browser Chrome */}
+              <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  <div className="w-3 h-3 rounded-full bg-green-400" />
+                </div>
+                <div className="flex items-center gap-2 bg-white rounded px-3 py-2 text-xs text-gray-600">
+                  <span className="text-gray-400">🔒</span>
+                  <span className="font-mono">model-photography.ai/transform</span>
+                </div>
+              </div>
+
+              {/* Toolbar */}
+              <div className="bg-white border-b border-gray-200 px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-pink-600 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 text-lg">AI Model Photography</div>
+                      <div className="text-xs text-gray-500">Transform plain photos → Professional models</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-green-100 text-green-700 text-xs px-3 py-1.5 rounded-lg font-semibold">
+                      ⚡ Processing
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats Bar */}
+              <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-xs text-gray-500 mb-0.5">Quality</div>
+                    <div className="text-sm font-bold text-gray-900">Professional</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500 mb-0.5">Processing</div>
+                    <div className="text-sm font-bold text-pink-600">~30 seconds</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500 mb-0.5">Output</div>
+                    <div className="text-sm font-bold text-gray-900">3 Variants</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Apple-like stage with animation - KEEPING ALL ORIGINAL ANIMATION */}
+              <div className="bg-gray-50 p-6">
+                <div 
+                  className="relative aspect-[4/3] overflow-hidden rounded-2xl transform-gpu"
+                  style={{
+                    background: 'radial-gradient(120% 120% at 50% 20%, #fff 0%, #fafafa 60%, #f5f5f5 100%)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 20px 40px rgba(0,0,0,0.08)',
+                    perspective: '1200px',
+                    transformStyle: 'preserve-3d'
+                  }}
+                >
               
               {/* Refined light sweep effect */}
               <motion.div
@@ -733,8 +786,34 @@ export default function StripeFeatureSection({
                 </motion.div>
 
               </div>
-
+                </div>
+              </div>
             </div>
+            
+            {/* Floating Stats Cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100 z-20"
+            >
+              <div className="text-xs text-gray-500 mb-1 font-medium">Conversion boost</div>
+              <div className="text-3xl font-bold text-gray-900">+245%</div>
+              <div className="text-xs text-green-600 mt-1 font-semibold">↑ vs plain photos</div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="absolute -top-6 -right-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100 z-20"
+            >
+              <div className="text-xs text-gray-500 mb-1 font-medium">Photos generated</div>
+              <div className="text-3xl font-bold text-pink-600">142K+</div>
+              <div className="text-xs text-gray-500 mt-1 font-medium">This month</div>
+            </motion.div>
           </motion.div>
         );
       
