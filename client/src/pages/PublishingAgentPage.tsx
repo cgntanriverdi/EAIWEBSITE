@@ -90,82 +90,70 @@ const PublishingAgentPage = () => {
       <div className="relative overflow-hidden">
         {/* Hero Section - Navy Gradient with Publishing Dashboard Mockup */}
         <section ref={heroRef} className="relative pt-20 pb-32 px-4 overflow-hidden">
-          {/* Animated 3D Navy Wave Background */}
+          {/* Animated 3D Navy Wave Background with Visible Boundaries */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Deep Base Layer - Darkest (furthest away) */}
+            {/* Deep Base Layer */}
             <div 
               className="absolute inset-0" 
               style={{
-                background: 'linear-gradient(135deg, #0A2540 0%, #081a2e 50%, #0A2540 100%)',
-                backgroundSize: '200% 200%',
-                animation: 'navyWave 25s ease-in-out infinite'
+                background: 'linear-gradient(180deg, #0A2540 0%, #132f4c 100%)'
               }}
             />
             
-            {/* Wave Layer 1 - Far waves (smaller, slower) */}
-            <div 
-              className="absolute inset-0 opacity-60"
-              style={{
-                background: `
-                  radial-gradient(ellipse 800px 150px at 20% 70%, rgba(30, 73, 118, 0.5) 0%, transparent 70%),
-                  radial-gradient(ellipse 900px 180px at 80% 60%, rgba(19, 47, 76, 0.4) 0%, transparent 70%)
-                `,
-                animation: 'waveFloat1 18s ease-in-out infinite',
-                transform: 'translateZ(0)'
-              }}
-            />
-            
-            {/* Wave Layer 2 - Mid-distance waves (medium size) */}
-            <div 
-              className="absolute inset-0 opacity-70"
-              style={{
-                background: `
-                  radial-gradient(ellipse 1000px 250px at 60% 65%, rgba(30, 73, 118, 0.6) 0%, transparent 65%),
-                  radial-gradient(ellipse 1100px 280px at 25% 55%, rgba(19, 47, 76, 0.5) 0%, transparent 65%)
-                `,
-                animation: 'waveFloat2 14s ease-in-out infinite reverse',
-                transform: 'translateZ(0)'
-              }}
-            />
-            
-            {/* Wave Layer 3 - Close waves (larger, brighter) */}
-            <div 
-              className="absolute inset-0 opacity-80"
-              style={{
-                background: `
-                  radial-gradient(ellipse 1200px 350px at 40% 75%, rgba(30, 73, 118, 0.7) 0%, transparent 60%),
-                  radial-gradient(ellipse 1300px 380px at 75% 50%, rgba(42, 95, 148, 0.6) 0%, transparent 60%)
-                `,
-                animation: 'waveFloat3 11s ease-in-out infinite',
-                transform: 'translateZ(0)'
-              }}
-            />
-            
-            {/* Wave Layer 4 - Nearest waves (biggest, most prominent) */}
-            <div 
-              className="absolute inset-0 opacity-85"
-              style={{
-                background: `
-                  radial-gradient(ellipse 1400px 450px at 15% 80%, rgba(42, 95, 148, 0.8) 0%, transparent 55%),
-                  radial-gradient(ellipse 1500px 480px at 85% 45%, rgba(30, 73, 118, 0.75) 0%, transparent 55%)
-                `,
-                animation: 'waveFloat4 8s ease-in-out infinite reverse',
-                transform: 'translateZ(0)'
-              }}
-            />
-            
-            {/* Wave highlights - Creates crest illusion */}
-            <div 
-              className="absolute inset-0 opacity-40"
-              style={{
-                background: `
-                  radial-gradient(ellipse 600px 80px at 50% 60%, rgba(78, 141, 204, 0.6) 0%, transparent 50%),
-                  radial-gradient(ellipse 700px 100px at 30% 75%, rgba(78, 141, 204, 0.5) 0%, transparent 50%)
-                `,
-                animation: 'waveHighlight 10s ease-in-out infinite',
-                transform: 'translateZ(0)'
-              }}
-            />
+            {/* SVG Wave Layers with Defined Boundaries */}
+            <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1440 800">
+              <defs>
+                {/* Gradients for each wave layer */}
+                <linearGradient id="wave1Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(30, 73, 118, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(30, 73, 118, 0.6)" />
+                </linearGradient>
+                <linearGradient id="wave2Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(42, 95, 148, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(42, 95, 148, 0.7)" />
+                </linearGradient>
+                <linearGradient id="wave3Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(56, 116, 176, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(56, 116, 176, 0.8)" />
+                </linearGradient>
+                <linearGradient id="wave4Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(78, 141, 204, 0.7)" />
+                  <stop offset="100%" stopColor="rgba(78, 141, 204, 0.9)" />
+                </linearGradient>
+              </defs>
+              
+              {/* Wave 1 - Furthest back */}
+              <path 
+                className="wave-path-1" 
+                d="M0,400 C240,320 480,480 720,400 C960,320 1200,480 1440,400 L1440,800 L0,800 Z" 
+                fill="url(#wave1Gradient)"
+                style={{ animation: 'waveMove1 20s ease-in-out infinite' }}
+              />
+              
+              {/* Wave 2 - Mid-back */}
+              <path 
+                className="wave-path-2" 
+                d="M0,450 C320,370 640,530 960,450 C1120,410 1280,530 1440,470 L1440,800 L0,800 Z" 
+                fill="url(#wave2Gradient)"
+                style={{ animation: 'waveMove2 16s ease-in-out infinite reverse' }}
+              />
+              
+              {/* Wave 3 - Mid-front */}
+              <path 
+                className="wave-path-3" 
+                d="M0,520 C360,440 720,600 1080,520 C1260,480 1350,580 1440,540 L1440,800 L0,800 Z" 
+                fill="url(#wave3Gradient)"
+                style={{ animation: 'waveMove3 12s ease-in-out infinite' }}
+              />
+              
+              {/* Wave 4 - Closest */}
+              <path 
+                className="wave-path-4" 
+                d="M0,600 C400,520 800,680 1200,600 C1320,570 1380,650 1440,620 L1440,800 L0,800 Z" 
+                fill="url(#wave4Gradient)"
+                style={{ animation: 'waveMove4 10s ease-in-out infinite reverse' }}
+              />
+            </svg>
           </div>
           
           {/* Smooth Fade to White */}
@@ -522,77 +510,73 @@ const PublishingAgentPage = () => {
       </div>
 
       <style>{`
-        @keyframes navyWave {
-          0%, 100% { 
-            background-position: 0% 50%; 
+        /* SVG Wave Animations - Creating flowing motion with visible boundaries */
+        
+        /* Wave 1 - Slowest, furthest back */
+        @keyframes waveMove1 {
+          0% { 
+            transform: translateX(0) translateY(0);
           }
           50% { 
-            background-position: 100% 50%; 
+            transform: translateX(-30px) translateY(-15px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
           }
         }
         
-        /* Far waves - subtle, slow movement (furthest Z) */
-        @keyframes waveFloat1 {
-          0%, 100% { 
-            transform: translateY(0) translateX(0) scale(0.95);
+        /* Wave 2 - Mid-back layer */
+        @keyframes waveMove2 {
+          0% { 
+            transform: translateX(0) translateY(0);
           }
           50% { 
-            transform: translateY(-8px) translateX(-15px) scale(0.98);
+            transform: translateX(40px) translateY(-20px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
           }
         }
         
-        /* Mid-distance waves - medium movement */
-        @keyframes waveFloat2 {
-          0%, 100% { 
-            transform: translateY(0) translateX(0) scale(1);
+        /* Wave 3 - Mid-front layer */
+        @keyframes waveMove3 {
+          0% { 
+            transform: translateX(0) translateY(0);
           }
           33% { 
-            transform: translateY(-15px) translateX(20px) scale(1.02);
+            transform: translateX(-50px) translateY(-25px);
           }
           66% { 
-            transform: translateY(10px) translateX(-15px) scale(0.98);
+            transform: translateX(-30px) translateY(10px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
           }
         }
         
-        /* Close waves - more pronounced movement (closer Z) */
-        @keyframes waveFloat3 {
-          0%, 100% { 
-            transform: translateY(0) translateX(0) scale(1);
-          }
-          33% { 
-            transform: translateY(-25px) translateX(-25px) scale(1.08);
-          }
-          66% { 
-            transform: translateY(15px) translateX(20px) scale(0.96);
-          }
-        }
-        
-        /* Nearest waves - biggest, most dramatic movement (closest Z) */
-        @keyframes waveFloat4 {
-          0%, 100% { 
-            transform: translateY(0) translateX(0) scale(1);
+        /* Wave 4 - Closest, most prominent */
+        @keyframes waveMove4 {
+          0% { 
+            transform: translateX(0) translateY(0);
           }
           25% { 
-            transform: translateY(-35px) translateX(30px) scale(1.12);
+            transform: translateX(60px) translateY(-30px);
           }
           50% { 
-            transform: translateY(-20px) translateX(-35px) scale(1.15);
+            transform: translateX(30px) translateY(-15px);
           }
           75% { 
-            transform: translateY(25px) translateX(25px) scale(0.92);
+            transform: translateX(-20px) translateY(15px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
           }
         }
         
-        /* Wave highlights - creates light reflections on wave crests */
-        @keyframes waveHighlight {
-          0%, 100% { 
-            transform: translateY(0) translateX(0) scale(1);
-            opacity: 0.4;
-          }
-          50% { 
-            transform: translateY(-15px) translateX(20px) scale(1.05);
-            opacity: 0.6;
-          }
+        /* Ensure smooth rendering */
+        .wave-path-1, .wave-path-2, .wave-path-3, .wave-path-4 {
+          transform-origin: center;
+          will-change: transform;
         }
       `}</style>
     </div>
