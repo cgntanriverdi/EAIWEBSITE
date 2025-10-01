@@ -15,84 +15,114 @@ export default function DashboardPreview() {
 
   return (
     <div ref={ref} className="relative w-full max-w-2xl mx-auto h-[550px]" data-testid="dashboard-preview">
-      {/* Product Listing Card - bottom of stack */}
+      {/* Smart Pricing Card - bottom of stack */}
       <motion.div
         style={{ y: y3 }}
         className="absolute top-60 left-0 right-0 z-10"
       >
-        <Card className="bg-gradient-to-br from-white/95 to-white/90 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
-          <CardContent className="p-6 relative">
-            <div className="flex items-start justify-between mb-4">
+        <Card className="bg-gradient-to-br from-white via-white/95 to-green-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
+          <CardHeader className="pb-3 relative">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <ShoppingBag className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
+                  <DollarSign className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">Active Listings</h3>
-                  <p className="text-xs text-gray-500">Across all platforms</p>
+                  <CardTitle className="text-base font-bold text-gray-900">
+                    Smart Pricing
+                  </CardTitle>
+                  <p className="text-xs text-gray-500 mt-1">That maximizes profit</p>
                 </div>
               </div>
-              <Badge className="bg-green-50 text-green-700 border-green-200 text-xs">Live</Badge>
+              <Badge className="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 shadow-lg">
+                +47%
+              </Badge>
             </div>
-            
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              <div className="bg-gray-50/80 rounded-lg p-3">
-                <div className="text-2xl font-bold text-gray-900">1,247</div>
-                <div className="text-xs text-gray-500 mt-1">Published</div>
+          </CardHeader>
+          <CardContent className="relative">
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
+                <div className="flex items-baseline space-x-2">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    $324K
+                  </div>
+                  <div className="text-sm text-green-600 font-semibold flex items-center">
+                    <TrendingUp className="w-3 h-3 mr-1" />
+                    +89%
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 mt-1">Additional profit this month</div>
               </div>
-              <div className="bg-gray-50/80 rounded-lg p-3">
-                <div className="text-2xl font-bold text-indigo-600">342</div>
-                <div className="text-xs text-gray-500 mt-1">Pending</div>
-              </div>
-              <div className="bg-gray-50/80 rounded-lg p-3">
-                <div className="text-2xl font-bold text-green-600">94%</div>
-                <div className="text-xs text-gray-500 mt-1">Success</div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                  <div className="text-xs text-gray-500 mb-1">Margin Increase</div>
+                  <div className="text-2xl font-bold text-gray-900">12.8%</div>
+                  <div className="text-xs text-green-600 font-medium mt-1">+4.2%</div>
+                </div>
+                <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                  <div className="text-xs text-gray-500 mb-1">Price Points</div>
+                  <div className="text-2xl font-bold text-gray-900">892</div>
+                  <div className="text-xs text-green-600 font-medium mt-1">Optimized</div>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </motion.div>
 
-      {/* AI Generation Stats - middle of stack */}
+      {/* AI Product Descriptions Card - middle of stack */}
       <motion.div
         style={{ y: y2 }}
         className="absolute top-32 left-0 right-0 z-20"
       >
-        <Card className="bg-gradient-to-br from-white/95 to-white/90 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl overflow-hidden">
-          <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl" />
-          <CardContent className="p-6 relative">
-            <div className="flex items-center justify-between mb-4">
+        <Card className="bg-gradient-to-br from-white via-white/95 to-purple-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-2xl overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
+          <CardHeader className="pb-3 relative">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <Sparkles className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl">
+                  <FileText className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">AI Generation</h3>
-                  <p className="text-xs text-gray-500">Real-time processing</p>
+                  <CardTitle className="text-base font-bold text-gray-900">
+                    AI Descriptions
+                  </CardTitle>
+                  <p className="text-xs text-gray-500 mt-1">That convert browsers to buyers</p>
                 </div>
               </div>
-              <div className="flex space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-xs text-green-600 font-medium">Active</span>
-              </div>
+              <Badge className="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 shadow-lg">
+                +140%
+              </Badge>
             </div>
+          </CardHeader>
+          <CardContent className="relative">
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
+                <div className="flex items-baseline space-x-2">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    2,847
+                  </div>
+                  <div className="text-sm text-purple-600 font-semibold flex items-center">
+                    <TrendingUp className="w-3 h-3 mr-1" />
+                    +156%
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 mt-1">Descriptions generated today</div>
+              </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-100">
-                <FileText className="w-5 h-5 text-purple-600 mb-2" />
-                <div className="text-xl font-bold text-gray-900">2.8k</div>
-                <div className="text-xs text-gray-600">Descriptions</div>
-              </div>
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 border border-blue-100">
-                <ImageIcon className="w-5 h-5 text-blue-600 mb-2" />
-                <div className="text-xl font-bold text-gray-900">1.4k</div>
-                <div className="text-xs text-gray-600">Images</div>
-              </div>
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-3 border border-green-100">
-                <DollarSign className="w-5 h-5 text-green-600 mb-2" />
-                <div className="text-xl font-bold text-gray-900">892</div>
-                <div className="text-xs text-gray-600">Prices</div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                  <div className="text-xs text-gray-500 mb-1">Engagement Rate</div>
+                  <div className="text-2xl font-bold text-gray-900">94%</div>
+                  <div className="text-xs text-purple-600 font-medium mt-1">+38%</div>
+                </div>
+                <div className="bg-white/60 rounded-lg p-3 border border-gray-100">
+                  <div className="text-xs text-gray-500 mb-1">Avg Quality</div>
+                  <div className="text-2xl font-bold text-gray-900">9.4/10</div>
+                  <div className="text-xs text-purple-600 font-medium mt-1">Excellent</div>
+                </div>
               </div>
             </div>
           </CardContent>
