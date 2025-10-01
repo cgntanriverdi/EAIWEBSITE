@@ -1,10 +1,9 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Image, Camera, Zap, Sparkles, ArrowRight, Play, Check, Layers, Aperture, Wand2, Palette, Grid3x3, Smartphone } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Image, Camera, Zap, Sparkles, ArrowRight, Play, Check, Layers, Wand2, Palette, Grid3x3, Smartphone, Upload, Download, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
 import Navigation from '@/components/Navigation';
-import { useState, useRef } from 'react';
 
 const features = [
   {
@@ -33,7 +32,7 @@ const features = [
     description: 'Process thousands of images simultaneously with AI automation'
   },
   {
-    icon: Aperture,
+    icon: Smartphone,
     title: 'Quality control',
     description: 'Automated quality checks ensure every image meets your standards'
   }
@@ -55,51 +54,28 @@ const capabilities = [
 ];
 
 const ImageGenerationAgentPage = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
       <div className="relative overflow-hidden">
-        {/* Hero Section with Gradient Wave */}
-        <section ref={heroRef} className="relative pt-20 pb-32 px-4 overflow-hidden">
-          {/* Gradient Wave Background */}
-          <motion.div 
-            style={{ y }}
-            className="absolute inset-0 -z-10"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-blue-500 to-cyan-400" />
-            <svg
-              className="absolute bottom-0 left-0 right-0 w-full"
-              viewBox="0 0 1440 320"
-              preserveAspectRatio="none"
-              style={{ height: '180px' }}
-            >
-              <path
-                fill="white"
-                fillOpacity="1"
-                d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-              />
-            </svg>
-          </motion.div>
+        {/* Hero Section with Navy Gradient */}
+        <section className="relative pt-20 pb-32 px-4 overflow-hidden isolate">
+          {/* Navy Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A2540] via-[#1e3a5f] to-[#0F172A] z-0" />
+          
+          {/* Smooth Fade to White */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent z-0" />
 
           <div className="max-w-7xl mx-auto relative z-10 pt-24">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Left: Content */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <Badge className="mb-6 bg-white/20 text-white border-white/30 hover:bg-white/30" data-testid="badge-ai-powered">
+                <Badge className="mb-6 bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm" data-testid="badge-ai-powered">
                   AI-powered imagery
                 </Badge>
                 
@@ -107,14 +83,14 @@ const ImageGenerationAgentPage = () => {
                   Professional product photography at scale
                 </h1>
                 
-                <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-xl">
+                <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-xl">
                   Generate studio-quality product images in seconds. Our AI transforms simple photos into professional e-commerce visuals that drive conversions.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     size="lg" 
-                    className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                    className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
                     data-testid="button-start-free"
                   >
                     Start for free <ArrowRight className="ml-2 w-5 h-5" />
@@ -122,7 +98,7 @@ const ImageGenerationAgentPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg bg-transparent"
+                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg bg-transparent backdrop-blur-sm"
                     data-testid="button-see-demo"
                   >
                     <Play className="mr-2 w-5 h-5" /> See it in action
@@ -130,7 +106,7 @@ const ImageGenerationAgentPage = () => {
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="mt-12 flex items-center gap-8 text-white/80 text-sm">
+                <div className="mt-12 flex items-center gap-8 text-blue-100 text-sm">
                   <div className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>No credit card required</span>
@@ -142,60 +118,114 @@ const ImageGenerationAgentPage = () => {
                 </div>
               </motion.div>
 
-              {/* Right: Device Mockup */}
+              {/* Right: Realistic Dashboard Mockup */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
                 className="relative"
               >
-                <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                  {/* Mockup Device */}
-                  <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    <div className="bg-gray-50 p-4 border-b border-gray-200">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-3 h-3 rounded-full bg-red-400" />
-                        <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                        <div className="w-3 h-3 rounded-full bg-green-400" />
-                      </div>
-                      <div className="text-xs text-gray-500 font-mono">image-generator.ai</div>
+                <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+                  {/* Browser Chrome */}
+                  <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
                     </div>
-                    <div className="aspect-[4/3] bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-8">
-                      <div className="text-center">
-                        <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-                          <Image className="w-12 h-12 text-white" />
-                        </div>
-                        <div className="text-sm font-semibold text-gray-700 mb-2">AI Processing</div>
-                        <div className="flex gap-1 justify-center">
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse delay-75" />
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse delay-150" />
-                        </div>
-                      </div>
+                    <div className="flex items-center gap-2 bg-white rounded px-3 py-1.5 text-xs text-gray-600">
+                      <span className="text-gray-400">🔒</span>
+                      <span className="font-mono">image-generator.ai/dashboard</span>
                     </div>
                   </div>
                   
-                  {/* Floating Stats */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg p-4"
-                  >
-                    <div className="text-xs text-gray-500 mb-1">Processing speed</div>
-                    <div className="text-2xl font-bold text-gray-900">2.3s</div>
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4"
-                  >
-                    <div className="text-xs text-gray-500 mb-1">Images generated</div>
-                    <div className="text-2xl font-bold text-purple-600">2.5M+</div>
-                  </motion.div>
+                  {/* Dashboard Content */}
+                  <div className="bg-gray-50">
+                    {/* Toolbar */}
+                    <div className="bg-white border-b border-gray-200 px-6 py-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                            <Image className="w-4 h-4 text-white" />
+                          </div>
+                          <span className="font-semibold text-gray-900">Product Images</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button className="px-3 py-1.5 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                            <Upload className="w-3 h-3 inline mr-1" />
+                            Upload
+                          </button>
+                          <button className="px-3 py-1.5 text-xs bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                            Generate
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Main Content Area */}
+                    <div className="p-6">
+                      {/* Stats Row */}
+                      <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="bg-white rounded-lg p-4 border border-gray-200">
+                          <div className="text-2xl font-bold text-gray-900">2,847</div>
+                          <div className="text-xs text-gray-500">Generated today</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-4 border border-gray-200">
+                          <div className="text-2xl font-bold text-green-600">98%</div>
+                          <div className="text-xs text-gray-500">Quality score</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-4 border border-gray-200">
+                          <div className="text-2xl font-bold text-indigo-600">1.2s</div>
+                          <div className="text-xs text-gray-500">Avg. time</div>
+                        </div>
+                      </div>
+
+                      {/* Image Grid */}
+                      <div className="grid grid-cols-3 gap-3">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                          <div key={i} className="relative bg-white rounded-lg border border-gray-200 aspect-square overflow-hidden group cursor-pointer hover:border-indigo-400 transition-colors">
+                            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                              <Camera className="w-6 h-6 text-gray-400" />
+                            </div>
+                            {i === 1 && (
+                              <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded">
+                                ✓ Done
+                              </div>
+                            )}
+                            {i === 2 && (
+                              <div className="absolute inset-0 bg-indigo-600/10 backdrop-blur-sm flex items-center justify-center">
+                                <div className="text-xs text-indigo-700 font-medium">Processing...</div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                {/* Floating Stats Cards */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4 border border-gray-100"
+                >
+                  <div className="text-xs text-gray-500 mb-1">Processing speed</div>
+                  <div className="text-2xl font-bold text-gray-900">2.3s</div>
+                  <div className="text-xs text-green-600 mt-1">↑ 40% faster</div>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="absolute -top-6 -right-6 bg-white rounded-xl shadow-xl p-4 border border-gray-100"
+                >
+                  <div className="text-xs text-gray-500 mb-1">Images generated</div>
+                  <div className="text-2xl font-bold text-indigo-600">2.5M+</div>
+                  <div className="text-xs text-gray-500 mt-1">This month</div>
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -219,7 +249,7 @@ const ImageGenerationAgentPage = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
               {features.map((feature, index) => (
                 <motion.div
                   key={index}
@@ -229,8 +259,8 @@ const ImageGenerationAgentPage = () => {
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                   className="group"
                 >
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
-                    <feature.icon className="w-6 h-6 text-purple-600" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 ring-1 ring-gray-200 group-hover:ring-gray-300 transition-all">
+                    <feature.icon className="w-5 h-5 text-gray-700" strokeWidth={1.5} />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     {feature.title}
@@ -247,7 +277,7 @@ const ImageGenerationAgentPage = () => {
         {/* How It Works - Light Gray Background */}
         <section className="py-32 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
               {/* Left: Visual */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -255,30 +285,32 @@ const ImageGenerationAgentPage = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+                <div className="bg-white rounded-2xl p-8 border border-gray-200">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold">
+                      <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 text-white text-sm font-semibold">
                         1
                       </div>
                       <div className="flex-1">
-                        <div className="h-12 bg-gray-100 rounded-lg flex items-center px-4 text-sm text-gray-600">
+                        <div className="h-12 bg-gray-50 rounded-lg flex items-center px-4 text-sm text-gray-700 border border-gray-200">
+                          <Upload className="w-4 h-4 mr-2 text-gray-400" />
                           Upload your product photo
                         </div>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-4">
-                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold">
+                      <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 text-white text-sm font-semibold">
                         2
                       </div>
                       <div className="flex-1 space-y-2">
-                        <div className="h-10 bg-purple-100 rounded-lg flex items-center px-4 text-sm text-purple-700 font-medium">
+                        <div className="h-10 bg-indigo-50 rounded-lg flex items-center px-4 text-sm text-indigo-700 font-medium border border-indigo-200">
+                          <Sparkles className="w-4 h-4 mr-2" />
                           AI processing...
                         </div>
-                        <div className="h-2 bg-purple-200 rounded-full overflow-hidden">
+                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                           <motion.div
-                            className="h-full bg-purple-600"
+                            className="h-full bg-indigo-600"
                             initial={{ width: '0%' }}
                             whileInView={{ width: '100%' }}
                             viewport={{ once: true }}
@@ -293,7 +325,8 @@ const ImageGenerationAgentPage = () => {
                         <Check className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
-                        <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-4 text-white text-sm font-medium">
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm font-medium text-green-900">
+                          <Download className="w-4 h-4 inline mr-2" />
                           Professional image ready!
                         </div>
                       </div>
@@ -319,8 +352,8 @@ const ImageGenerationAgentPage = () => {
                 <div className="space-y-3 mb-8">
                   {capabilities.map((capability, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <div className="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Check className="w-3 h-3 text-purple-600" strokeWidth={3} />
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ring-1 ring-gray-300">
+                        <Check className="w-3 h-3 text-gray-700" strokeWidth={3} />
                       </div>
                       <span className="text-gray-700">{capability}</span>
                     </div>
@@ -329,7 +362,7 @@ const ImageGenerationAgentPage = () => {
 
                 <Button 
                   size="lg" 
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-lg"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-6 text-lg font-semibold rounded-lg"
                   data-testid="button-try-now"
                 >
                   Try it now <ArrowRight className="ml-2 w-5 h-5" />
@@ -357,7 +390,7 @@ const ImageGenerationAgentPage = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-16 text-center">
               {metrics.map((metric, index) => (
                 <motion.div
                   key={index}
@@ -365,9 +398,8 @@ const ImageGenerationAgentPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="text-center p-8 bg-gray-50 rounded-2xl border border-gray-200"
                 >
-                  <div className="text-5xl md:text-6xl font-bold text-purple-600 mb-3">
+                  <div className="text-6xl md:text-7xl font-bold text-gray-900 mb-3">
                     {metric.value}
                   </div>
                   <div className="text-lg text-gray-600">
@@ -380,9 +412,9 @@ const ImageGenerationAgentPage = () => {
         </section>
 
         {/* Mobile Preview Section - Light Background */}
-        <section className="py-32 px-4 bg-gradient-to-b from-white to-gray-50">
+        <section className="py-32 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
               {/* Left: Content */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -391,7 +423,7 @@ const ImageGenerationAgentPage = () => {
                 transition={{ duration: 0.8 }}
                 className="order-2 lg:order-1"
               >
-                <Badge className="mb-6 bg-purple-100 text-purple-700 border-purple-200" data-testid="badge-mobile-first">
+                <Badge className="mb-6 bg-indigo-50 text-indigo-700 border-indigo-200 ring-1 ring-indigo-100" data-testid="badge-mobile-first">
                   Mobile-first design
                 </Badge>
                 
@@ -405,21 +437,27 @@ const ImageGenerationAgentPage = () => {
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
-                    <Smartphone className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 mt-0.5">
+                      <Smartphone className="w-4 h-4 text-gray-700" />
+                    </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Responsive interface</h4>
                       <p className="text-gray-600">Seamless experience across all screen sizes</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <Zap className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 mt-0.5">
+                      <Zap className="w-4 h-4 text-gray-700" />
+                    </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Lightning fast</h4>
                       <p className="text-gray-600">Optimized performance on mobile networks</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <Sparkles className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 mt-0.5">
+                      <Settings className="w-4 h-4 text-gray-700" />
+                    </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Intuitive controls</h4>
                       <p className="text-gray-600">Touch-optimized for mobile editing</p>
@@ -438,50 +476,49 @@ const ImageGenerationAgentPage = () => {
               >
                 <div className="relative">
                   {/* Phone Frame */}
-                  <div className="relative w-[280px] h-[560px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl">
+                  <div className="relative w-[280px] h-[560px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl ring-1 ring-gray-800">
                     <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden">
                       {/* Status Bar */}
-                      <div className="bg-gray-50 px-6 py-3 flex justify-between items-center text-xs">
-                        <span className="font-semibold">9:41</span>
+                      <div className="bg-white px-6 py-3 flex justify-between items-center text-xs border-b border-gray-100">
+                        <span className="font-semibold text-gray-900">9:41</span>
                         <div className="flex gap-1">
-                          <div className="w-4 h-4 bg-gray-300 rounded-sm" />
-                          <div className="w-4 h-4 bg-gray-300 rounded-sm" />
-                          <div className="w-4 h-4 bg-gray-300 rounded-sm" />
+                          <div className="w-4 h-3 border border-gray-400 rounded-sm" />
+                          <div className="w-2 h-3 bg-gray-400 rounded-sm" />
                         </div>
                       </div>
                       
                       {/* App Content */}
-                      <div className="p-4 space-y-4">
-                        <div className="bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl p-4 text-white">
-                          <div className="text-xs mb-2 opacity-80">Upload Image</div>
-                          <div className="flex items-center justify-center py-6">
-                            <Camera className="w-12 h-12" />
+                      <div className="p-4 space-y-4 bg-gray-50 h-full">
+                        <div className="bg-white rounded-xl p-4 border border-gray-200">
+                          <div className="text-xs text-gray-500 mb-2">Upload Image</div>
+                          <div className="flex items-center justify-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                            <Camera className="w-10 h-10 text-gray-400" />
                           </div>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-3">
-                          <div className="bg-gray-100 rounded-lg p-3 aspect-square flex items-center justify-center">
-                            <Image className="w-8 h-8 text-gray-400" />
+                          <div className="bg-white rounded-lg p-2 aspect-square flex items-center justify-center border border-gray-200">
+                            <Image className="w-8 h-8 text-gray-300" />
                           </div>
-                          <div className="bg-gray-100 rounded-lg p-3 aspect-square flex items-center justify-center">
-                            <Image className="w-8 h-8 text-gray-400" />
+                          <div className="bg-white rounded-lg p-2 aspect-square flex items-center justify-center border border-gray-200">
+                            <Image className="w-8 h-8 text-gray-300" />
                           </div>
                         </div>
 
-                        <div className="bg-purple-600 text-white rounded-lg py-3 text-center font-semibold text-sm">
+                        <button className="w-full bg-indigo-600 text-white rounded-lg py-3 text-center font-semibold text-sm">
                           Generate Images
-                        </div>
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  {/* Floating Elements */}
+                  {/* Floating Badge */}
                   <motion.div
-                    animate={{ y: [0, -10, 0] }}
+                    animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute -top-6 -right-6 bg-white rounded-xl shadow-lg p-3"
+                    className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg px-3 py-2 border border-gray-200"
                   >
-                    <Sparkles className="w-6 h-6 text-purple-600" />
+                    <Sparkles className="w-5 h-5 text-indigo-600" />
                   </motion.div>
                 </div>
               </motion.div>
@@ -489,9 +526,9 @@ const ImageGenerationAgentPage = () => {
           </div>
         </section>
 
-        {/* Final CTA - Gradient Background */}
-        <section className="py-32 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-blue-500 to-cyan-400" />
+        {/* Final CTA - Navy Gradient */}
+        <section className="py-32 px-4 relative overflow-hidden isolate">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A2540] via-[#1e3a5f] to-[#0F172A] z-0" />
           
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <motion.div
@@ -503,13 +540,13 @@ const ImageGenerationAgentPage = () => {
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
                 Ready to transform your product images?
               </h2>
-              <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+              <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
                 Start creating professional product photography in minutes. No credit card required.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-purple-600 hover:bg-gray-100 px-10 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                  className="bg-white text-[#0A2540] hover:bg-gray-100 px-10 py-6 text-lg font-semibold rounded-lg shadow-lg"
                   data-testid="button-get-started-final"
                 >
                   Get started free <ArrowRight className="ml-2 w-5 h-5" />
@@ -518,7 +555,7 @@ const ImageGenerationAgentPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="border-2 border-white text-white hover:bg-white/10 px-10 py-6 text-lg rounded-lg bg-transparent"
+                    className="border-2 border-white text-white hover:bg-white/10 px-10 py-6 text-lg rounded-lg bg-transparent backdrop-blur-sm"
                     data-testid="link-view-pricing-final"
                   >
                     View pricing
