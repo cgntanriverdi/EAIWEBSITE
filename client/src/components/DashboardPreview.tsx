@@ -14,11 +14,67 @@ export default function DashboardPreview() {
   const y3 = useTransform(scrollY, [0, 1000], [0, -70]);
 
   return (
-    <div ref={ref} className="relative w-full max-w-md mx-auto" data-testid="dashboard-preview">
-      {/* Main analytics card - Stripe style */}
+    <div ref={ref} className="relative w-full max-w-md mx-auto h-[500px]" data-testid="dashboard-preview">
+      {/* Customer activity card - bottom of stack */}
+      <motion.div
+        style={{ y: y3 }}
+        className="absolute top-48 left-4 right-4 z-10"
+      >
+        <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600 flex items-center">
+              <div className="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center mr-2">
+                <Target className="w-3 h-3 text-white" />
+              </div>
+              Performance Impact
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold text-gray-900 mb-2">+34%</div>
+            <div className="text-xs text-green-600 font-medium">Conversion boost this week</div>
+            
+            <div className="mt-3 space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-500">Click-through rate</span>
+                <span className="text-gray-900 font-medium">+28.3%</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-500">Avg. listing quality</span>
+                <span className="text-gray-900 font-medium">9.2/10</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* AI Processing card - middle of stack */}
+      <motion.div
+        style={{ y: y2 }}
+        className="absolute top-28 left-4 right-4 z-20"
+      >
+        <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
+                <Bot className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-gray-900">AI Processing</div>
+                <div className="text-xs text-gray-500">Model: GPT-4</div>
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="text-xs text-gray-500">Time Saved</div>
+              <div className="text-lg font-bold text-gray-900">147.2 hrs</div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Main analytics card - top of stack */}
       <motion.div
         style={{ y: y1 }}
-        className="relative z-30"
+        className="absolute top-0 left-4 right-4 z-30"
       >
         <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-xl">
           <CardHeader className="pb-3">
@@ -69,65 +125,9 @@ export default function DashboardPreview() {
         </Card>
       </motion.div>
 
-      {/* Payment method card - floating */}
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute -top-4 -right-8 z-20 transform rotate-3"
-      >
-        <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-xl w-48 rounded-xl">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
-                <Bot className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <div className="text-sm font-medium text-gray-900">AI Processing</div>
-                <div className="text-xs text-gray-500">Model: GPT-4</div>
-              </div>
-            </div>
-            <div className="mt-3">
-              <div className="text-xs text-gray-500">Time Saved</div>
-              <div className="text-lg font-bold text-gray-900">147.2 hrs</div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Customer activity card */}
-      <motion.div
-        style={{ y: y3 }}
-        className="absolute top-32 -left-8 z-10 transform -rotate-2"
-      >
-        <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-xl w-52 rounded-xl">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center">
-              <div className="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center mr-2">
-                <Target className="w-3 h-3 text-white" />
-              </div>
-              Performance Impact
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl font-bold text-gray-900 mb-2">+34%</div>
-            <div className="text-xs text-green-600 font-medium">Conversion boost this week</div>
-            
-            <div className="mt-3 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span className="text-gray-500">Click-through rate</span>
-                <span className="text-gray-900 font-medium">+28.3%</span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-gray-500">Avg. listing quality</span>
-                <span className="text-gray-900 font-medium">9.2/10</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
       {/* Background glow effect - more subtle for Stripe style */}
       <motion.div
-        className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-3xl"
+        className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-3xl -z-10"
         animate={{
           scale: [1, 1.05, 1],
           opacity: [0.2, 0.4, 0.2]
