@@ -59,10 +59,17 @@ const ImageGenerationAgentPage = () => {
       <Navigation />
 
       <div className="relative overflow-hidden">
-        {/* Hero Section with Navy Gradient */}
+        {/* Hero Section with Animated Blue Gradient */}
         <section className="relative pt-20 pb-32 px-4 overflow-hidden isolate">
-          {/* Navy Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0A2540] via-[#1e3a5f] to-[#0F172A] z-0" />
+          {/* Animated Blue Gradient Background */}
+          <div 
+            className="absolute inset-0 z-0" 
+            style={{
+              backgroundImage: 'linear-gradient(135deg, #0A2540 0%, #1e3a8a 25%, #3b82f6 50%, #0ea5e9 75%, #0A2540 100%)',
+              backgroundSize: '400% 400%',
+              animation: 'gradientShift 15s ease infinite'
+            }}
+          />
           
           {/* Smooth Fade to White */}
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent z-0" />
