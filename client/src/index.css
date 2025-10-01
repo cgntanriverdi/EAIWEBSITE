@@ -541,6 +541,73 @@
     }
   }
 
+  /* Navy Wave Animations for Description Agent */
+  @keyframes navyWave {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes waveFloat1 {
+    0%, 100% {
+      background-position: 0% 0%;
+      transform: translateY(0) scale(1);
+    }
+    25% {
+      background-position: 50% 25%;
+      transform: translateY(-20px) scale(1.05);
+    }
+    50% {
+      background-position: 100% 50%;
+      transform: translateY(-30px) scale(1.1);
+    }
+    75% {
+      background-position: 50% 75%;
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+
+  @keyframes waveFloat2 {
+    0%, 100% {
+      background-position: 100% 100%;
+      transform: translateX(0) translateY(0) scale(1);
+    }
+    33% {
+      background-position: 60% 40%;
+      transform: translateX(20px) translateY(-25px) scale(1.08);
+    }
+    66% {
+      background-position: 20% 80%;
+      transform: translateX(-15px) translateY(-35px) scale(1.12);
+    }
+  }
+
+  @keyframes waveFloat3 {
+    0%, 100% {
+      background-position: 50% 50%;
+      transform: rotate(0deg) scale(1);
+    }
+    20% {
+      background-position: 40% 30%;
+      transform: rotate(2deg) scale(1.06);
+    }
+    40% {
+      background-position: 70% 40%;
+      transform: rotate(-3deg) scale(1.1);
+    }
+    60% {
+      background-position: 80% 70%;
+      transform: rotate(1deg) scale(1.08);
+    }
+    80% {
+      background-position: 30% 80%;
+      transform: rotate(-2deg) scale(1.04);
+    }
+  }
+
   /* Stripe-style smooth transitions */
   .smooth-transform {
     transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
