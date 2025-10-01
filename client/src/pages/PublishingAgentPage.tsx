@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Upload, Globe, Zap, ArrowRight, Play, Check, ShoppingCart, Share2, Clock, Rocket, Package, Send } from 'lucide-react';
+import { Upload, Globe, Zap, ArrowRight, Play, Check, Share2, Rocket, Send, BarChart2, RefreshCw, CheckCircle2, Loader2, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
@@ -21,57 +21,58 @@ const features = [
     icon: Share2,
     title: 'Smart Optimization',
     description: 'Automatically optimize listings for each platform\'s unique requirements and search algorithms.'
+  },
+  {
+    icon: RefreshCw,
+    title: 'Auto-Updates',
+    description: 'Keep all listings synchronized with automatic price and inventory updates across channels.'
+  },
+  {
+    icon: BarChart2,
+    title: 'Performance Analytics',
+    description: 'Track performance metrics across all platforms to optimize your distribution strategy.'
+  },
+  {
+    icon: CheckCircle2,
+    title: 'Quality Control',
+    description: 'Automated validation ensures listings meet platform requirements before publishing.'
+  }
+];
+
+const howItWorksSteps = [
+  {
+    icon: Upload,
+    title: 'Upload',
+    description: 'Connect your product catalog and marketplace accounts'
+  },
+  {
+    icon: Settings,
+    title: 'Configure',
+    description: 'Set platform-specific rules and optimization preferences'
+  },
+  {
+    icon: Rocket,
+    title: 'Publish',
+    description: 'Distribute listings to all platforms with one click'
   }
 ];
 
 const platforms = [
-  { name: 'Amazon', icon: '🛒', users: '300M+' },
-  { name: 'eBay', icon: '🏪', users: '180M+' },
-  { name: 'Shopify', icon: '🏬', users: '1.7M+' },
-  { name: 'Etsy', icon: '🎨', users: '90M+' },
-  { name: 'Facebook', icon: '👥', users: '2.9B+' },
-  { name: 'Instagram', icon: '📸', users: '2B+' },
-  { name: 'Google', icon: '🔍', users: '1B+' },
-  { name: 'Walmart', icon: '🏪', users: '240M+' }
+  { name: 'Amazon', status: 'active', listings: 234 },
+  { name: 'eBay', status: 'active', listings: 189 },
+  { name: 'Shopify', status: 'syncing', listings: 234 },
+  { name: 'Etsy', status: 'active', listings: 156 },
+  { name: 'Walmart', status: 'active', listings: 198 },
+  { name: 'Facebook', status: 'syncing', listings: 234 }
 ];
 
-const pipelineSteps = [
-  {
-    step: 1,
-    title: 'Connect',
-    description: 'Link marketplace accounts',
-    time: '5 min',
-    icon: Package,
-    status: 'completed'
-  },
-  {
-    step: 2,
-    title: 'Configure',
-    description: 'Set up product catalogs',
-    time: '10 min',
-    icon: Send,
-    status: 'active'
-  },
-  {
-    step: 3,
-    title: 'Publish',
-    description: 'Auto-distribute listings',
-    time: 'Instant',
-    icon: Rocket,
-    status: 'pending'
-  },
-  {
-    step: 4,
-    title: 'Optimize',
-    description: 'Track and improve performance',
-    time: 'Ongoing',
-    icon: Check,
-    status: 'pending'
-  }
+const metrics = [
+  { value: '245%', label: 'Reach increase' },
+  { value: '3.2M+', label: 'Products published' },
+  { value: '50+', label: 'Platforms' }
 ];
 
 const PublishingAgentPage = () => {
-  const [activeStep, setActiveStep] = useState(1);
   const heroRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -87,244 +88,330 @@ const PublishingAgentPage = () => {
       <Navigation />
 
       <div className="relative overflow-hidden">
-        {/* Hero Section - Navy Blue */}
-        <section ref={heroRef} className="relative pt-32 pb-32 px-4 min-h-screen flex items-center bg-[#0A2540]">
-          <div className="max-w-7xl mx-auto w-full">
-            <motion.div
-              style={{ y, opacity }}
-              className="text-center relative z-10"
-            >
+        {/* Hero Section - Navy Gradient with Publishing Dashboard Mockup */}
+        <section ref={heroRef} className="relative pt-20 pb-32 px-4 overflow-hidden">
+          {/* Navy Gradient Background */}
+          <div 
+            className="absolute inset-0 z-0"
+            style={{
+              background: 'linear-gradient(135deg, #0A2540 0%, #1e3a5f 50%, #0F172A 100%)'
+            }}
+          />
+          
+          {/* Smooth Fade to White */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent z-0" />
+
+          <div className="max-w-7xl mx-auto relative z-10 pt-24">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Content */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-6"
-              >
-                <p className="text-sm uppercase tracking-wider text-gray-400 font-medium mb-8">
-                  MULTI-PLATFORM DISTRIBUTION
-                </p>
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 rounded-2xl mb-8">
-                  <Upload className="w-10 h-10 text-white" strokeWidth={1.5} />
-                </div>
-              </motion.div>
-              
-              <motion.div
+                style={{ y, opacity }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="mb-8"
+                transition={{ duration: 0.8 }}
               >
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
-                  Publishing Agent
+                <Badge className="mb-6 bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm" data-testid="badge-ai-publishing">
+                  AI-powered distribution
+                </Badge>
+                
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                  Publish everywhere, instantly
                 </h1>
+                
+                <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-xl">
+                  Distribute products across 50+ platforms with one click. Automated synchronization keeps inventory and pricing perfect across all channels.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link href="/pricing">
+                    <Button 
+                      size="lg" 
+                      className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                      data-testid="button-start-publishing"
+                    >
+                      Start publishing <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg bg-transparent backdrop-blur-sm"
+                    onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                    data-testid="button-see-demo"
+                  >
+                    <Play className="mr-2 w-5 h-5" /> See demo
+                  </Button>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="mt-12 flex items-center gap-8 text-blue-100 text-sm">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    <span>No credit card required</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    <span>Free trial included</span>
+                  </div>
+                </div>
               </motion.div>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
-              >
-                Distribute your products across 50+ platforms simultaneously. One click, unlimited reach, maximum sales.
-              </motion.p>
-              
+
+              {/* Right: Publishing Dashboard Mockup */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+                className="relative"
               >
-                <Button 
-                  size="lg" 
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
-                  data-testid="button-start-publishing"
+                {/* Browser Chrome Mockup */}
+                <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-white/10">
+                  {/* Browser Header */}
+                  <div className="bg-gray-100 px-4 py-3 flex items-center gap-2 border-b border-gray-200">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                    </div>
+                    <div className="flex-1 flex justify-center">
+                      <div className="bg-white rounded-md px-4 py-1 text-xs text-gray-600 border border-gray-200 max-w-xs w-full text-center">
+                        publishing-hub.com/dashboard
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dashboard Content */}
+                  <div className="bg-white p-6">
+                    {/* Toolbar */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg border-2 border-gray-200 flex items-center justify-center">
+                          <Send className="w-5 h-5 text-gray-700" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900">Multi-Platform Publishing</h3>
+                      </div>
+                      <div className="flex gap-2">
+                        <button className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md text-sm font-medium transition-colors hover:bg-gray-50" data-testid="button-sync-all">
+                          Sync All
+                        </button>
+                        <button className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md text-sm font-medium transition-colors hover:bg-gray-50" data-testid="button-publish-toolbar">
+                          Publish
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Live Stats */}
+                    <div className="grid grid-cols-3 gap-3 mb-6">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">1,842</div>
+                        <div className="text-xs text-gray-600">Published today</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">98%</div>
+                        <div className="text-xs text-gray-600">Success rate</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-900">0.4s</div>
+                        <div className="text-xs text-gray-600">Avg. sync</div>
+                      </div>
+                    </div>
+
+                    {/* Platform Status Cards */}
+                    <div className="space-y-3">
+                      {platforms.map((platform, index) => (
+                        <div key={platform.name} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between border border-gray-200">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center">
+                              <Globe className="w-4 h-4 text-gray-600" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-gray-900">{platform.name}</div>
+                              <div className="text-xs text-gray-600">{platform.listings} listings</div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {platform.status === 'active' ? (
+                              <>
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                <span className="text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-md border border-green-200">Active</span>
+                              </>
+                            ) : (
+                              <>
+                                <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
+                                <span className="text-xs font-medium text-blue-700 bg-blue-50 px-2 py-1 rounded-md border border-blue-200">Syncing</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating KPI Cards */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="absolute -left-4 top-20 bg-white rounded-xl shadow-xl p-4 border border-gray-200"
                 >
-                  Start Publishing <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="px-8 py-6 text-lg rounded-lg bg-transparent border-2 border-white text-white hover:bg-white/10 transition-all duration-300"
-                  data-testid="button-see-platforms"
+                  <div className="text-sm text-gray-600 mb-1">Platform Reach</div>
+                  <div className="text-2xl font-bold text-green-600">+245%</div>
+                  <div className="text-xs text-gray-500 mt-1">vs. single platform</div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8, duration: 0.6 }}
+                  className="absolute -right-4 bottom-32 bg-white rounded-xl shadow-xl p-4 border border-gray-200"
                 >
-                  <Play className="mr-2 w-5 h-5" /> See Platforms
-                </Button>
+                  <div className="text-sm text-gray-600 mb-1">Total Published</div>
+                  <div className="text-2xl font-bold text-[#0A2540]">3.2M+</div>
+                  <div className="text-xs text-gray-500 mt-1">Products distributed</div>
+                </motion.div>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* Launch Pipeline Timeline - Light Cream Background */}
-        <section className="py-24 px-4 relative bg-[#F7F4F0]">
+        {/* Features Section - White Background */}
+        <section className="py-32 px-4 bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
-                LAUNCH PIPELINE
-              </p>
-              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-                From Setup to<br />Success in Minutes
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Powerful distribution features
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Our intelligent pipeline guides you through every step
+                Everything you need to manage multi-platform publishing at scale
               </p>
             </motion.div>
 
-            {/* Interactive Pipeline */}
-            <div className="grid lg:grid-cols-4 gap-6 relative">
-              {pipelineSteps.map((step, index) => {
-                const isActive = activeStep === index;
-                const isCompleted = activeStep > index;
-                const Icon = step.icon;
-                
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {features.map((feature, index) => {
+                const Icon = feature.icon;
                 return (
-                  <motion.button
-                    key={step.step}
-                    initial={{ opacity: 0, y: 40 }}
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.6 }}
-                    onClick={() => setActiveStep(index)}
-                    className="group relative text-left"
-                    data-testid={`button-step-${index}`}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    className="group"
                   >
-                    <div className={`relative bg-white rounded-xl p-6 border transition-all duration-300 ${
-                      isActive 
-                        ? 'border-indigo-600 shadow-md' 
-                        : isCompleted
-                        ? 'border-green-500 shadow-sm'
-                        : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
-                    }`}>
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
-                        isActive
-                          ? 'bg-indigo-600'
-                          : isCompleted
-                          ? 'bg-green-500'
-                          : 'bg-gray-100 border border-gray-200'
-                      }`}>
-                        {isCompleted ? (
-                          <Check className="w-6 h-6 text-white" strokeWidth={2.5} />
-                        ) : (
-                          <Icon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-gray-600'}`} strokeWidth={1.5} />
-                        )}
-                      </div>
-                      
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                        {step.description}
-                      </p>
-                      <div className="inline-flex items-center gap-2 bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-semibold border border-gray-200">
-                        <Clock className="w-4 h-4" />
-                        {step.time}
-                      </div>
+                    {/* Minimal Icon with Ring Border */}
+                    <div className="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center mb-4 group-hover:border-gray-300 transition-colors">
+                      <Icon className="w-6 h-6 text-gray-700" strokeWidth={1.5} />
                     </div>
-                  </motion.button>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-base text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </motion.div>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* Platform Grid - White Background */}
-        <section className="py-24 px-4 relative bg-white">
+        {/* How It Works Section - Gray Background */}
+        <section id="how-it-works" className="py-32 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
-                GLOBAL REACH
-              </p>
-              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-                Reach Billions<br />of Customers
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                How it works
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Instant access to the world's largest marketplaces
+                Three simple steps to global distribution
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {platforms.map((platform, index) => (
-                <motion.div
-                  key={platform.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05, duration: 0.5 }}
-                  className="group relative bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-indigo-300 text-center"
-                >
-                  <div className="text-4xl mb-3">{platform.icon}</div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">
-                    {platform.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 font-semibold">
-                    {platform.users} users
-                  </p>
-                  <div className="mt-3 h-1 bg-indigo-600 rounded-full" />
-                </motion.div>
-              ))}
+            <div className="grid md:grid-cols-3 gap-12 relative">
+              {/* Connection Lines */}
+              <div className="hidden md:block absolute top-20 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+              
+              {howItWorksSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.2, duration: 0.6 }}
+                    className="relative text-center"
+                  >
+                    {/* Step Number Circle */}
+                    <div className="w-16 h-16 mx-auto mb-6 bg-white rounded-full border-2 border-gray-300 flex items-center justify-center text-2xl font-bold text-gray-900 relative z-10">
+                      {index + 1}
+                    </div>
+                    
+                    {/* Icon */}
+                    <div className="w-14 h-14 mx-auto mb-4 rounded-xl border-2 border-gray-200 flex items-center justify-center bg-white">
+                      <Icon className="w-7 h-7 text-gray-700" strokeWidth={1.5} />
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {step.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* Features Section - Light Cream Background */}
-        <section className="py-24 px-4 relative bg-[#F7F4F0]">
+        {/* Metrics Section - White Background */}
+        <section className="py-32 px-4 bg-white">
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm uppercase tracking-wider text-gray-600 font-medium mb-4">
-                INTELLIGENT FEATURES
-              </p>
-              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-                Intelligent Distribution
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Advanced features ensuring optimal performance on every platform
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
+            <div className="grid md:grid-cols-3 gap-12">
+              {metrics.map((metric, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="group relative bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                  className="text-center"
                 >
-                  <div className="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center mb-6">
-                    <feature.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+                  <div className="text-5xl md:text-6xl font-bold text-gray-900 mb-2">
+                    {metric.value}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
+                  <div className="text-lg text-gray-600">
+                    {metric.label}
+                  </div>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Section - Navy Blue */}
-        <section className="py-24 px-4 relative overflow-hidden bg-[#0A2540]">
+        {/* CTA Section - Navy Gradient */}
+        <section className="py-32 px-4 relative overflow-hidden">
+          {/* Navy Gradient Background */}
+          <div 
+            className="absolute inset-0 z-0"
+            style={{
+              background: 'linear-gradient(135deg, #0A2540 0%, #1e3a5f 50%, #0F172A 100%)'
+            }}
+          />
+
           <div className="max-w-5xl mx-auto text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -332,28 +419,30 @@ const PublishingAgentPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                Scale Your<br />Distribution
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Ready to scale your distribution?
               </h2>
-              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                Join thousands reaching billions of customers with automated publishing
+              <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+                Join thousands of sellers reaching billions of customers with automated multi-platform publishing
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Button 
-                  size="lg" 
-                  className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-medium rounded-lg shadow-lg transition-all duration-300"
-                  data-testid="button-get-started-publishing"
-                >
-                  Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
                 <Link href="/pricing">
+                  <Button 
+                    size="lg" 
+                    className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                    data-testid="button-start-publishing-cta"
+                  >
+                    Start publishing today <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/products">
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg border-2 border-white bg-transparent transition-all duration-300"
-                    data-testid="link-explore-pricing"
+                    className="text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg border-2 border-white bg-transparent backdrop-blur-sm"
+                    data-testid="link-see-agents"
                   >
-                    Explore Pricing
+                    Explore all agents
                   </Button>
                 </Link>
               </div>
@@ -361,6 +450,13 @@ const PublishingAgentPage = () => {
           </div>
         </section>
       </div>
+
+      <style>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
     </div>
   );
 };
