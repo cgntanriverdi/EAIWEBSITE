@@ -72,7 +72,7 @@ export default function LandingPage() {
           "Brand voice matching",
           "Multi-language support"
         ]}
-        mockupType="mobile"
+        mockupType="descriptions"
       />
       
       <StripeFeatureSection
