@@ -487,9 +487,54 @@ const PublishingAgentPage = () => {
       </div>
 
       <style>{`
-        @keyframes gradientShift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+        @keyframes navyWave {
+          0%, 100% { 
+            background-position: 0% 50%; 
+          }
+          50% { 
+            background-position: 100% 50%; 
+          }
+        }
+        
+        @keyframes waveFloat1 {
+          0%, 100% { 
+            background-position: 0% 0%;
+            transform: translateY(0) scale(1);
+          }
+          33% { 
+            background-position: 50% 50%;
+            transform: translateY(-10px) scale(1.05);
+          }
+          66% { 
+            background-position: 100% 100%;
+            transform: translateY(5px) scale(0.98);
+          }
+        }
+        
+        @keyframes waveFloat2 {
+          0%, 100% { 
+            background-position: 100% 100%;
+            transform: translateX(0) translateY(0);
+          }
+          33% { 
+            background-position: 0% 50%;
+            transform: translateX(15px) translateY(-15px);
+          }
+          66% { 
+            background-position: 50% 0%;
+            transform: translateX(-10px) translateY(10px);
+          }
+        }
+        
+        @keyframes waveFloat3 {
+          0%, 100% { 
+            background-position: 50% 50%;
+            transform: scale(1) rotate(0deg);
+          }
+          50% { 
+            background-position: 100% 0%;
+            transform: scale(1.1) rotate(2deg);
+          }
         }
       `}</style>
     </div>
