@@ -11,7 +11,7 @@ export default function HeroStripe() {
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 12%, #3B82F6 24%, #06B6D4 36%, #EC4899 48%, #EF4444 60%, #F97316 72%, #FBBF24 84%, #8B5CF6 100%)',
+          backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 11%, #3B82F6 22%, #06B6D4 33%, #10B981 44%, #EC4899 55%, #EF4444 66%, #F97316 77%, #FBBF24 88%, #8B5CF6 100%)',
           backgroundSize: '400% 400%',
           animation: 'gradientShift 15s ease infinite'
         }}
