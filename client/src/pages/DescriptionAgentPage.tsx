@@ -85,47 +85,70 @@ const DescriptionAgentPage = () => {
       <div className="relative overflow-hidden">
         {/* Hero Section with Navy Gradient */}
         <section className="relative pt-20 pb-32 px-4 overflow-hidden">
-          {/* Animated Navy Wave Background */}
+          {/* Animated 3D Navy Wave Background with Visible Boundaries */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Base Layer */}
+            {/* Deep Base Layer */}
             <div 
               className="absolute inset-0" 
               style={{
-                background: 'linear-gradient(135deg, #0A2540 0%, #132f4c 25%, #1e4976 50%, #132f4c 75%, #0A2540 100%)',
-                backgroundSize: '400% 400%',
-                animation: 'navyWave 20s ease-in-out infinite'
+                background: 'linear-gradient(180deg, #0A2540 0%, #132f4c 100%)'
               }}
             />
             
-            {/* Wave Layer 1 - Subtle movement */}
-            <div 
-              className="absolute inset-0 opacity-40"
-              style={{
-                background: 'radial-gradient(ellipse at 20% 50%, rgba(30, 73, 118, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, rgba(19, 47, 76, 0.3) 0%, transparent 50%)',
-                backgroundSize: '200% 200%',
-                animation: 'waveFloat1 15s ease-in-out infinite'
-              }}
-            />
-            
-            {/* Wave Layer 2 - Creates depth */}
-            <div 
-              className="absolute inset-0 opacity-30"
-              style={{
-                background: 'radial-gradient(ellipse at 60% 40%, rgba(10, 37, 64, 0.5) 0%, transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(30, 73, 118, 0.4) 0%, transparent 60%)',
-                backgroundSize: '250% 250%',
-                animation: 'waveFloat2 18s ease-in-out infinite reverse'
-              }}
-            />
-            
-            {/* Wave Layer 3 - Top highlights */}
-            <div 
-              className="absolute inset-0 opacity-20"
-              style={{
-                background: 'radial-gradient(circle at 70% 30%, rgba(30, 73, 118, 0.6) 0%, transparent 40%), radial-gradient(circle at 40% 80%, rgba(19, 47, 76, 0.5) 0%, transparent 40%)',
-                backgroundSize: '300% 300%',
-                animation: 'waveFloat3 22s ease-in-out infinite'
-              }}
-            />
+            {/* SVG Wave Layers with Defined Boundaries */}
+            <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1440 800">
+              <defs>
+                {/* Gradients for each wave layer */}
+                <linearGradient id="wave1Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(30, 73, 118, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(30, 73, 118, 0.6)" />
+                </linearGradient>
+                <linearGradient id="wave2Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(42, 95, 148, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(42, 95, 148, 0.7)" />
+                </linearGradient>
+                <linearGradient id="wave3Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(56, 116, 176, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(56, 116, 176, 0.8)" />
+                </linearGradient>
+                <linearGradient id="wave4Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(78, 141, 204, 0.7)" />
+                  <stop offset="100%" stopColor="rgba(78, 141, 204, 0.9)" />
+                </linearGradient>
+              </defs>
+              
+              {/* Wave 1 - Furthest back */}
+              <path 
+                className="wave-path-1" 
+                d="M0,400 C240,320 480,480 720,400 C960,320 1200,480 1440,400 L1440,800 L0,800 Z" 
+                fill="url(#wave1Gradient)"
+                style={{ animation: 'waveMove1 20s ease-in-out infinite' }}
+              />
+              
+              {/* Wave 2 - Mid-back */}
+              <path 
+                className="wave-path-2" 
+                d="M0,450 C320,370 640,530 960,450 C1120,410 1280,530 1440,470 L1440,800 L0,800 Z" 
+                fill="url(#wave2Gradient)"
+                style={{ animation: 'waveMove2 16s ease-in-out infinite reverse' }}
+              />
+              
+              {/* Wave 3 - Mid-front */}
+              <path 
+                className="wave-path-3" 
+                d="M0,520 C360,440 720,600 1080,520 C1260,480 1350,580 1440,540 L1440,800 L0,800 Z" 
+                fill="url(#wave3Gradient)"
+                style={{ animation: 'waveMove3 12s ease-in-out infinite' }}
+              />
+              
+              {/* Wave 4 - Closest */}
+              <path 
+                className="wave-path-4" 
+                d="M0,600 C400,520 800,680 1200,600 C1320,570 1380,650 1440,620 L1440,800 L0,800 Z" 
+                fill="url(#wave4Gradient)"
+                style={{ animation: 'waveMove4 10s ease-in-out infinite reverse' }}
+              />
+            </svg>
           </div>
           
           {/* Smooth Fade to White */}
@@ -660,6 +683,77 @@ const DescriptionAgentPage = () => {
           </div>
         </section>
       </div>
+
+      <style>{`
+        /* SVG Wave Animations - Creating flowing motion with visible boundaries */
+        
+        /* Wave 1 - Slowest, furthest back */
+        @keyframes waveMove1 {
+          0% { 
+            transform: translateX(0) translateY(0);
+          }
+          50% { 
+            transform: translateX(-30px) translateY(-15px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
+          }
+        }
+        
+        /* Wave 2 - Mid-back layer */
+        @keyframes waveMove2 {
+          0% { 
+            transform: translateX(0) translateY(0);
+          }
+          50% { 
+            transform: translateX(40px) translateY(-20px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
+          }
+        }
+        
+        /* Wave 3 - Mid-front layer */
+        @keyframes waveMove3 {
+          0% { 
+            transform: translateX(0) translateY(0);
+          }
+          33% { 
+            transform: translateX(-50px) translateY(-25px);
+          }
+          66% { 
+            transform: translateX(-30px) translateY(10px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
+          }
+        }
+        
+        /* Wave 4 - Closest, most prominent */
+        @keyframes waveMove4 {
+          0% { 
+            transform: translateX(0) translateY(0);
+          }
+          25% { 
+            transform: translateX(60px) translateY(-30px);
+          }
+          50% { 
+            transform: translateX(30px) translateY(-15px);
+          }
+          75% { 
+            transform: translateX(-20px) translateY(15px);
+          }
+          100% { 
+            transform: translateX(0) translateY(0);
+          }
+        }
+        
+        /* Ensure smooth rendering */
+        .wave-path-1, .wave-path-2, .wave-path-3, .wave-path-4 {
+          transform-origin: center;
+          will-change: transform;
+        }
+      `}</style>
     </div>
   );
 };
