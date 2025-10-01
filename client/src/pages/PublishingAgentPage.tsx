@@ -90,13 +90,48 @@ const PublishingAgentPage = () => {
       <div className="relative overflow-hidden">
         {/* Hero Section - Navy Gradient with Publishing Dashboard Mockup */}
         <section ref={heroRef} className="relative pt-20 pb-32 px-4 overflow-hidden">
-          {/* Navy Gradient Background */}
-          <div 
-            className="absolute inset-0 z-0"
-            style={{
-              background: 'linear-gradient(135deg, #0A2540 0%, #1e3a5f 50%, #0F172A 100%)'
-            }}
-          />
+          {/* Animated Navy Wave Background */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            {/* Base Layer */}
+            <div 
+              className="absolute inset-0" 
+              style={{
+                background: 'linear-gradient(135deg, #0A2540 0%, #132f4c 25%, #1e4976 50%, #132f4c 75%, #0A2540 100%)',
+                backgroundSize: '400% 400%',
+                animation: 'navyWave 20s ease-in-out infinite'
+              }}
+            />
+            
+            {/* Wave Layer 1 - Subtle movement */}
+            <div 
+              className="absolute inset-0 opacity-40"
+              style={{
+                background: 'radial-gradient(ellipse at 20% 50%, rgba(30, 73, 118, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, rgba(19, 47, 76, 0.3) 0%, transparent 50%)',
+                backgroundSize: '200% 200%',
+                animation: 'waveFloat1 15s ease-in-out infinite'
+              }}
+            />
+            
+            {/* Wave Layer 2 - Creates depth */}
+            <div 
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: 'radial-gradient(ellipse at 60% 40%, rgba(10, 37, 64, 0.5) 0%, transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(30, 73, 118, 0.4) 0%, transparent 60%)',
+                backgroundSize: '250% 250%',
+                animation: 'waveFloat2 18s ease-in-out infinite reverse'
+              }}
+            />
+            
+            {/* Wave Layer 3 - Top highlights */}
+            <div 
+              className="absolute inset-0 opacity-20"
+              style={{
+                background: 'radial-gradient(circle at 70% 30%, rgba(30, 73, 118, 0.6) 0%, transparent 40%), radial-gradient(circle at 40% 80%, rgba(19, 47, 76, 0.5) 0%, transparent 40%)',
+                backgroundSize: '300% 300%',
+                animation: 'waveFloat3 22s ease-in-out infinite'
+              }}
+            />
+          </div>
           
           {/* Smooth Fade to White */}
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent z-0" />
