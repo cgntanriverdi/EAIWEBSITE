@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, TrendingUp, DollarSign, Send, ShoppingBag, Store, Package, FileText, Edit3, Sparkles, Star, Check } from "lucide-react";
+import { SiAmazon, SiEbay, SiShopify, SiEtsy, SiFacebook } from 'react-icons/si';
 import animationPlainImg from "@assets/animation_plain_1759133742500.png";
 import animationBackImg from "@assets/animation_back_1759133767968.png";
 import animationSideImg from "@assets/animation_side_1759133769482.png";
@@ -826,95 +827,92 @@ export default function StripeFeatureSection({
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="bg-gradient-to-br from-white via-white/95 to-indigo-50/30 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-3xl w-full max-w-[550px] mx-auto overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/20 to-blue-500/20 rounded-full blur-3xl" />
-              <CardHeader className="pb-4 relative">
+            <Card className="bg-white border border-gray-100 shadow-2xl rounded-2xl w-full max-w-[480px] mx-auto overflow-hidden">
+              <CardHeader className="pb-4 relative bg-white border-b border-gray-100 p-8">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl">
-                      <Send className="w-7 h-7 text-white" />
+                    <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <Send className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg font-bold text-gray-900">
+                      <CardTitle className="text-xl font-bold text-gray-900">
                         Multi-Platform Publishing
                       </CardTitle>
-                      <p className="text-xs text-gray-500 mt-1">Distribution Hub</p>
+                      <p className="text-sm text-gray-600 mt-0.5">Distribution Hub</p>
                     </div>
                   </div>
-                  <Badge className="text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0 shadow-lg">
+                  <Badge className="text-sm bg-blue-600 text-white hover:bg-blue-700 border-0 px-3 py-1 font-medium">
                     6 Active
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="relative space-y-4">
+              <CardContent className="relative space-y-6 bg-white p-8">
                 {/* Platform Grid */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-4">
                   {[
-                    { name: 'Amazon', icon: ShoppingBag, status: 'active', color: 'from-orange-500 to-amber-500' },
-                    { name: 'eBay', icon: Package, status: 'syncing', color: 'from-blue-500 to-cyan-500' },
-                    { name: 'Shopify', icon: Store, status: 'active', color: 'from-green-500 to-emerald-500' },
-                    { name: 'Etsy', icon: ShoppingBag, status: 'active', color: 'from-orange-500 to-red-500' },
-                    { name: 'Walmart', icon: Package, status: 'active', color: 'from-blue-600 to-blue-500' },
-                    { name: 'Facebook', icon: Store, status: 'syncing', color: 'from-blue-500 to-indigo-500' }
+                    { name: 'Amazon', icon: SiAmazon, status: 'active', color: 'text-[#FF9900]', bgColor: 'bg-[#FF9900]/10' },
+                    { name: 'eBay', icon: SiEbay, status: 'syncing', color: 'text-[#E53238]', bgColor: 'bg-[#E53238]/10' },
+                    { name: 'Shopify', icon: SiShopify, status: 'active', color: 'text-[#96BF48]', bgColor: 'bg-[#96BF48]/10' },
+                    { name: 'Etsy', icon: SiEtsy, status: 'active', color: 'text-[#F16521]', bgColor: 'bg-[#F16521]/10' },
+                    { name: 'Walmart', icon: ShoppingBag, status: 'active', color: 'text-[#0071CE]', bgColor: 'bg-[#0071CE]/10' },
+                    { name: 'Facebook', icon: SiFacebook, status: 'syncing', color: 'text-[#1877F2]', bgColor: 'bg-[#1877F2]/10' }
                   ].map((platform, i) => (
                     <motion.div
                       key={platform.name}
-                      className="bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-gray-100 hover:border-indigo-200 transition-all"
+                      className="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:border-gray-300 transition-colors flex flex-col items-center justify-center gap-3"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: i * 0.05 }}
                     >
-                      <div className={`w-9 h-9 bg-gradient-to-br ${platform.color} rounded-lg flex items-center justify-center mb-2 shadow-lg`}>
-                        <platform.icon className="w-5 h-5 text-white" />
+                      <div className={`w-12 h-12 ${platform.bgColor} rounded-xl flex items-center justify-center`}>
+                        <platform.icon className={`w-6 h-6 ${platform.color}`} />
                       </div>
-                      <div className="text-xs font-semibold text-gray-900 mb-1">{platform.name}</div>
-                      <div className="flex items-center gap-1.5">
-                        {platform.status === 'active' ? (
-                          <>
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                            <span className="text-[10px] text-green-600 font-medium">Active</span>
-                          </>
-                        ) : (
-                          <>
-                            <motion.div 
-                              className="w-1.5 h-1.5 bg-blue-500 rounded-full"
-                              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                            ></motion.div>
-                            <span className="text-[10px] text-blue-600 font-medium">Syncing</span>
-                          </>
-                        )}
+                      <div className="text-center">
+                        <div className="text-sm font-semibold text-gray-900">{platform.name}</div>
+                        <div className="flex items-center justify-center gap-1 mt-1">
+                          {platform.status === 'active' ? (
+                            <>
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs font-medium text-green-700">Active</span>
+                            </>
+                          ) : (
+                            <>
+                              <motion.div 
+                                className="w-2 h-2 bg-blue-500 rounded-full"
+                                animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                              ></motion.div>
+                              <span className="text-xs font-medium text-blue-700">Syncing</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
                 </div>
                 
                 {/* Stats */}
-                <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-5 border border-indigo-100">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="text-xs text-gray-500 mb-1">Products Distributed</div>
-                      <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                        2,847
+                <div className="grid grid-cols-2 gap-4 pt-6 border-t border-gray-200">
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">Products Distributed</div>
+                    <div className="flex items-baseline gap-2">
+                      <div className="text-3xl font-bold text-indigo-600">2,847</div>
+                      <div className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                        +245%
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-xs text-gray-500 mb-1">Total Reach</div>
-                      <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                        12.4M
-                      </div>
-                    </div>
+                    <div className="text-xs text-gray-500 mt-1">vs. single platform</div>
                   </div>
-                  <div className="flex items-center gap-2 text-xs mt-3">
-                    <div className="bg-green-500 text-white px-2 py-1 rounded-full font-semibold">+245%</div>
-                    <span className="text-gray-600">vs. single platform</span>
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">Total Reach</div>
+                    <div className="text-3xl font-bold text-indigo-600">12.4M</div>
                   </div>
                 </div>
                 
                 {/* Action Button */}
                 <button 
                   data-testid="button-publish-platforms"
-                  className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-4 rounded-xl text-sm font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02]"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-xl text-sm font-semibold shadow-lg shadow-indigo-600/20 transition-colors"
                 >
                   Publish to All Platforms
                 </button>
