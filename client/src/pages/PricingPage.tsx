@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState } from "react";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,59 +6,24 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { type PricingPlan } from "@shared/schema";
-import { 
-  Check, 
-  Star, 
-  Sparkles, 
-  Zap, 
-  ArrowRight,
-  Shield,
-  Headphones,
-  Rocket,
-  Crown,
-  Users,
-  Building,
-  Briefcase,
-  CreditCard
-} from "lucide-react";
+import { Check, Info, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export default function PricingPage() {
-  const heroRef = useRef(null);
-  const plansRef = useRef(null);
-  const faqRef = useRef(null);
-
-  const { scrollYProgress: heroProgress } = useScroll({
-    target: heroRef,
-    offset: ["start end", "end start"]
-  });
-
-  const { scrollYProgress: plansProgress } = useScroll({
-    target: plansRef,
-    offset: ["start end", "end start"]
-  });
-
-  const { scrollYProgress: faqProgress } = useScroll({
-    target: faqRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Parallax transforms
-  const heroY = useTransform(heroProgress, [0, 1], [0, -100]);
-  const plansY = useTransform(plansProgress, [0, 1], [0, -50]);
-  const faqY = useTransform(faqProgress, [0, 1], [0, -75]);
-
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly");
+  
   const { data: plans, isLoading, error } = useQuery<PricingPlan[]>({
     queryKey: ['/api/pricing-plans'],
   });
 
-  const formatPrice = (price: number | null) => {
+  const formatPrice = (price: number | null, isYearly: boolean = false) => {
     if (price === null) return "Custom";
-    return `$${(price / 100).toFixed(0)}`;
-  };
-
-  const formatPeriod = (plan: PricingPlan) => {
-    if (plan.isContactSales) return "contact sales";
-    return "per month";
+    const monthlyPrice = price / 100;
+    if (isYearly) {
+      const yearlyPrice = Math.floor(monthlyPrice * 12 * 0.7);
+      return `$${yearlyPrice}`;
+    }
+    return `$${monthlyPrice.toFixed(0)}`;
   };
 
   const handlePlanSelect = async (plan: PricingPlan) => {
@@ -70,518 +34,357 @@ export default function PricingPage() {
     }
   };
 
-  const features = [
-    {
-      icon: Shield,
-      title: "Enterprise Security",
-      description: "Bank-grade encryption and compliance"
+  // Feature comparison data
+  const comparisonFeatures = [
+    { 
+      category: "Core Features",
+      features: [
+        { name: "Product listings", basic: "20", pro: "50", plus: "100+", enterprise: "Unlimited" },
+        { name: "AI optimization level", basic: "Basic", pro: "Advanced", plus: "Premium", enterprise: "Custom" },
+        { name: "Processing speed", basic: "Standard", pro: "Fast", plus: "Fastest", enterprise: "Custom" },
+        { name: "Monthly credit refresh", basic: true, pro: true, plus: true, enterprise: true },
+      ]
     },
     {
-      icon: Headphones,
-      title: "24/7 Support",
-      description: "Round-the-clock expert assistance"
+      category: "Support & Analytics", 
+      features: [
+        { name: "Email support", basic: true, pro: true, plus: true, enterprise: true },
+        { name: "Priority support", basic: false, pro: true, plus: true, enterprise: true },
+        { name: "Live chat support", basic: false, pro: false, plus: true, enterprise: true },
+        { name: "Phone support", basic: false, pro: false, plus: false, enterprise: true },
+        { name: "Dedicated account manager", basic: false, pro: false, plus: false, enterprise: true },
+        { name: "Analytics dashboard", basic: false, pro: true, plus: true, enterprise: true },
+        { name: "Advanced analytics", basic: false, pro: false, plus: true, enterprise: true },
+      ]
     },
     {
-      icon: Rocket,
-      title: "Lightning Fast",
-      description: "Optimized for maximum performance"
-    },
-    {
-      icon: Users,
-      title: "Team Collaboration",
-      description: "Built for teams of any size"
-    }
-  ];
-
-  const faqs = [
-    {
-      question: "How does the free trial work?",
-      answer: "Start with a 14-day free trial on any plan. No credit card required. Full access to all features during the trial period."
-    },
-    {
-      question: "Can I change my plan anytime?",
-      answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately with prorated billing."
-    },
-    {
-      question: "What's included in customer support?",
-      answer: "All plans include email support. Pro and Enterprise plans get priority support with faster response times and phone/chat access."
-    },
-    {
-      question: "Do you offer custom enterprise solutions?",
-      answer: "Yes, we provide custom enterprise solutions with dedicated infrastructure, custom integrations, and personalized support."
-    },
-    {
-      question: "How secure is my data?",
-      answer: "We use bank-grade encryption, SOC 2 compliance, and regular security audits to ensure your data is completely secure."
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer: "We accept all major credit cards, ACH transfers, and wire transfers for enterprise customers."
+      category: "Advanced Features",
+      features: [
+        { name: "API access", basic: false, pro: false, plus: true, enterprise: true },
+        { name: "Custom AI model training", basic: false, pro: false, plus: false, enterprise: true },
+        { name: "Custom integrations", basic: false, pro: false, plus: false, enterprise: true },
+        { name: "White-label options", basic: false, pro: false, plus: false, enterprise: true },
+        { name: "SLA guarantees", basic: false, pro: false, plus: false, enterprise: true },
+      ]
     }
   ];
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Navigation />
-        <section className="relative py-32 px-4 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50" />
-          <div className="relative max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <Skeleton className="h-8 w-40 mx-auto mb-6 rounded-full" />
-              <Skeleton className="h-16 w-96 mx-auto mb-8 rounded-2xl" />
-              <Skeleton className="h-8 w-[600px] mx-auto rounded-2xl" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 max-w-8xl mx-auto">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-8">
-                  <Skeleton className="h-[500px] rounded-xl" />
-                </div>
-              ))}
-            </div>
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <Skeleton className="h-12 w-40 mx-auto mb-4" />
+          <Skeleton className="h-8 w-96 mx-auto mb-12" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-[500px]" />
+            ))}
           </div>
-        </section>
+        </div>
       </div>
     );
   }
 
   if (error || !plans) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Navigation />
-        <section className="relative py-32 px-4 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50" />
-          <div className="relative max-w-7xl mx-auto text-center">
-            <div className="bg-white/95 backdrop-blur-md border border-red-200 shadow-2xl rounded-2xl p-12">
-              <p className="text-red-600 text-lg font-medium">Error loading pricing plans. Please try again later.</p>
-            </div>
-          </div>
-        </section>
+        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
+          <p className="text-red-600">Error loading pricing plans. Please try again later.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-center">
-        {/* Animated Background */}
-        <motion.div 
-          className="absolute inset-0"
-          style={{ y: heroY }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-pink-500/10 blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-              rotate: [0, 180, 360]
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </motion.div>
-
-        {/* Floating Pricing Cards */}
-        {Array.from({ length: 8 }).map((_, i) => (
-          <motion.div
-            key={`price-particle-${i}`}
-            className="absolute w-16 h-10 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-white/60 text-xs font-mono"
-            style={{
-              left: `${10 + i * 12}%`,
-              top: `${20 + (i % 3) * 25}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.7, 0.3],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{
-              duration: 4 + i * 0.3,
-              repeat: Infinity,
-              delay: i * 0.5,
-              ease: "easeInOut"
-            }}
-          >
-            ${Math.floor(Math.random() * 200)}
-          </motion.div>
-        ))}
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+      {/* Header Section */}
+      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6" data-testid="text-pricing-title">
+            Pricing
+          </h1>
+          <p className="text-xl text-gray-600 mb-10" data-testid="text-pricing-subtitle">
+            Subscribe to the AI Commerce Studio plan that best fits you
+          </p>
+          
+          {/* Billing Toggle */}
+          <div className="inline-flex items-center gap-4 bg-gray-100 rounded-full p-1.5" data-testid="toggle-billing">
+            <button
+              onClick={() => setBillingPeriod("monthly")}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
+                billingPeriod === "monthly"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+              data-testid="button-monthly"
             >
-              <Badge className="mb-6 bg-white/10 text-white border-white/20 px-4 py-2" data-testid="badge-pricing-hero">
-                <CreditCard className="w-3 h-3 mr-2" />
-                Choose Your Plan
-              </Badge>
-            </motion.div>
-
-            <motion.h1 
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              data-testid="text-pricing-title"
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingPeriod("yearly")}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+                billingPeriod === "yearly"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+              data-testid="button-yearly"
             >
-              Simple, transparent{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                pricing
-              </span>
-            </motion.h1>
-
-            <motion.p 
-              className="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              data-testid="text-pricing-subtitle"
-            >
-              Start free, scale as you grow. No hidden fees, no surprises. Cancel anytime.
-            </motion.p>
-
-            <motion.div
-              className="flex justify-center"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-2 flex gap-2">
-                <div className="bg-white text-purple-600 px-4 py-2 rounded-full text-sm font-medium">Monthly</div>
-                <div className="text-white/60 px-4 py-2 text-sm">Yearly (Save 20%)</div>
-              </div>
-            </motion.div>
+              Yearly
+              <Badge className="bg-indigo-600 text-white text-xs px-2 py-0.5">Save 30%</Badge>
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Pricing Plans */}
-      <section ref={plansRef} className="relative py-32 px-6 overflow-hidden" id="pricing">
-        {/* Background */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50"
-          style={{ y: plansY }}
-        />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-pink-500/5 blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        <div className="relative max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="mb-6 bg-indigo-50 text-indigo-700 border-indigo-200 px-4 py-2" data-testid="badge-plans">
-              <Sparkles className="w-3 h-3 mr-2" />
-              Pricing Plans
-            </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gray-900 leading-tight" data-testid="text-plans-title">
-              Choose your{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                perfect plan
-              </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed" data-testid="text-plans-subtitle">
-              Start with our free plan and upgrade as your business grows. All plans include our core AI agents.
-            </p>
-          </motion.div>
+      {/* Pricing Cards */}
+      <section className="max-w-7xl mx-auto px-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {plans?.map((plan) => {
+            const isPopular = plan.displayName === "Pro";
 
-          {/* Plans Grid */}
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 max-w-8xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {plans?.map((plan, index) => {
-              const isPopular = plan.displayName === "Pro";
-              const planIcons = {
-                "Basic": Users,
-                "Pro": Rocket,
-                "Plus": Crown,
-                "Enterprise": Building
-              };
-              const IconComponent = planIcons[plan.displayName as keyof typeof planIcons] || Briefcase;
+            return (
+              <div
+                key={plan.id}
+                className={`relative ${isPopular ? 'lg:scale-105' : ''}`}
+              >
+                {/* Popular Badge */}
+                {isPopular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <Badge className="bg-indigo-600 text-white border-0 px-4 py-1 shadow-sm">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
 
-              return (
-                <motion.div
-                  key={plan.id}
-                  className={`relative group ${isPopular ? 'scale-105 lg:scale-110' : ''}`}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: isPopular ? 1.05 : 1.02 }}
-                >
-                  {/* Popular badge */}
-                  {isPopular && (
-                    <motion.div 
-                      className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 px-4 py-1 shadow-lg">
-                        <Star className="w-3 h-3 mr-1" />
-                        Most Popular
-                      </Badge>
-                    </motion.div>
-                  )}
-
-                  <Card className={`h-full bg-white/95 backdrop-blur-md border shadow-2xl rounded-3xl overflow-hidden transition-all duration-500 ${
-                    isPopular 
-                      ? 'border-orange-200 shadow-orange-200/50 hover:shadow-orange-300/50' 
-                      : 'border-gray-200 hover:shadow-3xl'
-                  } group-hover:border-indigo-300`}>
-                    
-                    {/* Gradient background for popular plan */}
-                    {isPopular && (
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 opacity-50" />
-                    )}
-
-                    <CardHeader className="text-center pb-8 pt-12 relative">
-                      {/* Icon */}
-                      <motion.div 
-                        className={`w-20 h-20 mx-auto mb-6 rounded-3xl flex items-center justify-center ${
-                          isPopular 
-                            ? 'bg-gradient-to-r from-orange-500 to-red-500' 
-                            : 'bg-gradient-to-r from-indigo-500 to-purple-500'
-                        } group-hover:scale-110 transition-transform duration-300`}
-                        whileHover={{ rotate: [0, -5, 5, 0] }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <IconComponent className="w-10 h-10 text-white" />
-                      </motion.div>
-
-                      {/* Plan name */}
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2" data-testid={`text-plan-${plan.displayName.toLowerCase()}`}>
+                <Card className={`h-full bg-white border ${
+                  isPopular 
+                    ? 'border-indigo-200 shadow-xl' 
+                    : 'border-gray-200 shadow-sm hover:shadow-md transition-shadow'
+                }`}>
+                  <CardHeader className="pb-6">
+                    {/* Plan Name */}
+                    <div className="mb-4">
+                      <h3 className="text-xl font-semibold text-gray-900" data-testid={`text-plan-${plan.displayName.toLowerCase()}`}>
                         {plan.displayName}
                       </h3>
-                      
-                      {/* Price */}
-                      <div className="mb-6">
-                        <div className="flex items-center justify-center">
-                          <span className="text-5xl font-bold text-gray-900" data-testid={`text-price-${plan.displayName.toLowerCase()}`}>
-                            {formatPrice(plan.price)}
+                    </div>
+
+                    {/* Price */}
+                    <div className="mb-6">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-4xl font-bold text-gray-900" data-testid={`text-price-${plan.displayName.toLowerCase()}`}>
+                          {formatPrice(plan.price, billingPeriod === "yearly")}
+                        </span>
+                        {!plan.isContactSales && (
+                          <span className="text-gray-600">
+                            {billingPeriod === "yearly" ? "/year" : "/month"}
                           </span>
-                          {!plan.isContactSales && (
-                            <span className="text-gray-600 text-lg ml-2">/{formatPeriod(plan)}</span>
-                          )}
+                        )}
+                      </div>
+                      {plan.productCredits && (
+                        <p className="text-sm text-gray-600 mt-2">
+                          {plan.productCredits} product credits/month
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm mb-6" data-testid={`text-description-${plan.displayName.toLowerCase()}`}>
+                      {plan.description}
+                    </p>
+
+                    {/* CTA Button */}
+                    <Button
+                      className={`w-full font-medium transition-all ${
+                        isPopular
+                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                          : plan.isContactSales
+                          ? 'bg-gray-900 hover:bg-gray-800 text-white'
+                          : 'bg-white hover:bg-gray-50 text-gray-900 border border-gray-300'
+                      }`}
+                      onClick={() => handlePlanSelect(plan)}
+                      data-testid={`button-select-${plan.displayName.toLowerCase()}`}
+                    >
+                      {plan.isContactSales ? "Contact Sales" : `Start ${plan.displayName}`}
+                    </Button>
+                  </CardHeader>
+
+                  <CardContent className="pt-6 border-t border-gray-100">
+                    {/* Features */}
+                    <div className="space-y-3">
+                      {(plan.features as string[])?.map((feature) => (
+                        <div key={feature} className="flex items-start gap-3">
+                          <Check className="w-4 h-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700">{feature}</span>
                         </div>
-                        {plan.isContactSales && (
-                          <p className="text-gray-600 text-sm mt-2">Custom pricing for your needs</p>
-                        )}
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-600 leading-relaxed mb-8" data-testid={`text-description-${plan.displayName.toLowerCase()}`}>
-                        {plan.description}
-                      </p>
-                    </CardHeader>
-
-                    <CardContent className="pt-0 pb-12 px-8 relative">
-                      {/* Features */}
-                      <div className="space-y-4 mb-8">
-                        {(plan.features as string[])?.map((feature, featureIndex) => (
-                          <motion.div
-                            key={feature}
-                            className="flex items-start gap-3"
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: (index * 0.1) + (featureIndex * 0.05) }}
-                            viewport={{ once: true }}
-                          >
-                            <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                            <span className="text-gray-700 leading-relaxed">{feature}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      {/* CTA Button */}
-                      <Button
-                        className={`w-full font-semibold py-4 text-lg rounded-xl transition-all duration-300 hover:scale-105 ${
-                          isPopular
-                            ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg'
-                            : plan.isContactSales
-                            ? 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white'
-                            : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white'
-                        }`}
-                        onClick={() => handlePlanSelect(plan)}
-                        data-testid={`button-select-${plan.displayName.toLowerCase()}`}
-                      >
-                        {plan.isContactSales ? (
-                          <>
-                            Contact Sales
-                            <ArrowRight className="w-5 h-5 ml-2" />
-                          </>
-                        ) : (
-                          <>
-                            Start {plan.displayName}
-                            <ArrowRight className="w-5 h-5 ml-2" />
-                          </>
-                        )}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900" />
-        
-        <div className="relative max-w-7xl mx-auto">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="mb-6 bg-white/10 text-white border-white/20 px-4 py-2">
-              <Shield className="w-3 h-3 mr-2" />
-              Why Choose Us
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white leading-tight">
-              Enterprise-grade{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                features
-              </span>
-            </h2>
-            <p className="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
-              Built with security, performance, and reliability at the core.
-            </p>
-          </motion.div>
+      {/* Compare Plans Section */}
+      <section className="max-w-7xl mx-auto px-6 py-20 border-t border-gray-200">
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4" data-testid="text-compare-title">
+            Compare plans
+          </h2>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  className="text-center group"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.15 }}
-                  viewport={{ once: true }}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-4 px-4 font-medium text-gray-900 w-1/3"></th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-900">Basic</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-900 bg-indigo-50">Pro</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-900">Plus</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-900">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonFeatures.map((section, sectionIndex) => (
+                <React.Fragment key={`section-${sectionIndex}`}>
+                  <tr className="border-b border-gray-200 bg-gray-50">
+                    <td colSpan={5} className="py-3 px-4 font-semibold text-gray-900 text-sm">
+                      {section.category}
+                    </td>
+                  </tr>
+                  {section.features.map((feature, featureIndex) => (
+                    <tr 
+                      key={`feature-${sectionIndex}-${featureIndex}`}
+                      className="border-b border-gray-100 hover:bg-gray-50"
+                    >
+                      <td className="py-4 px-4 text-sm text-gray-700 flex items-center gap-2">
+                        {feature.name}
+                        <Info className="w-3.5 h-3.5 text-gray-400" />
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        {typeof feature.basic === 'boolean' ? (
+                          feature.basic ? (
+                            <Check className="w-5 h-5 text-indigo-600 mx-auto" />
+                          ) : (
+                            <span className="text-gray-300">—</span>
+                          )
+                        ) : (
+                          <span className="text-sm text-gray-700">{feature.basic}</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-center bg-indigo-50">
+                        {typeof feature.pro === 'boolean' ? (
+                          feature.pro ? (
+                            <Check className="w-5 h-5 text-indigo-600 mx-auto" />
+                          ) : (
+                            <span className="text-gray-300">—</span>
+                          )
+                        ) : (
+                          <span className="text-sm text-gray-700">{feature.pro}</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        {typeof feature.plus === 'boolean' ? (
+                          feature.plus ? (
+                            <Check className="w-5 h-5 text-indigo-600 mx-auto" />
+                          ) : (
+                            <span className="text-gray-300">—</span>
+                          )
+                        ) : (
+                          <span className="text-sm text-gray-700">{feature.plus}</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        {typeof feature.enterprise === 'boolean' ? (
+                          feature.enterprise ? (
+                            <Check className="w-5 h-5 text-indigo-600 mx-auto" />
+                          ) : (
+                            <span className="text-gray-300">—</span>
+                          )
+                        ) : (
+                          <span className="text-sm text-gray-700">{feature.enterprise}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* CTA Section with Testimonial */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
+        <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-3xl p-12 md:p-16">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6" data-testid="text-cta-title">
+                Get started with AI Commerce Studio
+              </h2>
+              <p className="text-indigo-100 text-lg mb-8">
+                Join thousands of businesses already optimizing their e-commerce listings with AI-powered agents.
+              </p>
+              <Link href="/products">
+                <Button 
+                  className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-6 text-lg"
+                  data-testid="button-cta-start"
                 >
-                  <motion.div 
-                    className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </motion.div>
-                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
-                  <p className="text-white/70 leading-relaxed">{feature.description}</p>
-                </motion.div>
-              );
-            })}
+                  Try Our Agents
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="text-indigo-100 text-lg italic mb-4">
+                "The AI agents transformed our entire product catalog in days. Our conversion rate increased by 85% and we're saving 20 hours per week. This is a game-changer for e-commerce."
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
+                  SC
+                </div>
+                <div>
+                  <div className="text-white font-semibold">Sarah Chen</div>
+                  <div className="text-indigo-200 text-sm">E-commerce Manager, Fashion Forward Co</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section ref={faqRef} className="relative py-32 px-6 overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
-          style={{ y: faqY }}
-        />
-        
-        <div className="relative max-w-4xl mx-auto">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="mb-6 bg-indigo-50 text-indigo-700 border-indigo-200 px-4 py-2">
-              <Sparkles className="w-3 h-3 mr-2" />
-              FAQ
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 leading-tight">
-              Frequently asked{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                questions
-              </span>
-            </h2>
-          </motion.div>
-
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={faq.question}
-                className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{faq.question}</h3>
-                <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-              </motion.div>
-            ))}
+      <section className="max-w-4xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center" data-testid="text-faq-title">
+          Frequently asked questions
+        </h2>
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">How does the free trial work?</h3>
+            <p className="text-gray-600">Start with a 14-day free trial on any plan. No credit card required. Full access to all features during the trial period.</p>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
-        
-        <div className="relative max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white leading-tight">
-              Ready to get{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                started?
-              </span>
-            </h2>
-            <p className="text-xl text-white/80 mb-12 leading-relaxed">
-              Join thousands of businesses transforming their e-commerce with AI.
-            </p>
-            
-            <Button
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
-              data-testid="button-start-free-trial-cta"
-            >
-              Start Free Trial
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </motion.div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Can I change my plan anytime?</h3>
+            <p className="text-gray-600">Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately with prorated billing.</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What's included in customer support?</h3>
+            <p className="text-gray-600">All plans include email support. Pro and Enterprise plans get priority support with faster response times and phone/chat access.</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Do you offer custom enterprise solutions?</h3>
+            <p className="text-gray-600">Yes, we provide custom enterprise solutions with dedicated infrastructure, custom integrations, and personalized support.</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">How secure is my data?</h3>
+            <p className="text-gray-600">We use bank-grade encryption, SOC 2 compliance, and regular security audits to ensure your data is completely secure.</p>
+          </div>
         </div>
       </section>
     </div>
