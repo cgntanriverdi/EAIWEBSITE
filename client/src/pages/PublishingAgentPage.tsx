@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Upload, Globe, Zap, ArrowRight, Play, Check, Share2, Rocket, Send, BarChart2, RefreshCw, CheckCircle2, Loader2, Settings } from 'lucide-react';
+import { Upload, Globe, Zap, ArrowRight, Play, Check, Share2, Rocket, Send, BarChart2, RefreshCw, CheckCircle2, Loader2, Settings, ShoppingBag, Package } from 'lucide-react';
+import { SiAmazon, SiEbay, SiShopify, SiEtsy, SiFacebook } from 'react-icons/si';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
@@ -58,12 +59,12 @@ const howItWorksSteps = [
 ];
 
 const platforms = [
-  { name: 'Amazon', status: 'active', listings: 234 },
-  { name: 'eBay', status: 'active', listings: 189 },
-  { name: 'Shopify', status: 'syncing', listings: 234 },
-  { name: 'Etsy', status: 'active', listings: 156 },
-  { name: 'Walmart', status: 'active', listings: 198 },
-  { name: 'Facebook', status: 'syncing', listings: 234 }
+  { name: 'Amazon', status: 'active', icon: SiAmazon, color: 'text-[#FF9900]', bgColor: 'bg-[#FF9900]/10' },
+  { name: 'eBay', status: 'syncing', icon: SiEbay, color: 'text-[#E53238]', bgColor: 'bg-[#E53238]/10' },
+  { name: 'Shopify', status: 'active', icon: SiShopify, color: 'text-[#96BF48]', bgColor: 'bg-[#96BF48]/10' },
+  { name: 'Etsy', status: 'active', icon: SiEtsy, color: 'text-[#F16521]', bgColor: 'bg-[#F16521]/10' },
+  { name: 'Walmart', status: 'active', icon: ShoppingBag, color: 'text-[#0071CE]', bgColor: 'bg-[#0071CE]/10' },
+  { name: 'Facebook', status: 'syncing', icon: SiFacebook, color: 'text-[#1877F2]', bgColor: 'bg-[#1877F2]/10' }
 ];
 
 const metrics = [
@@ -214,119 +215,91 @@ const PublishingAgentPage = () => {
                 </div>
               </motion.div>
 
-              {/* Right: Publishing Dashboard Mockup */}
+              {/* Right: Publishing Dashboard Card */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
                 className="relative"
               >
-                {/* Browser Chrome Mockup */}
-                <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-white/10">
-                  {/* Browser Header */}
-                  <div className="bg-gray-100 px-4 py-3 flex items-center gap-2 border-b border-gray-200">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                      <div className="w-3 h-3 rounded-full bg-green-500" />
-                    </div>
-                    <div className="flex-1 flex justify-center">
-                      <div className="bg-white rounded-md px-4 py-1 text-xs text-gray-600 border border-gray-200 max-w-xs w-full text-center">
-                        publishing-hub.com/dashboard
+                {/* Clean Card Design matching screenshot */}
+                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 p-8">
+                  {/* Header with Title and Badge */}
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center">
+                        <Send className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900">Multi-Platform Publishing</h3>
+                        <p className="text-sm text-gray-600">Distribution Hub</p>
                       </div>
                     </div>
+                    <Badge className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1 text-sm font-medium">
+                      6 Active
+                    </Badge>
                   </div>
 
-                  {/* Dashboard Content */}
-                  <div className="bg-white p-6">
-                    {/* Toolbar */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg border-2 border-gray-200 flex items-center justify-center">
-                          <Send className="w-5 h-5 text-gray-700" />
-                        </div>
-                        <h3 className="text-lg font-bold text-gray-900">Multi-Platform Publishing</h3>
-                      </div>
-                      <div className="flex gap-2">
-                        <button className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md text-sm font-medium transition-colors hover:bg-gray-50" data-testid="button-sync-all">
-                          Sync All
-                        </button>
-                        <button className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md text-sm font-medium transition-colors hover:bg-gray-50" data-testid="button-publish-toolbar">
-                          Publish
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Live Stats */}
-                    <div className="grid grid-cols-3 gap-3 mb-6">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">1,842</div>
-                        <div className="text-xs text-gray-600">Published today</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">98%</div>
-                        <div className="text-xs text-gray-600">Success rate</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">0.4s</div>
-                        <div className="text-xs text-gray-600">Avg. sync</div>
-                      </div>
-                    </div>
-
-                    {/* Platform Status Cards */}
-                    <div className="space-y-3">
-                      {platforms.map((platform, index) => (
-                        <div key={platform.name} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between border border-gray-200">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center">
-                              <Globe className="w-4 h-4 text-gray-600" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-semibold text-gray-900">{platform.name}</div>
-                              <div className="text-xs text-gray-600">{platform.listings} listings</div>
-                            </div>
+                  {/* Platform Grid - 2x3 */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    {platforms.map((platform, index) => {
+                      const Icon = platform.icon;
+                      return (
+                        <motion.div
+                          key={platform.name}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
+                          className="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center gap-3 border border-gray-200 hover:border-gray-300 transition-colors"
+                        >
+                          <div className={`w-12 h-12 rounded-xl ${platform.bgColor} flex items-center justify-center`}>
+                            <Icon className={`w-6 h-6 ${platform.color}`} />
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="text-center">
+                            <div className="text-sm font-semibold text-gray-900">{platform.name}</div>
                             {platform.status === 'active' ? (
-                              <>
-                                <CheckCircle2 className="w-4 h-4 text-green-600" />
-                                <span className="text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-md border border-green-200">Active</span>
-                              </>
+                              <div className="flex items-center justify-center gap-1 mt-1">
+                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                                <span className="text-xs font-medium text-green-700">Active</span>
+                              </div>
                             ) : (
-                              <>
-                                <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
-                                <span className="text-xs font-medium text-blue-700 bg-blue-50 px-2 py-1 rounded-md border border-blue-200">Syncing</span>
-                              </>
+                              <div className="flex items-center justify-center gap-1 mt-1">
+                                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                                <span className="text-xs font-medium text-blue-700">Syncing</span>
+                              </div>
                             )}
                           </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Metrics Section */}
+                  <div className="grid grid-cols-2 gap-4 mb-6 pt-6 border-t border-gray-200">
+                    <div>
+                      <div className="text-sm text-gray-600 mb-1">Products Distributed</div>
+                      <div className="flex items-baseline gap-2">
+                        <div className="text-3xl font-bold text-indigo-600">2,847</div>
+                        <div className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                          +245%
                         </div>
-                      ))}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">vs. single platform</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-600 mb-1">Total Reach</div>
+                      <div className="text-3xl font-bold text-indigo-600">12.4M</div>
                     </div>
                   </div>
+
+                  {/* Publish Button */}
+                  <button 
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 rounded-xl transition-colors shadow-lg shadow-indigo-600/20"
+                    data-testid="button-publish-all-platforms"
+                  >
+                    Publish to All Platforms
+                  </button>
                 </div>
-
-                {/* Floating KPI Cards */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  className="absolute -left-4 top-20 bg-white rounded-xl shadow-xl p-4 border border-gray-200"
-                >
-                  <div className="text-sm text-gray-600 mb-1">Platform Reach</div>
-                  <div className="text-2xl font-bold text-green-600">+245%</div>
-                  <div className="text-xs text-gray-500 mt-1">vs. single platform</div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                  className="absolute -right-4 bottom-32 bg-white rounded-xl shadow-xl p-4 border border-gray-200"
-                >
-                  <div className="text-sm text-gray-600 mb-1">Total Published</div>
-                  <div className="text-2xl font-bold text-[#0A2540]">3.2M+</div>
-                  <div className="text-xs text-gray-500 mt-1">Products distributed</div>
-                </motion.div>
               </motion.div>
             </div>
           </div>
