@@ -5,7 +5,6 @@ import HeroStripe from "@/components/HeroStripe";
 import CompanyLogosMarquee from "@/components/CompanyLogosMarquee";
 import StripeFeatureSection from "@/components/StripeFeatureSection";
 import WorkflowVisualization from "@/components/WorkflowVisualization";
-import PricingSection from "@/components/PricingSection";
 import TestimonialCard from "@/components/TestimonialCard";
 import ContactForm from "@/components/ContactForm";
 import { Badge } from "@/components/ui/badge";
@@ -267,11 +266,6 @@ export default function LandingPage() {
           />
         ))}
       </section>
-
-      {/* Pricing */}
-      <div id="pricing">
-        <PricingSection />
-      </div>
 
       {/* Contact */}
       <div id="contact">
