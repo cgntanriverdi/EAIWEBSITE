@@ -1,5 +1,9 @@
-import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription, type Lead, type InsertLead } from "@shared/schema";
+import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription, type Lead, type InsertLead, users, pricingPlans, userSubscriptions, leads } from "@shared/schema";
 import { randomUUID } from "crypto";
+import pkg from "pg";
+const { Pool } = pkg;
+import { drizzle } from "drizzle-orm/node-postgres";
+import { eq, and } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -238,4 +242,171 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  private db: ReturnType<typeof drizzle>;
+  private pool: InstanceType<typeof Pool>;
+
+  constructor() {
+    this.pool = new Pool({
+      connectionString: process.env.DATABASE_URL!,
+    });
+    this.db = drizzle(this.pool);
+    this.initializeDefaultPlans();
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.username, username));
+    return result[0];
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values(insertUser).returning();
+    return result[0];
+  }
+
+  async getAllPricingPlans(): Promise<PricingPlan[]> {
+    return await this.db.select().from(pricingPlans).orderBy(pricingPlans.sortOrder);
+  }
+
+  async getPricingPlan(id: string): Promise<PricingPlan | undefined> {
+    const result = await this.db.select().from(pricingPlans).where(eq(pricingPlans.id, id));
+    return result[0];
+  }
+
+  async createPricingPlan(insertPlan: InsertPricingPlan): Promise<PricingPlan> {
+    const result = await this.db.insert(pricingPlans).values(insertPlan).returning();
+    return result[0];
+  }
+
+  async getUserSubscription(userId: string): Promise<UserSubscription | undefined> {
+    const result = await this.db.select().from(userSubscriptions).where(
+      and(eq(userSubscriptions.userId, userId), eq(userSubscriptions.isActive, true))
+    );
+    return result[0];
+  }
+
+  async createUserSubscription(insertSubscription: InsertUserSubscription): Promise<UserSubscription> {
+    const result = await this.db.insert(userSubscriptions).values(insertSubscription).returning();
+    return result[0];
+  }
+
+  async updateUserSubscription(id: string, updates: Partial<UserSubscription>): Promise<UserSubscription | undefined> {
+    const result = await this.db.update(userSubscriptions)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(userSubscriptions.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async getAllLeads(): Promise<Lead[]> {
+    return await this.db.select().from(leads);
+  }
+
+  async createLead(insertLead: InsertLead): Promise<Lead> {
+    const result = await this.db.insert(leads).values(insertLead).returning();
+    return result[0];
+  }
+
+  private async initializeDefaultPlans(): Promise<void> {
+    const existingPlans = await this.db.select().from(pricingPlans);
+    if (existingPlans.length > 0) {
+      return;
+    }
+
+    const defaultPlans: InsertPricingPlan[] = [
+      {
+        name: "basic",
+        displayName: "Basic",
+        description: "Perfect for getting started",
+        price: 2900,
+        currency: "USD",
+        productCredits: 20,
+        hasApiAccess: false,
+        isContactSales: false,
+        features: [
+          "20 product listings",
+          "Basic AI optimization",
+          "Email support",
+          "Standard processing speed",
+          "Monthly credit refresh"
+        ],
+        isPopular: false,
+        sortOrder: 1
+      },
+      {
+        name: "pro",
+        displayName: "Pro",
+        description: "Best for growing businesses",
+        price: 5900,
+        currency: "USD",
+        productCredits: 50,
+        hasApiAccess: false,
+        isContactSales: false,
+        features: [
+          "50 product listings",
+          "Advanced AI optimization",
+          "Priority email support",
+          "Faster processing speed",
+          "Analytics dashboard",
+          "Monthly credit refresh"
+        ],
+        isPopular: true,
+        sortOrder: 2
+      },
+      {
+        name: "plus",
+        displayName: "Plus",
+        description: "For serious e-commerce operations",
+        price: 9900,
+        currency: "USD",
+        productCredits: 100,
+        hasApiAccess: true,
+        isContactSales: false,
+        features: [
+          "100+ product listings",
+          "Premium AI optimization",
+          "Live chat support",
+          "Fastest processing speed",
+          "Advanced analytics",
+          "API access",
+          "Monthly credit refresh"
+        ],
+        isPopular: false,
+        sortOrder: 3
+      },
+      {
+        name: "enterprise",
+        displayName: "Enterprise",
+        description: "Custom solutions for large teams",
+        price: null,
+        currency: "USD",
+        productCredits: null,
+        hasApiAccess: true,
+        isContactSales: true,
+        features: [
+          "Unlimited product listings",
+          "Custom AI model training",
+          "Dedicated account manager",
+          "24/7 phone support",
+          "Custom integrations",
+          "White-label options",
+          "SLA guarantees",
+          "Volume discounts"
+        ],
+        isPopular: false,
+        sortOrder: 4
+      }
+    ];
+
+    for (const planData of defaultPlans) {
+      await this.db.insert(pricingPlans).values(planData);
+    }
+  }
+}
+
+export const storage = new DatabaseStorage();

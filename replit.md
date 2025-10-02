@@ -9,12 +9,54 @@ This is a full-stack web application for an AI Commerce Studio that helps e-comm
 - **Routing**: Wouter for client-side routing
 - **UI**: Shadcn/ui components with Tailwind CSS
 - **State Management**: TanStack Query for server state
-- **Storage**: In-memory storage (MemStorage) for development
+- **Database**: PostgreSQL with Drizzle ORM (node-postgres driver)
 - **Forms**: React Hook Form with Zod validation
 
 ## Recent Changes (2025-10-02)
 
-### Fresh GitHub Import Verification - October 2, 2025
+### GitHub Import Setup - October 2, 2025
+Successfully configured fresh GitHub import for Replit environment:
+
+**Database Migration:**
+- ✅ Migrated from in-memory storage (MemStorage) to PostgreSQL database
+- ✅ Implemented DatabaseStorage class using Drizzle ORM with node-postgres driver
+- ✅ Database schema pushed successfully (users, pricing_plans, user_subscriptions, leads)
+- ✅ Default pricing plans initialized in database (Basic, Pro, Plus, Enterprise)
+- ✅ All API endpoints verified working with database backend
+
+**Environment Setup:**
+- ✅ PostgreSQL database configured with DATABASE_URL environment variable
+- ✅ Node.js v20 installed and operational
+- ✅ All npm dependencies installed (pg, drizzle-orm packages added)
+
+**Workflow Configuration:**
+- ✅ "Start application" workflow configured on port 5000 with webview output
+- ✅ Server binding to 0.0.0.0:5000 for Replit proxy compatibility
+- ✅ Vite dev server with `allowedHosts: true` for proxy support (server/vite.ts:26)
+- ✅ Hot Module Replacement (HMR) working correctly
+
+**Application Verification:**
+- ✅ Landing page rendering with AI Commerce Studio hero section
+- ✅ Pricing page displaying database-backed pricing plans
+- ✅ Products page showing all AI agents
+- ✅ API endpoints functioning correctly:
+  - /api/pricing-plans → returns 4 plans from database
+  - /api/leads → creates leads in database
+  - /api/contact-sales → handles enterprise inquiries
+- ✅ Navigation between all pages working smoothly
+
+**Deployment Configuration:**
+- ✅ Deployment target: autoscale (optimal for stateless web apps)
+- ✅ Build command: `npm run build` (Vite + esbuild)
+- ✅ Start command: `npm run start` (production mode)
+- ✅ Port 5000 mapped to external port 80
+
+**Project Status:**
+- ✅ Project fully functional with PostgreSQL backend
+- ✅ Ready for development and production deployment
+- ✅ Import setup completed successfully
+
+### Previous Verification - October 2, 2025
 Verified and confirmed fresh GitHub clone is properly configured for Replit environment:
 
 **Environment Verification:**
@@ -263,7 +305,7 @@ Successfully configured fresh GitHub clone for Replit environment:
 ```
 
 ## User Preferences
-- Uses in-memory storage for development
+- Uses PostgreSQL database with Drizzle ORM for data persistence
 - Prefers TypeScript for type safety
 - Uses modern React patterns with hooks
 - Follows Replit environment best practices
