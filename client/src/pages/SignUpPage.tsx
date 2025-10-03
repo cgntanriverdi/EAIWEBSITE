@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, Zap, TrendingUp, Users } from "lucide-react";
+import { Sparkles, Zap, TrendingUp, Users, Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -16,6 +16,43 @@ export default function SignUpPage() {
     country: "",
     emailUpdates: false
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const calculatePasswordStrength = (password: string) => {
+    if (!password) return { strength: 0, label: "", color: "", barColor: "" };
+    
+    if (password.length < 10) {
+      return { strength: 20, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
+    }
+    
+    let strength = 0;
+    const checks = {
+      length: password.length >= 10,
+      hasLowerCase: /[a-z]/.test(password),
+      hasUpperCase: /[A-Z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+      hasMultipleWords: password.includes(' ')
+    };
+
+    if (checks.length) strength += 25;
+    if (checks.hasLowerCase && checks.hasUpperCase) strength += 20;
+    if (checks.hasNumber) strength += 20;
+    if (checks.hasSpecial) strength += 15;
+    if (checks.hasMultipleWords) strength += 20;
+
+    if (strength <= 40) {
+      return { strength, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
+    } else if (strength <= 60) {
+      return { strength, label: "Weak", color: "text-orange-600", barColor: "bg-orange-500" };
+    } else if (strength <= 80) {
+      return { strength, label: "Good", color: "text-yellow-600", barColor: "bg-yellow-500" };
+    } else {
+      return { strength, label: "Strong", color: "text-green-600", barColor: "bg-green-500" };
+    }
+  };
+
+  const passwordStrength = calculatePasswordStrength(formData.password);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,18 +193,116 @@ export default function SignUpPage() {
 
                   {/* Password */}
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                      Password
-                    </Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full bg-white text-gray-900"
-                      data-testid="input-password"
-                      required
-                    />
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                        Password
+                      </Label>
+                      <AnimatePresence>
+                        {formData.password && (
+                          <motion.span
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -10 }}
+                            className={`text-sm font-semibold ${passwordStrength.color}`}
+                          >
+                            {passwordStrength.label}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        className="w-full bg-white text-gray-900 pr-10"
+                        data-testid="input-password"
+                        required
+                      />
+                      <motion.button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        whileTap={{ scale: 0.95 }}
+                        data-testid="button-toggle-password"
+                      >
+                        <AnimatePresence mode="wait">
+                          {showPassword ? (
+                            <motion.div
+                              key="eye-off"
+                              initial={{ opacity: 0, rotate: -45 }}
+                              animate={{ opacity: 1, rotate: 0 }}
+                              exit={{ opacity: 0, rotate: 45 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <EyeOff className="w-5 h-5" />
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="eye"
+                              initial={{ opacity: 0, rotate: 45 }}
+                              animate={{ opacity: 1, rotate: 0 }}
+                              exit={{ opacity: 0, rotate: -45 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Eye className="w-5 h-5" />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.button>
+                    </div>
+                    
+                    {/* Password strength bar */}
+                    <AnimatePresence>
+                      {formData.password && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="space-y-2"
+                        >
+                          <div className="flex gap-1">
+                            <motion.div
+                              initial={{ scaleX: 0 }}
+                              animate={{ scaleX: 1 }}
+                              transition={{ duration: 0.3 }}
+                              className={`h-1 flex-1 rounded-full origin-left ${
+                                passwordStrength.strength >= 25 ? passwordStrength.barColor : "bg-gray-200"
+                              }`}
+                            />
+                            <motion.div
+                              initial={{ scaleX: 0 }}
+                              animate={{ scaleX: 1 }}
+                              transition={{ duration: 0.3, delay: 0.1 }}
+                              className={`h-1 flex-1 rounded-full origin-left ${
+                                passwordStrength.strength >= 50 ? passwordStrength.barColor : "bg-gray-200"
+                              }`}
+                            />
+                            <motion.div
+                              initial={{ scaleX: 0 }}
+                              animate={{ scaleX: 1 }}
+                              transition={{ duration: 0.3, delay: 0.2 }}
+                              className={`h-1 flex-1 rounded-full origin-left ${
+                                passwordStrength.strength >= 75 ? passwordStrength.barColor : "bg-gray-200"
+                              }`}
+                            />
+                          </div>
+                          
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex items-start gap-2 text-sm text-gray-600"
+                          >
+                            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400" />
+                            <p className="leading-relaxed">
+                              Passwords need to be at least 10 characters. Include multiple words and phrases to make it more secure.
+                            </p>
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   {/* Country */}
