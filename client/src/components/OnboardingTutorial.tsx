@@ -125,12 +125,11 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50"
             style={{ 
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
-              backdropFilter: "blur(2px)"
+              backgroundColor: "rgba(0, 0, 0, 0.75)"
             }}
             onClick={handleSkip}
           >
-            {/* Spotlight highlight */}
+            {/* Spotlight highlight - creates a cutout effect */}
             {currentStepData.highlightSelector && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -138,7 +137,7 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
                 transition={{ duration: 0.3 }}
                 className="absolute"
                 style={{
-                  boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.4), 0 0 0 9999px rgba(0, 0, 0, 0.7)",
+                  boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.6), 0 0 0 9999px rgba(0, 0, 0, 0.75)",
                   borderRadius: "12px",
                   pointerEvents: "none",
                   ...getHighlightPosition(currentStepData.highlightSelector)
