@@ -1,12 +1,96 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema } from "@shared/schema";
+import { insertLeadSchema, insertUserSchema } from "@shared/schema";
+import { passport, bcrypt, SALT_ROUNDS } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Test endpoint to verify API is working
   app.get("/api/test", (req, res) => {
     res.json({ message: "API is working", timestamp: new Date().toISOString() });
+  });
+
+  // Authentication Routes
+  app.post("/api/register", async (req, res, next) => {
+    try {
+      const result = insertUserSchema.safeParse(req.body);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid input",
+          errors: result.error.errors 
+        });
+      }
+
+      const { username, password } = result.data;
+
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const user = await storage.createUser({
+        username,
+        password: hashedPassword,
+      });
+
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.status(201).json({
+          message: "User created successfully",
+          user: { id: user.id, username: user.username },
+        });
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post("/api/login", (req, res, next) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return res.status(400).json({ message: info?.message || "Login failed" });
+      }
+
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+
+        res.json({
+          message: "Logged in successfully",
+          user: { id: user.id, username: user.username },
+        });
+      });
+    })(req, res, next);
+  });
+
+  app.post("/api/logout", (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.json({ message: "Logged out successfully" });
+    });
+  });
+
+  app.get("/api/user", (req, res) => {
+    if (req.isAuthenticated() && req.user) {
+      const user = req.user as any;
+      res.json({
+        id: user.id,
+        username: user.username,
+      });
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
+    }
   });
 
   // Pricing Plans API Routes
