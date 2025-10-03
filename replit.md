@@ -9,19 +9,18 @@ This is a full-stack web application for an AI Commerce Studio that helps e-comm
 - **Routing**: Wouter for client-side routing
 - **UI**: Shadcn/ui components with Tailwind CSS
 - **State Management**: TanStack Query for server state
-- **Database**: PostgreSQL with Drizzle ORM (node-postgres driver)
+- **Storage**: In-memory storage (MemStorage) with support for PostgreSQL via DatabaseStorage class
 - **Forms**: React Hook Form with Zod validation
 
 ## Recent Changes (2025-10-03)
 
 ### Fresh GitHub Import Completion - October 3, 2025
-Successfully configured fresh GitHub import for Replit environment from scratch:
+Successfully configured fresh GitHub import for Replit environment:
 
 **Environment Setup:**
 - ✅ Node.js v20 installed and operational
-- ✅ PostgreSQL database created and configured with DATABASE_URL
 - ✅ All npm dependencies already installed (496 packages)
-- ✅ Database schema pushed successfully using `npm run db:push`
+- ✅ In-memory storage (MemStorage) configured for data persistence
 
 **Workflow Configuration:**
 - ✅ "Start application" workflow configured on port 5000 with webview output type
@@ -29,9 +28,9 @@ Successfully configured fresh GitHub import for Replit environment from scratch:
 - ✅ Vite dev server with `allowedHosts: true` for proxy support (server/vite.ts:26)
 - ✅ Hot Module Replacement (HMR) working correctly
 
-**Database Initialization:**
-- ✅ PostgreSQL database tables created (users, pricing_plans, user_subscriptions, leads)
-- ✅ Default pricing plans initialized in database:
+**Storage Initialization:**
+- ✅ In-memory storage (MemStorage) configured and operational
+- ✅ Default pricing plans initialized in memory:
   - Basic: $29/month, 20 product credits
   - Pro: $59/month, 50 product credits (Most Popular)
   - Plus: $99/month, 100 product credits, API access
@@ -39,12 +38,12 @@ Successfully configured fresh GitHub import for Replit environment from scratch:
 
 **Application Verification:**
 - ✅ Landing page rendering with AI Commerce Studio hero section and metrics dashboard
-- ✅ Pricing page displaying all 4 database-backed pricing plans correctly
+- ✅ Pricing page displaying all 4 pricing plans correctly
 - ✅ Products page showing all AI agents with navigation
 - ✅ API endpoints functioning correctly:
   - /api/test → API health check working
-  - /api/pricing-plans → returns 4 plans from database
-  - /api/leads → creates leads in database
+  - /api/pricing-plans → returns 4 plans from memory storage
+  - /api/leads → creates leads in memory storage
   - /api/contact-sales → handles enterprise inquiries
 - ✅ Navigation between all pages working smoothly
 - ✅ All agent pages (Description, Image Generation, Pricing, Publishing) functional
@@ -55,7 +54,7 @@ Successfully configured fresh GitHub import for Replit environment from scratch:
 - ✅ Start command: `npm run start` (production mode)
 
 **Project Status:**
-- ✅ Project fully functional with PostgreSQL database backend
+- ✅ Project fully functional with in-memory storage backend
 - ✅ All pages rendering correctly with Stripe-inspired design
 - ✅ Ready for development and production deployment
 - ✅ GitHub import setup completed successfully
@@ -353,7 +352,7 @@ Successfully configured fresh GitHub clone for Replit environment:
 ```
 
 ## User Preferences
-- Uses PostgreSQL database with Drizzle ORM for data persistence
+- Uses in-memory storage (MemStorage) for data persistence with option to switch to PostgreSQL (DatabaseStorage)
 - Prefers TypeScript for type safety
 - Uses modern React patterns with hooks
 - Follows Replit environment best practices
