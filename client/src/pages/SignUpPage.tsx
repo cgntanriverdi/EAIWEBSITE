@@ -64,67 +64,46 @@ export default function SignUpPage() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Zap className="w-5 h-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Get started quickly</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Get started in minutes</h3>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
-                    Integrate with developer-friendly APIs or choose low-code or pre-built solutions.
+                    Choose from our easy-to-use tools and pre-built solutions to launch your AI-powered commerce platform.
                   </p>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Support any business model</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Transform your product listings</h3>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
-                    E-commerce, subscriptions, SaaS platforms, marketplaces, and more—all within a unified platform.
+                    Create compelling descriptions, optimize pricing, and generate professional imagery to increase conversions.
                   </p>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Join millions of businesses</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Join growing businesses</h3>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
-                    AI Commerce Studio is trusted by ambitious startups and enterprises of every size.
+                    AI Commerce Studio helps ambitious startups and established brands optimize their e-commerce success.
                   </p>
                 </div>
               </div>
 
-              {/* FOMO element - Social proof */}
+              {/* FOMO element - Time-sensitive opportunity */}
               <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6 space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 border-2 border-white"></div>
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-white"></div>
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 border-2 border-white"></div>
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-orange-500 border-2 border-white flex items-center justify-center text-xs font-bold text-white">
-                      +2K
-                    </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-indigo-900">2,847 businesses joined this week</p>
+                    <p className="text-sm font-semibold text-indigo-900 mb-1">Start optimizing today</p>
+                    <p className="text-sm text-indigo-700">
+                      Every day without AI optimization is a missed opportunity to boost your revenue and stand out from competitors.
+                    </p>
                   </div>
-                </div>
-                <p className="text-sm text-indigo-700">
-                  Don't miss out—increase your revenue by an average of <span className="font-bold">234%</span> with AI-optimized listings.
-                </p>
-              </div>
-
-              {/* Trust badge */}
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>No credit card required</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>14-day free trial</span>
                 </div>
               </div>
 
@@ -151,10 +130,9 @@ export default function SignUpPage() {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="you@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full"
+                      className="w-full bg-white"
                       data-testid="input-email"
                       required
                     />
@@ -168,10 +146,9 @@ export default function SignUpPage() {
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="John Doe"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full"
+                      className="w-full bg-white"
                       data-testid="input-fullname"
                       required
                     />
@@ -185,10 +162,9 @@ export default function SignUpPage() {
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Create a strong password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full"
+                      className="w-full bg-white"
                       data-testid="input-password"
                       required
                     />
@@ -203,8 +179,8 @@ export default function SignUpPage() {
                       value={formData.country}
                       onValueChange={(value) => setFormData({ ...formData, country: value })}
                     >
-                      <SelectTrigger className="w-full" data-testid="select-country">
-                        <SelectValue placeholder="Select your country" />
+                      <SelectTrigger className="w-full bg-white" data-testid="select-country">
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="us">🇺🇸 United States</SelectItem>
@@ -268,7 +244,7 @@ export default function SignUpPage() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 rounded-lg transition-colors"
+                    className="w-full border-2 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-gray-700 font-medium py-3 rounded-lg transition-all shadow-sm hover:shadow-md"
                     onClick={() => console.log("Sign up with Google clicked")}
                     data-testid="button-google-signup"
                   >
