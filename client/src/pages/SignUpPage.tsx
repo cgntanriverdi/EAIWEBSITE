@@ -211,20 +211,20 @@ export default function SignUpPage() {
                         )}
                       </AnimatePresence>
                     </div>
-                    <div className="relative">
+                    <div className="relative h-9">
                       <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-white text-gray-900 pr-10"
+                        className="w-full bg-white text-gray-900 pr-10 h-9"
                         data-testid="input-password"
                         required
                       />
                       <motion.button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-[18px] -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                         whileTap={{ scale: 0.95 }}
                         data-testid="button-toggle-password"
                       >
