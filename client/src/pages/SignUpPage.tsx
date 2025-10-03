@@ -21,13 +21,13 @@ export default function SignUpPage() {
   const calculatePasswordStrength = (password: string) => {
     if (!password) return { strength: 0, label: "", color: "", barColor: "" };
     
-    if (password.length < 10) {
+    if (password.length < 8) {
       return { strength: 20, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
     }
     
     let strength = 0;
     const checks = {
-      length: password.length >= 10,
+      length: password.length >= 8,
       hasLowerCase: /[a-z]/.test(password),
       hasUpperCase: /[A-Z]/.test(password),
       hasNumber: /\d/.test(password),
@@ -35,17 +35,18 @@ export default function SignUpPage() {
       hasMultipleWords: password.includes(' ')
     };
 
-    if (checks.length) strength += 25;
-    if (checks.hasLowerCase && checks.hasUpperCase) strength += 20;
-    if (checks.hasNumber) strength += 20;
-    if (checks.hasSpecial) strength += 15;
-    if (checks.hasMultipleWords) strength += 20;
+    if (checks.length) strength += 30;
+    if (checks.hasLowerCase) strength += 20;
+    if (checks.hasUpperCase) strength += 20;
+    if (checks.hasNumber) strength += 15;
+    if (checks.hasSpecial) strength += 10;
+    if (checks.hasMultipleWords) strength += 5;
 
-    if (strength <= 40) {
+    if (strength <= 35) {
       return { strength, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
-    } else if (strength <= 60) {
+    } else if (strength <= 55) {
       return { strength, label: "Weak", color: "text-orange-600", barColor: "bg-orange-500" };
-    } else if (strength <= 80) {
+    } else if (strength <= 75) {
       return { strength, label: "Good", color: "text-yellow-600", barColor: "bg-yellow-500" };
     } else {
       return { strength, label: "Strong", color: "text-green-600", barColor: "bg-green-500" };
@@ -223,7 +224,7 @@ export default function SignUpPage() {
                       <motion.button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        className="absolute right-3 top-[18px] -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                         whileTap={{ scale: 0.95 }}
                         data-testid="button-toggle-password"
                       >
@@ -297,7 +298,7 @@ export default function SignUpPage() {
                           >
                             <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400" />
                             <p className="leading-relaxed">
-                              Passwords need to be at least 10 characters. Include multiple words and phrases to make it more secure.
+                              Passwords need to be at least 8 characters. Mix uppercase, lowercase, and numbers for better security.
                             </p>
                           </motion.div>
                         </motion.div>
