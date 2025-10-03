@@ -11,6 +11,10 @@ import ImageGenerationAgentPage from "@/pages/ImageGenerationAgentPage";
 import DescriptionAgentPage from "@/pages/DescriptionAgentPage";
 import PricingAgentPage from "@/pages/PricingAgentPage";
 import PublishingAgentPage from "@/pages/PublishingAgentPage";
+import DocumentationPage from "@/pages/DocumentationPage";
+import UseCasesPage from "@/pages/UseCasesPage";
+import BestPracticesPage from "@/pages/BestPracticesPage";
+import SupportPage from "@/pages/SupportPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -26,6 +30,12 @@ function Router() {
       <Route path="/agents/description" component={DescriptionAgentPage} />
       <Route path="/agents/pricing" component={PricingAgentPage} />
       <Route path="/agents/publishing" component={PublishingAgentPage} />
+      
+      {/* Resource Pages */}
+      <Route path="/resources/documentation" component={DocumentationPage} />
+      <Route path="/resources/use-cases" component={UseCasesPage} />
+      <Route path="/resources/best-practices" component={BestPracticesPage} />
+      <Route path="/resources/support" component={SupportPage} />
       
       {/* Fallback to 404 */}
       <Route component={NotFound} />

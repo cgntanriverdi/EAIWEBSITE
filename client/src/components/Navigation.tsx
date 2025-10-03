@@ -112,19 +112,19 @@ export default function Navigation() {
           icon: BookOpen,
           title: "Documentation",
           description: "Complete guides and API references",
-          href: "#docs"
+          href: "/resources/documentation"
         },
         {
           icon: FileText,
           title: "Use Cases",
           description: "Real-world examples and success stories",
-          href: "#use-cases"
+          href: "/resources/use-cases"
         },
         {
           icon: Zap,
           title: "Best Practices",
           description: "Optimize your AI commerce workflows",
-          href: "#best-practices"
+          href: "/resources/best-practices"
         }
       ],
       support: [
@@ -132,7 +132,7 @@ export default function Navigation() {
           icon: HeadphonesIcon,
           title: "Customer Support",
           description: "Get help from our expert team",
-          href: "#support"
+          href: "/resources/support"
         },
 // Removed API Status and Community as requested
       ]
@@ -232,12 +232,11 @@ export default function Navigation() {
                         {dropdownItems.resources.learn.map((item, index) => {
                           const IconComponent = item.icon;
                           return (
-                            <a
+                            <Link
                               key={index}
                               href={item.href}
                               className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                              onClick={(e) => {
-                                e.preventDefault();
+                              onClick={() => {
                                 setActiveDropdown(null);
                                 console.log(`Navigate to ${item.title}`);
                               }}
@@ -249,7 +248,7 @@ export default function Navigation() {
                                 <div className="text-sm font-medium text-gray-900">{item.title}</div>
                                 <div className="text-xs text-gray-500 mt-1">{item.description}</div>
                               </div>
-                            </a>
+                            </Link>
                           );
                         })}
                       </div>
@@ -258,11 +257,10 @@ export default function Navigation() {
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900 mb-4">Support</h3>
                       <div className="space-y-3">
-                        <a
-                          href="#support"
+                        <Link
+                          href="/resources/support"
                           className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                          onClick={(e) => {
-                            e.preventDefault();
+                          onClick={() => {
                             setActiveDropdown(null);
                             console.log('Navigate to Customer Support');
                           }}
@@ -274,7 +272,7 @@ export default function Navigation() {
                             <div className="text-sm font-medium text-gray-900">Customer Support</div>
                             <div className="text-xs text-gray-500 mt-1">Get help from our expert team</div>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -370,12 +368,11 @@ export default function Navigation() {
                 {dropdownItems.resources.learn.map((item, index) => {
                   const IconComponent = item.icon;
                   return (
-                    <a
+                    <Link
                       key={index}
                       href={item.href}
                       className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={() => {
                         setIsMenuOpen(false);
                         console.log(`Navigate to ${item.title}`);
                       }}
@@ -383,15 +380,14 @@ export default function Navigation() {
                     >
                       <IconComponent className="w-4 h-4 text-indigo-600" />
                       {item.title}
-                    </a>
+                    </Link>
                   );
                 })}
                 <div className="text-xs font-medium text-gray-500 px-3 py-1 mt-2">Support</div>
-                <a
-                  href="#support"
+                <Link
+                  href="/resources/support"
                   className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     setIsMenuOpen(false);
                     console.log('Navigate to Customer Support');
                   }}
@@ -399,7 +395,7 @@ export default function Navigation() {
                 >
                   <HeadphonesIcon className="w-4 h-4 text-indigo-600" />
                   Customer Support
-                </a>
+                </Link>
               </div>
 
               {/* Simple Navigation Items - Removed as requested */}
