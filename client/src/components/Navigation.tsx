@@ -285,14 +285,15 @@ export default function Navigation() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Button
-              variant="ghost"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-              onClick={() => console.log('Log in clicked')}
-              data-testid="button-log-in"
-            >
-              LOG IN
-            </Button>
+            <Link href="/login">
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                data-testid="button-log-in"
+              >
+                LOG IN
+              </Button>
+            </Link>
             
             <Link href="/signup">
               <Button
@@ -411,17 +412,16 @@ export default function Navigation() {
               {/* Simple Navigation Items - Removed as requested */}
               
               <div className="border-t border-gray-200 pt-4 pb-3">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-sm font-medium mb-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    console.log('Sign in clicked');
-                  }}
-                  data-testid="mobile-button-sign-in"
-                >
-                  SIGN IN
-                </Button>
+                <Link href="/login">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-sm font-medium mb-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    onClick={() => setIsMenuOpen(false)}
+                    data-testid="mobile-button-sign-in"
+                  >
+                    SIGN IN
+                  </Button>
+                </Link>
                 
                 <Button
                   className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-md shadow-sm"
