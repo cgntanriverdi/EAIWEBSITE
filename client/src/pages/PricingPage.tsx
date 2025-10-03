@@ -102,56 +102,6 @@ export default function PricingPage() {
     <div className="min-h-screen bg-white relative overflow-hidden">
       <Navigation />
       
-      {/* Animated Rainbow Gradient Strip - Angled diagonal design */}
-      <div className="absolute inset-0 pointer-events-none" style={{ height: '120%' }}>
-        {/* Main animated rainbow gradient */}
-        <div 
-          className="absolute"
-          style={{
-            top: '20%',
-            left: '-20%',
-            right: '-20%',
-            height: '500px',
-            background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 11%, #3B82F6 22%, #06B6D4 33%, #10B981 44%, #EC4899 55%, #EF4444 66%, #F97316 77%, #FBBF24 88%, #8B5CF6 100%)',
-            backgroundSize: '400% 400%',
-            animation: 'gradientShift 15s ease infinite',
-            transform: 'rotate(-8deg) skewY(-2deg)',
-            opacity: 0.15,
-            filter: 'blur(60px)',
-          }}
-        />
-        
-        {/* Secondary overlay for depth */}
-        <div 
-          className="absolute"
-          style={{
-            top: '22%',
-            left: '-15%',
-            right: '-15%',
-            height: '450px',
-            background: 'radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.2) 40%, transparent 70%)',
-            transform: 'rotate(-8deg) skewY(-2deg)',
-            opacity: 0.4,
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Accent layer with pink/purple */}
-        <div 
-          className="absolute"
-          style={{
-            top: '24%',
-            left: '10%',
-            right: '10%',
-            height: '400px',
-            background: 'radial-gradient(ellipse at 70% 50%, rgba(236, 72, 153, 0.25) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%)',
-            transform: 'rotate(-8deg) skewY(-2deg)',
-            opacity: 0.3,
-            mixBlendMode: 'overlay',
-          }}
-        />
-      </div>
-      
       {/* Header Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
         <div className="text-center max-w-3xl mx-auto">
@@ -284,6 +234,71 @@ export default function PricingPage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Animated Rainbow Gradient Tube - Below pricing cards */}
+      <section className="relative py-16 overflow-hidden">
+        <div className="relative max-w-7xl mx-auto px-6">
+          {/* Rainbow gradient tube container with visible rectangular shape */}
+          <div 
+            className="relative w-full mx-auto"
+            style={{
+              height: '200px',
+              transform: 'rotate(-5deg)',
+              maxWidth: '90%',
+            }}
+          >
+            {/* Tube with strong visible edges and gradient inside */}
+            <div
+              className="relative w-full h-full rounded-[35px] overflow-hidden shadow-2xl"
+              style={{
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 11%, #3B82F6 22%, #06B6D4 33%, #10B981 44%, #EC4899 55%, #EF4444 66%, #F97316 77%, #FBBF24 88%, #8B5CF6 100%)',
+                backgroundSize: '400% 400%',
+                animation: 'gradientShift 15s ease infinite',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 20px -8px rgba(139, 92, 246, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
+                border: '3px solid rgba(255, 255, 255, 0.4)',
+              }}
+            >
+              {/* Inner glow for depth */}
+              <div 
+                className="absolute inset-0"
+                style={{
+                  background: 'radial-gradient(ellipse at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 60%)',
+                  mixBlendMode: 'overlay',
+                }}
+              />
+              
+              {/* Top shine/highlight */}
+              <div 
+                className="absolute top-0 left-0 right-0 h-32"
+                style={{
+                  background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%)',
+                  mixBlendMode: 'overlay',
+                }}
+              />
+              
+              {/* Bottom subtle shadow */}
+              <div 
+                className="absolute bottom-0 left-0 right-0 h-20"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 100%)',
+                  mixBlendMode: 'multiply',
+                }}
+              />
+              
+              {/* Subtle animated shimmer effect */}
+              <div 
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 3s ease-in-out infinite',
+                  mixBlendMode: 'overlay',
+                }}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
