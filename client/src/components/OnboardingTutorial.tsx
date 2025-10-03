@@ -51,7 +51,7 @@ const tutorialSteps: TutorialStep[] = [
     title: "AI-Powered Agents",
     description: "These are your secret weapons! Use Description Agent for compelling copy, Image Agent for stunning visuals, Pricing Agent for optimal pricing, and Publishing Agent to go live.",
     icon: Zap,
-    highlightSelector: '[data-testid="card-agent-description-agent"]',
+    highlightSelector: '[data-testid="section-quick-actions"]',
     position: "agents"
   },
   {
@@ -59,7 +59,7 @@ const tutorialSteps: TutorialStep[] = [
     title: "Your Product Gallery",
     description: "All your created products will appear here. Start by clicking any agent card to create your first AI-optimized product listing!",
     icon: Package,
-    highlightSelector: '[data-testid="button-create-first-product"]',
+    highlightSelector: '[data-testid="section-recent-products"]',
     position: "agents"
   }
 ];

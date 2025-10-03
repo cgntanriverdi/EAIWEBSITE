@@ -346,7 +346,7 @@ export default function DashboardPage() {
           </Card>
 
           {/* Quick Actions */}
-          <div>
+          <div data-testid="section-quick-actions">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {agentCards.map((agent) => (
@@ -372,7 +372,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Recent Products */}
-          <div>
+          <div data-testid="section-recent-products">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Recent Products</h2>
               <Link href="/products">
