@@ -80,17 +80,21 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
-    const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+    if (!user?.id) return;
+    
+    const hasSeenTutorial = localStorage.getItem(`hasSeenTutorial_${user.id}`);
     const isNewUser = sessionStorage.getItem("isNewUser");
     
     if (isNewUser === "true" && !hasSeenTutorial) {
       setShowTutorial(true);
     }
-  }, []);
+  }, [user?.id]);
 
   const handleTutorialComplete = () => {
+    if (!user?.id) return;
+    
     setShowTutorial(false);
-    localStorage.setItem("hasSeenTutorial", "true");
+    localStorage.setItem(`hasSeenTutorial_${user.id}`, "true");
     sessionStorage.removeItem("isNewUser");
   };
 
