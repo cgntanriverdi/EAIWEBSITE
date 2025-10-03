@@ -99,11 +99,61 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       <Navigation />
       
+      {/* Animated Rainbow Gradient Strip - Angled diagonal design */}
+      <div className="absolute inset-0 pointer-events-none" style={{ height: '120%' }}>
+        {/* Main animated rainbow gradient */}
+        <div 
+          className="absolute"
+          style={{
+            top: '20%',
+            left: '-20%',
+            right: '-20%',
+            height: '500px',
+            background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 11%, #3B82F6 22%, #06B6D4 33%, #10B981 44%, #EC4899 55%, #EF4444 66%, #F97316 77%, #FBBF24 88%, #8B5CF6 100%)',
+            backgroundSize: '400% 400%',
+            animation: 'gradientShift 15s ease infinite',
+            transform: 'rotate(-8deg) skewY(-2deg)',
+            opacity: 0.15,
+            filter: 'blur(60px)',
+          }}
+        />
+        
+        {/* Secondary overlay for depth */}
+        <div 
+          className="absolute"
+          style={{
+            top: '22%',
+            left: '-15%',
+            right: '-15%',
+            height: '450px',
+            background: 'radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.2) 40%, transparent 70%)',
+            transform: 'rotate(-8deg) skewY(-2deg)',
+            opacity: 0.4,
+            mixBlendMode: 'screen',
+          }}
+        />
+        
+        {/* Accent layer with pink/purple */}
+        <div 
+          className="absolute"
+          style={{
+            top: '24%',
+            left: '10%',
+            right: '10%',
+            height: '400px',
+            background: 'radial-gradient(ellipse at 70% 50%, rgba(236, 72, 153, 0.25) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%)',
+            transform: 'rotate(-8deg) skewY(-2deg)',
+            opacity: 0.3,
+            mixBlendMode: 'overlay',
+          }}
+        />
+      </div>
+      
       {/* Header Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6" data-testid="text-pricing-title">
             Pricing
@@ -142,7 +192,7 @@ export default function PricingPage() {
       </section>
 
       {/* Pricing Cards */}
-      <section className="max-w-7xl mx-auto px-6 pb-20">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {plans?.map((plan) => {
             const isPopular = plan.displayName === "Pro";
@@ -238,7 +288,7 @@ export default function PricingPage() {
       </section>
 
       {/* Compare Plans Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20 border-t border-gray-200">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-gray-200">
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4" data-testid="text-compare-title">
             Compare plans
@@ -327,7 +377,7 @@ export default function PricingPage() {
       </section>
 
       {/* CTA Section with Testimonial */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-3xl p-12 md:p-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -366,7 +416,7 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="max-w-4xl mx-auto px-6 py-20">
+      <section className="relative z-10 max-w-4xl mx-auto px-6 py-20">
         <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center" data-testid="text-faq-title">
           Frequently asked questions
         </h2>
