@@ -71,6 +71,7 @@ interface OnboardingTutorialProps {
 export default function OnboardingTutorial({ onComplete }: OnboardingTutorialProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [highlightPosition, setHighlightPosition] = useState<React.CSSProperties>({});
 
   const currentStepData = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
@@ -78,10 +79,26 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
 
   useEffect(() => {
     if (currentStepData.highlightSelector) {
-      const element = document.querySelector(currentStepData.highlightSelector);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const element = document.querySelector(currentStepData.highlightSelector);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+          
+          // Update position after scroll
+          setTimeout(() => {
+            const rect = element.getBoundingClientRect();
+            setHighlightPosition({
+              top: `${rect.top - 8}px`,
+              left: `${rect.left - 8}px`,
+              width: `${rect.width + 16}px`,
+              height: `${rect.height + 16}px`,
+            });
+          }, 400);
+        }
+      }, 100);
+    } else {
+      setHighlightPosition({});
     }
   }, [currentStep, currentStepData.highlightSelector]);
 
@@ -130,8 +147,9 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
             onClick={handleSkip}
           >
             {/* Spotlight highlight - creates a cutout effect */}
-            {currentStepData.highlightSelector && (
+            {currentStepData.highlightSelector && highlightPosition.width && (
               <motion.div
+                key={currentStep}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
@@ -140,7 +158,7 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
                   boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.6), 0 0 0 9999px rgba(0, 0, 0, 0.75)",
                   borderRadius: "12px",
                   pointerEvents: "none",
-                  ...getHighlightPosition(currentStepData.highlightSelector)
+                  ...highlightPosition
                 }}
               />
             )}
@@ -252,17 +270,4 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
       )}
     </AnimatePresence>
   );
-}
-
-function getHighlightPosition(selector: string): React.CSSProperties {
-  const element = document.querySelector(selector);
-  if (!element) return {};
-
-  const rect = element.getBoundingClientRect();
-  return {
-    top: `${rect.top - 8}px`,
-    left: `${rect.left - 8}px`,
-    width: `${rect.width + 16}px`,
-    height: `${rect.height + 16}px`,
-  };
 }
