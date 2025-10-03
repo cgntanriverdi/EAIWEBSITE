@@ -221,37 +221,18 @@ export default function SignUpPage() {
                         data-testid="input-password"
                         required
                       />
-                      <motion.button
+                      <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                        whileTap={{ scale: 0.95 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors w-5 h-5 flex items-center justify-center focus:outline-none"
                         data-testid="button-toggle-password"
                       >
-                        <AnimatePresence mode="wait">
-                          {showPassword ? (
-                            <motion.div
-                              key="eye-off"
-                              initial={{ opacity: 0, rotate: -45 }}
-                              animate={{ opacity: 1, rotate: 0 }}
-                              exit={{ opacity: 0, rotate: 45 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <EyeOff className="w-5 h-5" />
-                            </motion.div>
-                          ) : (
-                            <motion.div
-                              key="eye"
-                              initial={{ opacity: 0, rotate: 45 }}
-                              animate={{ opacity: 1, rotate: 0 }}
-                              exit={{ opacity: 0, rotate: -45 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <Eye className="w-5 h-5" />
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.button>
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
                     </div>
                     
                     {/* Password strength bar */}
