@@ -91,35 +91,35 @@ const PublishingAgentPage = () => {
       <div className="relative overflow-hidden">
         {/* Hero Section - Navy Gradient with Publishing Dashboard Mockup */}
         <section ref={heroRef} className="relative pt-20 pb-32 px-4 overflow-hidden">
-          {/* Animated 3D Navy Wave Background with Visible Boundaries */}
+          {/* Animated 3D Cyan Wave Background - Communication & Trust */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Deep Base Layer */}
+            {/* Deep Cyan Base Layer */}
             <div 
               className="absolute inset-0" 
               style={{
-                background: 'linear-gradient(180deg, #0A2540 0%, #132f4c 100%)'
+                background: 'linear-gradient(180deg, #0E7490 0%, #0891B2 100%)'
               }}
             />
             
             {/* SVG Wave Layers with Defined Boundaries */}
             <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1440 800">
               <defs>
-                {/* Gradients for each wave layer */}
+                {/* Cyan Gradients for each wave layer */}
                 <linearGradient id="wave1Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(30, 73, 118, 0.4)" />
-                  <stop offset="100%" stopColor="rgba(30, 73, 118, 0.6)" />
+                  <stop offset="0%" stopColor="rgba(8, 145, 178, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(8, 145, 178, 0.6)" />
                 </linearGradient>
                 <linearGradient id="wave2Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(42, 95, 148, 0.5)" />
-                  <stop offset="100%" stopColor="rgba(42, 95, 148, 0.7)" />
+                  <stop offset="0%" stopColor="rgba(6, 182, 212, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(6, 182, 212, 0.7)" />
                 </linearGradient>
                 <linearGradient id="wave3Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(56, 116, 176, 0.6)" />
-                  <stop offset="100%" stopColor="rgba(56, 116, 176, 0.8)" />
+                  <stop offset="0%" stopColor="rgba(34, 211, 238, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(34, 211, 238, 0.8)" />
                 </linearGradient>
                 <linearGradient id="wave4Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(78, 141, 204, 0.7)" />
-                  <stop offset="100%" stopColor="rgba(78, 141, 204, 0.9)" />
+                  <stop offset="0%" stopColor="rgba(103, 232, 249, 0.7)" />
+                  <stop offset="100%" stopColor="rgba(103, 232, 249, 0.9)" />
                 </linearGradient>
               </defs>
               
@@ -177,7 +177,7 @@ const PublishingAgentPage = () => {
                   Publish everywhere, instantly
                 </h1>
                 
-                <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-xl">
+                <p className="text-xl text-cyan-100 mb-8 leading-relaxed max-w-xl">
                   Distribute products across 50+ platforms with one click. Automated synchronization keeps inventory and pricing perfect across all channels.
                 </p>
                 
@@ -185,7 +185,7 @@ const PublishingAgentPage = () => {
                   <Link href="/pricing">
                     <Button 
                       size="lg" 
-                      className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                      className="bg-white text-[#0E7490] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
                       data-testid="button-start-publishing"
                     >
                       Start publishing <ArrowRight className="ml-2 w-5 h-5" />
@@ -203,7 +203,7 @@ const PublishingAgentPage = () => {
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="mt-12 flex items-center gap-8 text-blue-100 text-sm">
+                <div className="mt-12 flex items-center gap-8 text-cyan-100 text-sm">
                   <div className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>No credit card required</span>

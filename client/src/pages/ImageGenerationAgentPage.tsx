@@ -61,35 +61,35 @@ const ImageGenerationAgentPage = () => {
       <div className="relative overflow-hidden">
         {/* Hero Section with Animated Blue Gradient */}
         <section className="relative pt-20 pb-32 px-4 overflow-hidden isolate">
-          {/* Animated 3D Navy Wave Background with Visible Boundaries */}
+          {/* Animated 3D Orange Wave Background - Visual Creativity & Innovation */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Deep Base Layer */}
+            {/* Deep Orange Base Layer */}
             <div 
               className="absolute inset-0" 
               style={{
-                background: 'linear-gradient(180deg, #0A2540 0%, #132f4c 100%)'
+                background: 'linear-gradient(180deg, #C2410C 0%, #EA580C 100%)'
               }}
             />
             
             {/* SVG Wave Layers with Defined Boundaries */}
             <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1440 800">
               <defs>
-                {/* Gradients for each wave layer */}
+                {/* Orange Gradients for each wave layer */}
                 <linearGradient id="wave1Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(30, 73, 118, 0.4)" />
-                  <stop offset="100%" stopColor="rgba(30, 73, 118, 0.6)" />
+                  <stop offset="0%" stopColor="rgba(234, 88, 12, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(234, 88, 12, 0.6)" />
                 </linearGradient>
                 <linearGradient id="wave2Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(42, 95, 148, 0.5)" />
-                  <stop offset="100%" stopColor="rgba(42, 95, 148, 0.7)" />
+                  <stop offset="0%" stopColor="rgba(249, 115, 22, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(249, 115, 22, 0.7)" />
                 </linearGradient>
                 <linearGradient id="wave3Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(56, 116, 176, 0.6)" />
-                  <stop offset="100%" stopColor="rgba(56, 116, 176, 0.8)" />
+                  <stop offset="0%" stopColor="rgba(251, 146, 60, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(251, 146, 60, 0.8)" />
                 </linearGradient>
                 <linearGradient id="wave4Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(78, 141, 204, 0.7)" />
-                  <stop offset="100%" stopColor="rgba(78, 141, 204, 0.9)" />
+                  <stop offset="0%" stopColor="rgba(253, 186, 116, 0.7)" />
+                  <stop offset="100%" stopColor="rgba(253, 186, 116, 0.9)" />
                 </linearGradient>
               </defs>
               
@@ -146,14 +146,14 @@ const ImageGenerationAgentPage = () => {
                   Professional product photography at scale
                 </h1>
                 
-                <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-xl">
+                <p className="text-xl text-orange-100 mb-8 leading-relaxed max-w-xl">
                   Generate studio-quality product images in seconds. Our AI transforms simple photos into professional e-commerce visuals that drive conversions.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     size="lg" 
-                    className="bg-white text-[#0A2540] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
+                    className="bg-white text-[#C2410C] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-lg shadow-lg"
                     data-testid="button-start-free"
                   >
                     Start for free <ArrowRight className="ml-2 w-5 h-5" />
@@ -169,7 +169,7 @@ const ImageGenerationAgentPage = () => {
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="mt-12 flex items-center gap-8 text-blue-100 text-sm">
+                <div className="mt-12 flex items-center gap-8 text-orange-100 text-sm">
                   <div className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>No credit card required</span>
