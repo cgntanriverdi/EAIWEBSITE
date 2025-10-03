@@ -294,14 +294,15 @@ export default function Navigation() {
               LOG IN
             </Button>
             
-            <Button
-              variant="ghost"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-              onClick={() => console.log('Sign up clicked')}
-              data-testid="button-sign-up"
-            >
-              SIGN UP
-            </Button>
+            <Link href="/signup">
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                data-testid="button-sign-up"
+              >
+                SIGN UP
+              </Button>
+            </Link>
             
             <Button
               className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 rounded-md shadow-sm"

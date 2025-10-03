@@ -15,6 +15,7 @@ import DocumentationPage from "@/pages/DocumentationPage";
 import UseCasesPage from "@/pages/UseCasesPage";
 import BestPracticesPage from "@/pages/BestPracticesPage";
 import SupportPage from "@/pages/SupportPage";
+import SignUpPage from "@/pages/SignUpPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/products" component={ProductsPage} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/resources" component={ResourcesPage} />
+      <Route path="/signup" component={SignUpPage} />
       
       {/* Agent Pages */}
       <Route path="/agents/image-generation" component={ImageGenerationAgentPage} />
