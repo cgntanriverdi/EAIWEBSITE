@@ -295,6 +295,15 @@ export default function Navigation() {
             </Button>
             
             <Button
+              variant="ghost"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              onClick={() => console.log('Log in clicked')}
+              data-testid="button-log-in"
+            >
+              LOG IN
+            </Button>
+            
+            <Button
               className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 rounded-md shadow-sm"
               onClick={() => console.log('Contact sales clicked')}
               data-testid="button-contact-sales-nav"
