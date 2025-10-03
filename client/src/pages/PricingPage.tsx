@@ -102,35 +102,35 @@ export default function PricingPage() {
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
       {/* Full-page flowing rainbow gradient background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Main flowing rainbow gradient shape */}
+        {/* Main flowing rainbow gradient shape - narrower for more white space */}
         <div 
-          className="absolute w-[150%] h-[120%] -top-[10%] -left-[25%]"
+          className="absolute w-[85%] h-[120%] -top-[10%] left-1/2 -translate-x-1/2"
           style={{
             background: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 10%, #EC4899 20%, #F472B6 30%, #FBBF24 40%, #FCD34D 50%, #34D399 60%, #10B981 70%, #06B6D4 80%, #22D3EE 90%, #8B5CF6 100%)',
-            transform: 'rotate(-15deg) skewY(-8deg)',
+            transform: 'translateX(-50%) rotate(-12deg) skewY(-6deg)',
             opacity: 0.7,
             backgroundSize: '400% 400%',
             animation: 'gradientShift 15s ease infinite',
           }}
         />
         
-        {/* Secondary vibrant accent gradient */}
+        {/* Secondary vibrant accent gradient - also narrower */}
         <div 
-          className="absolute w-[140%] h-[100%] -bottom-[20%] -right-[20%]"
+          className="absolute w-[80%] h-[110%] -bottom-[15%] left-1/2 -translate-x-1/2"
           style={{
             background: 'linear-gradient(225deg, #EF4444 0%, #F97316 12%, #FBBF24 24%, #84CC16 36%, #10B981 48%, #06B6D4 60%, #3B82F6 72%, #6366F1 84%, #8B5CF6 96%, #EF4444 100%)',
-            transform: 'rotate(25deg) skewY(12deg)',
+            transform: 'translateX(-50%) rotate(18deg) skewY(8deg)',
             opacity: 0.5,
             backgroundSize: '400% 400%',
             animation: 'gradientShift 20s ease infinite reverse',
           }}
         />
         
-        {/* Subtle overlay gradient for depth */}
+        {/* Subtle overlay gradient for depth with vignette effect */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.2) 100%)',
+            background: 'radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(255, 255, 255, 0.4) 100%)',
             mixBlendMode: 'overlay',
           }}
         />
