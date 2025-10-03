@@ -132,7 +132,7 @@ export default function SignUpPage() {
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white"
+                      className="w-full bg-white text-gray-900"
                       data-testid="input-email"
                       required
                     />
@@ -148,7 +148,7 @@ export default function SignUpPage() {
                       type="text"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full bg-white"
+                      className="w-full bg-white text-gray-900"
                       data-testid="input-fullname"
                       required
                     />
@@ -164,7 +164,7 @@ export default function SignUpPage() {
                       type="password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full bg-white"
+                      className="w-full bg-white text-gray-900"
                       data-testid="input-password"
                       required
                     />
@@ -179,7 +179,7 @@ export default function SignUpPage() {
                       value={formData.country}
                       onValueChange={(value) => setFormData({ ...formData, country: value })}
                     >
-                      <SelectTrigger className="w-full bg-white" data-testid="select-country">
+                      <SelectTrigger className="w-full bg-white text-gray-900" data-testid="select-country">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
