@@ -9,7 +9,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.set('trust proxy', 1);
+
 const MemoryStore = createMemoryStore(session);
+
+const isProduction = process.env.NODE_ENV === "production" || process.env.REPL_ID !== undefined;
 
 app.use(
   session({
@@ -17,9 +21,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: app.get("env") === "production",
+      secure: isProduction,
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "lax",
     },
     store: new MemoryStore({
       checkPeriod: 86400000,

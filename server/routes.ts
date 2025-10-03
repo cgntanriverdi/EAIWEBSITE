@@ -35,6 +35,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         password: hashedPassword,
       });
 
+      const plans = await storage.getAllPricingPlans();
+      const basicPlan = plans.find(p => p.name === "basic") || plans[0];
+      
+      if (!basicPlan) {
+        return res.status(500).json({ 
+          message: "Registration failed: No pricing plans available. Please contact support." 
+        });
+      }
+
+      await storage.createUserSubscription({
+        userId: user.id,
+        planId: basicPlan.id,
+        creditsRemaining: basicPlan.productCredits || 20,
+        isActive: true,
+      });
+
       req.login(user, (err) => {
         if (err) {
           return next(err);

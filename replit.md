@@ -4,7 +4,7 @@
 AI Commerce Studio is a full-stack web application designed to empower e-commerce businesses by optimizing their product listings using AI-powered agents. The platform offers various pricing plans and subscription management for AI commerce services, aiming to enhance product visibility, conversion rates, and overall market potential.
 
 ## User Preferences
-- Uses in-memory storage (MemStorage) for data persistence with option to switch to PostgreSQL (DatabaseStorage)
+- Uses PostgreSQL (DatabaseStorage) for data persistence (switched from MemStorage)
 - Prefers TypeScript for type safety
 - Uses modern React patterns with hooks
 - Follows Replit environment best practices
@@ -14,6 +14,17 @@ AI Commerce Studio is a full-stack web application designed to empower e-commerc
   - Minimal gradient usage, clean typography
   - Subtle shadows and borders on cards
   - Indigo-600 accent color for CTAs and highlights
+
+## Recent Changes (October 3, 2025)
+- **Database Migration**: Switched from MemStorage to DatabaseStorage (PostgreSQL) for persistent data storage
+- **Authentication Improvements**:
+  - Fixed session management by adding `sameSite: "lax"` cookie attribute to prevent intermittent 401 errors
+  - Automatic subscription creation: New users now automatically get a Basic plan subscription on registration
+  - Improved error handling: Registration fails fast if no pricing plans are available
+- **UI/UX Enhancements**:
+  - Added shake animation to login card on authentication failure
+  - Added on-card error message display for login failures (in addition to toast notifications)
+  - Error messages automatically clear when user resubmits the form
 
 ## System Architecture
 The application is built as a full-stack web application with a React frontend and an Express.js backend, both written in TypeScript.

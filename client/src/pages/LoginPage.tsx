@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Eye, EyeOff } from "lucide-react";
+import { Sparkles, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -19,6 +19,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [view, setView] = useState<"login" | "forgot-password">("login");
   const [resetEmail, setResetEmail] = useState("");
+  const [loginError, setLoginError] = useState<string>("");
+  const [shake, setShake] = useState(false);
 
   const loginMutation = useMutation({
     mutationFn: async (data: { username: string; password: string }) => {
@@ -26,6 +28,7 @@ export default function LoginPage() {
       return await res.json();
     },
     onSuccess: () => {
+      setLoginError("");
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in",
@@ -33,9 +36,13 @@ export default function LoginPage() {
       setLocation("/dashboard");
     },
     onError: (error: any) => {
+      const errorMsg = error.message || "Invalid username or password";
+      setLoginError(errorMsg);
+      setShake(true);
+      setTimeout(() => setShake(false), 650);
       toast({
         title: "Login failed",
-        description: error.message || "Invalid username or password",
+        description: errorMsg,
         variant: "destructive",
       });
     },
@@ -43,6 +50,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoginError("");
     loginMutation.mutate(formData);
   };
 
@@ -72,8 +80,15 @@ export default function LoginPage() {
           
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              x: shake ? [0, -10, 10, -10, 10, -5, 5, 0] : 0
+            }}
+            transition={{ 
+              duration: shake ? 0.6 : 0.8,
+              x: { duration: 0.6 }
+            }}
             className="w-full"
           >
             <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-10">
@@ -101,6 +116,18 @@ export default function LoginPage() {
                     <p className="text-gray-600 text-center mb-8">
                       Sign in to your account to continue
                     </p>
+
+                    {loginError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2"
+                        data-testid="alert-login-error"
+                      >
+                        <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-red-800">{loginError}</p>
+                      </motion.div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="space-y-2">
