@@ -81,3 +81,43 @@ export const insertLeadSchema = createInsertSchema(leads).omit({
 
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 export type Lead = typeof leads.$inferSelect;
+
+// Product Listings Schema
+export const productListings = pgTable("product_listings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  title: text("title").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url"),
+  price: integer("price"),
+  status: text("status").notNull().default("draft"),
+  agentsUsed: text("agents_used").array().default(sql`ARRAY[]::text[]`),
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const insertProductListingSchema = createInsertSchema(productListings).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertProductListing = z.infer<typeof insertProductListingSchema>;
+export type ProductListing = typeof productListings.$inferSelect;
+
+// Usage Metrics Schema
+export const usageMetrics = pgTable("usage_metrics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  date: timestamp("date").notNull().default(sql`now()`),
+  descriptionAgentUses: integer("description_agent_uses").default(0),
+  imageAgentUses: integer("image_agent_uses").default(0),
+  pricingAgentUses: integer("pricing_agent_uses").default(0),
+  publishingAgentUses: integer("publishing_agent_uses").default(0),
+  creditsUsed: integer("credits_used").default(0),
+});
+
+export const insertUsageMetricsSchema = createInsertSchema(usageMetrics).omit({
+  id: true,
+});
+
+export type InsertUsageMetrics = z.infer<typeof insertUsageMetricsSchema>;
+export type UsageMetrics = typeof usageMetrics.$inferSelect;

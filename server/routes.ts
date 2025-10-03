@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema, insertUserSchema } from "@shared/schema";
+import { insertLeadSchema, insertUserSchema, insertProductListingSchema } from "@shared/schema";
 import { passport, bcrypt, SALT_ROUNDS } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -178,6 +178,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching leads:", error);
       res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  // Dashboard API Routes
+  app.get("/api/dashboard/metrics", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+      const subscription = await storage.getUserSubscription(user.id);
+      
+      if (!subscription) {
+        return res.status(404).json({ error: "No active subscription found" });
+      }
+
+      const plan = await storage.getPricingPlan(subscription.planId);
+      const usageMetrics = await storage.getUserUsageMetrics(user.id, 30);
+      const todayMetrics = await storage.getTodayUsageMetrics(user.id);
+
+      const totalUses = todayMetrics
+        ? (todayMetrics.descriptionAgentUses || 0) +
+          (todayMetrics.imageAgentUses || 0) +
+          (todayMetrics.pricingAgentUses || 0) +
+          (todayMetrics.publishingAgentUses || 0)
+        : 0;
+
+      res.json({
+        subscription: {
+          plan: plan?.displayName || "Unknown",
+          creditsRemaining: subscription.creditsRemaining,
+          totalCredits: plan?.productCredits,
+        },
+        usageStats: {
+          todayUses: totalUses,
+          todayCredits: todayMetrics?.creditsUsed || 0,
+          descriptionAgentUses: todayMetrics?.descriptionAgentUses || 0,
+          imageAgentUses: todayMetrics?.imageAgentUses || 0,
+          pricingAgentUses: todayMetrics?.pricingAgentUses || 0,
+          publishingAgentUses: todayMetrics?.publishingAgentUses || 0,
+        },
+        usageHistory: usageMetrics,
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard metrics:", error);
+      res.status(500).json({ error: "Failed to fetch metrics" });
+    }
+  });
+
+  app.get("/api/dashboard/products", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+      const products = await storage.getUserProductListings(user.id);
+      res.json(products);
+    } catch (error) {
+      console.error("Error fetching user products:", error);
+      res.status(500).json({ error: "Failed to fetch products" });
+    }
+  });
+
+  app.post("/api/dashboard/products", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+      const productData = {
+        ...req.body,
+        userId: user.id,
+      };
+
+      const result = insertProductListingSchema.safeParse(productData);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid input",
+          errors: result.error.errors 
+        });
+      }
+
+      const product = await storage.createProductListing(result.data);
+      res.status(201).json(product);
+    } catch (error) {
+      console.error("Error creating product listing:", error);
+      res.status(500).json({ error: "Failed to create product" });
+    }
+  });
+
+  app.get("/api/dashboard/activity", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+      const products = await storage.getUserProductListings(user.id);
+      const recentProducts = products.slice(0, 5);
+      
+      const activities = recentProducts.map(product => ({
+        id: product.id,
+        type: "product_created",
+        title: product.title,
+        description: `Created product listing: ${product.title}`,
+        timestamp: product.createdAt,
+        status: product.status,
+      }));
+
+      res.json(activities);
+    } catch (error) {
+      console.error("Error fetching dashboard activity:", error);
+      res.status(500).json({ error: "Failed to fetch activity" });
     }
   });
 

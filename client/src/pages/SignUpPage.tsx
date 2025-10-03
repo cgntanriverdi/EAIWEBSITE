@@ -28,7 +28,7 @@ export default function SignUpPage() {
         title: "Account created successfully!",
         description: "Welcome to AI Commerce Studio",
       });
-      setLocation("/");
+      setLocation("/dashboard");
     },
     onError: (error: any) => {
       toast({

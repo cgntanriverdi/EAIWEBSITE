@@ -1,6 +1,7 @@
-import { Switch, Route } from "wouter";
+import { useEffect } from "react";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import LandingPage from "@/pages/LandingPage";
@@ -17,7 +18,42 @@ import BestPracticesPage from "@/pages/BestPracticesPage";
 import SupportPage from "@/pages/SupportPage";
 import SignUpPage from "@/pages/SignUpPage";
 import LoginPage from "@/pages/LoginPage";
+import DashboardPage from "@/pages/DashboardPage";
 import NotFound from "@/pages/not-found";
+
+interface ProtectedRouteProps {
+  component: React.ComponentType;
+}
+
+function ProtectedRoute({ component: Component }: ProtectedRouteProps) {
+  const [, navigate] = useLocation();
+  const { data: user, isLoading } = useQuery<{ id: string; username: string }>({
+    queryKey: ["/api/user"],
+  });
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate("/login");
+    }
+  }, [isLoading, user, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  return <Component />;
+}
 
 function Router() {
   return (
@@ -28,6 +64,11 @@ function Router() {
       <Route path="/resources" component={ResourcesPage} />
       <Route path="/signup" component={SignUpPage} />
       <Route path="/login" component={LoginPage} />
+      
+      {/* Protected Dashboard Route */}
+      <Route path="/dashboard">
+        {() => <ProtectedRoute component={DashboardPage} />}
+      </Route>
       
       {/* Agent Pages */}
       <Route path="/agents/image-generation" component={ImageGenerationAgentPage} />

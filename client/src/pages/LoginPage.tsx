@@ -30,7 +30,7 @@ export default function LoginPage() {
         title: "Welcome back!",
         description: "You have successfully logged in",
       });
-      setLocation("/");
+      setLocation("/dashboard");
     },
     onError: (error: any) => {
       toast({

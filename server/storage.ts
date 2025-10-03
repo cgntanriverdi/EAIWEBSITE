@@ -1,9 +1,9 @@
-import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription, type Lead, type InsertLead, users, pricingPlans, userSubscriptions, leads } from "@shared/schema";
+import { type User, type InsertUser, type PricingPlan, type InsertPricingPlan, type UserSubscription, type InsertUserSubscription, type Lead, type InsertLead, type ProductListing, type InsertProductListing, type UsageMetrics, type InsertUsageMetrics, users, pricingPlans, userSubscriptions, leads, productListings, usageMetrics } from "@shared/schema";
 import { randomUUID } from "crypto";
 import pkg from "pg";
 const { Pool } = pkg;
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -26,6 +26,16 @@ export interface IStorage {
   // Leads
   getAllLeads(): Promise<Lead[]>;
   createLead(lead: InsertLead): Promise<Lead>;
+  
+  // Product Listings
+  getUserProductListings(userId: string): Promise<ProductListing[]>;
+  createProductListing(listing: InsertProductListing): Promise<ProductListing>;
+  
+  // Usage Metrics
+  getUserUsageMetrics(userId: string, days: number): Promise<UsageMetrics[]>;
+  getTodayUsageMetrics(userId: string): Promise<UsageMetrics | undefined>;
+  updateUsageMetrics(id: string, updates: Partial<UsageMetrics>): Promise<UsageMetrics>;
+  createUsageMetrics(metrics: InsertUsageMetrics): Promise<UsageMetrics>;
 }
 
 export class MemStorage implements IStorage {
@@ -33,12 +43,16 @@ export class MemStorage implements IStorage {
   private pricingPlans: Map<string, PricingPlan>;
   private userSubscriptions: Map<string, UserSubscription>;
   private leads: Map<string, Lead>;
+  private productListings: Map<string, ProductListing>;
+  private usageMetrics: Map<string, UsageMetrics>;
 
   constructor() {
     this.users = new Map();
     this.pricingPlans = new Map();
     this.userSubscriptions = new Map();
     this.leads = new Map();
+    this.productListings = new Map();
+    this.usageMetrics = new Map();
     
     // Initialize default pricing plans
     this.initializeDefaultPlans();
@@ -148,6 +162,95 @@ export class MemStorage implements IStorage {
     };
     this.leads.set(id, lead);
     return lead;
+  }
+
+  // Product Listings Methods
+  async getUserProductListings(userId: string): Promise<ProductListing[]> {
+    return Array.from(this.productListings.values())
+      .filter(listing => listing.userId === userId)
+      .sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return dateB - dateA;
+      });
+  }
+
+  async createProductListing(insertListing: InsertProductListing): Promise<ProductListing> {
+    const id = randomUUID();
+    const now = new Date();
+    const listing: ProductListing = {
+      id,
+      userId: insertListing.userId,
+      title: insertListing.title,
+      description: insertListing.description ?? null,
+      imageUrl: insertListing.imageUrl ?? null,
+      price: insertListing.price ?? null,
+      status: insertListing.status ?? "draft",
+      agentsUsed: insertListing.agentsUsed ?? [],
+      createdAt: now
+    };
+    this.productListings.set(id, listing);
+    return listing;
+  }
+
+  // Usage Metrics Methods
+  async getUserUsageMetrics(userId: string, days: number): Promise<UsageMetrics[]> {
+    const now = new Date();
+    const cutoffDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    
+    return Array.from(this.usageMetrics.values())
+      .filter(metric => {
+        if (metric.userId !== userId) return false;
+        const metricDate = new Date(metric.date);
+        return metricDate >= cutoffDate;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      });
+  }
+
+  async getTodayUsageMetrics(userId: string): Promise<UsageMetrics | undefined> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    return Array.from(this.usageMetrics.values()).find(metric => {
+      if (metric.userId !== userId) return false;
+      const metricDate = new Date(metric.date);
+      metricDate.setHours(0, 0, 0, 0);
+      return metricDate.getTime() === today.getTime();
+    });
+  }
+
+  async updateUsageMetrics(id: string, updates: Partial<UsageMetrics>): Promise<UsageMetrics> {
+    const metric = this.usageMetrics.get(id);
+    if (!metric) {
+      throw new Error("Usage metric not found");
+    }
+    
+    const updatedMetric: UsageMetrics = {
+      ...metric,
+      ...updates
+    };
+    this.usageMetrics.set(id, updatedMetric);
+    return updatedMetric;
+  }
+
+  async createUsageMetrics(insertMetrics: InsertUsageMetrics): Promise<UsageMetrics> {
+    const id = randomUUID();
+    const metric: UsageMetrics = {
+      id,
+      userId: insertMetrics.userId,
+      date: insertMetrics.date ?? new Date(),
+      descriptionAgentUses: insertMetrics.descriptionAgentUses ?? 0,
+      imageAgentUses: insertMetrics.imageAgentUses ?? 0,
+      pricingAgentUses: insertMetrics.pricingAgentUses ?? 0,
+      publishingAgentUses: insertMetrics.publishingAgentUses ?? 0,
+      creditsUsed: insertMetrics.creditsUsed ?? 0
+    };
+    this.usageMetrics.set(id, metric);
+    return metric;
   }
 
   private async initializeDefaultPlans(): Promise<void> {
@@ -309,6 +412,73 @@ export class DatabaseStorage implements IStorage {
 
   async createLead(insertLead: InsertLead): Promise<Lead> {
     const result = await this.db.insert(leads).values(insertLead).returning();
+    return result[0];
+  }
+
+  // Product Listings Methods
+  async getUserProductListings(userId: string): Promise<ProductListing[]> {
+    return await this.db
+      .select()
+      .from(productListings)
+      .where(eq(productListings.userId, userId))
+      .orderBy(productListings.createdAt);
+  }
+
+  async createProductListing(insertListing: InsertProductListing): Promise<ProductListing> {
+    const result = await this.db.insert(productListings).values(insertListing).returning();
+    return result[0];
+  }
+
+  // Usage Metrics Methods
+  async getUserUsageMetrics(userId: string, days: number): Promise<UsageMetrics[]> {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    
+    return await this.db
+      .select()
+      .from(usageMetrics)
+      .where(
+        and(
+          eq(usageMetrics.userId, userId),
+          sql`${usageMetrics.date} >= ${cutoffDate}`
+        )
+      )
+      .orderBy(usageMetrics.date);
+  }
+
+  async getTodayUsageMetrics(userId: string): Promise<UsageMetrics | undefined> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const result = await this.db
+      .select()
+      .from(usageMetrics)
+      .where(
+        and(
+          eq(usageMetrics.userId, userId),
+          sql`DATE(${usageMetrics.date}) = DATE(${today})`
+        )
+      );
+    
+    return result[0];
+  }
+
+  async updateUsageMetrics(id: string, updates: Partial<UsageMetrics>): Promise<UsageMetrics> {
+    const result = await this.db
+      .update(usageMetrics)
+      .set(updates)
+      .where(eq(usageMetrics.id, id))
+      .returning();
+    
+    if (!result[0]) {
+      throw new Error("Usage metric not found");
+    }
+    
+    return result[0];
+  }
+
+  async createUsageMetrics(insertMetrics: InsertUsageMetrics): Promise<UsageMetrics> {
+    const result = await this.db.insert(usageMetrics).values(insertMetrics).returning();
     return result[0];
   }
 
