@@ -221,10 +221,10 @@ export default function SupportPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                  className="bg-white/95 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-lg"
                 >
-                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-cyan-100 text-sm">{stat.label}</div>
+                  <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                  <div className="text-gray-600 text-sm">{stat.label}</div>
                 </motion.div>
               ))}
             </div>

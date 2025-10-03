@@ -447,17 +447,17 @@ export default function BestPracticesPage() {
       </section>
 
       {/* Common Pitfalls */}
-      <section className="py-32 px-4 bg-gray-900">
+      <section className="py-32 px-4 bg-gradient-to-br from-red-50 via-orange-50 to-amber-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-red-500/20 text-red-300 border-red-500/30" data-testid="badge-pitfalls">
+            <Badge className="mb-4 bg-red-100 text-red-700 border-red-200" data-testid="badge-pitfalls">
               <AlertTriangle className="w-3 h-3 mr-2" />
               Common Pitfalls
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Avoid these mistakes
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Learn from common errors to save time and prevent costly mistakes
             </p>
           </div>
@@ -473,17 +473,17 @@ export default function BestPracticesPage() {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="bg-gray-800 border-gray-700 h-full">
+                  <Card className="bg-white border-2 border-gray-100 hover:border-red-200 hover:shadow-xl transition-all h-full">
                     <CardContent className="p-8">
-                      <Icon className="w-12 h-12 text-red-400 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">{pitfall.title}</h3>
+                      <Icon className="w-12 h-12 text-red-500 mb-4" />
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">{pitfall.title}</h3>
                       <div className="mb-4">
-                        <div className="text-sm font-semibold text-red-300 mb-1">Problem:</div>
-                        <p className="text-gray-400 text-sm">{pitfall.problem}</p>
+                        <div className="text-sm font-semibold text-red-600 mb-1">Problem:</div>
+                        <p className="text-gray-600 text-sm">{pitfall.problem}</p>
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-green-300 mb-1">Solution:</div>
-                        <p className="text-gray-300 text-sm">{pitfall.solution}</p>
+                        <div className="text-sm font-semibold text-green-600 mb-1">Solution:</div>
+                        <p className="text-gray-700 text-sm">{pitfall.solution}</p>
                       </div>
                     </CardContent>
                   </Card>

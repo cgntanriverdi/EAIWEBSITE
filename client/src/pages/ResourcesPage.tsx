@@ -361,7 +361,7 @@ export default function ResourcesPage() {
               return (
                 <motion.div
                   key={stat.label}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center"
+                  className="bg-white/95 backdrop-blur-md border border-white/30 rounded-xl p-6 text-center shadow-lg"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
@@ -369,8 +369,8 @@ export default function ResourcesPage() {
                   <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-lg flex items-center justify-center mx-auto mb-3`}>
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
-                  <div className="text-white/60 text-sm">{stat.label}</div>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">{stat.number}</div>
+                  <div className="text-gray-600 text-sm">{stat.label}</div>
                 </motion.div>
               );
             })}
@@ -477,19 +477,7 @@ export default function ResourcesPage() {
           className="absolute inset-0"
           style={{ y: supportY }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900" />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-pink-500/10 blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-indigo-50 to-purple-50" />
         </motion.div>
 
         <div className="relative max-w-7xl mx-auto">
@@ -500,17 +488,17 @@ export default function ResourcesPage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Badge className="mb-6 bg-white/10 text-white border-white/20 px-4 py-2">
+            <Badge className="mb-6 bg-indigo-50 text-indigo-700 border-indigo-200 px-4 py-2">
               <HeadphonesIcon className="w-3 h-3 mr-2" />
               Expert Support
             </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gray-900 leading-tight">
               Get help when{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 you need it
               </span>
             </h2>
-            <p className="text-xl md:text-2xl text-white/80 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Our team of experts is here to help you succeed with personalized support and guidance.
             </p>
           </motion.div>
@@ -528,19 +516,19 @@ export default function ResourcesPage() {
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl overflow-hidden hover:shadow-3xl transition-all duration-500 group-hover:scale-105 h-full">
+                  <Card className="bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-3xl overflow-hidden hover:shadow-3xl transition-all duration-500 group-hover:scale-105 h-full">
                     <CardHeader className="pb-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className={`w-16 h-16 bg-gradient-to-r ${option.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                           <IconComponent className="w-8 h-8 text-white" />
                         </div>
                         <div className="text-right">
-                          <Badge className="bg-green-500/20 text-green-300 border-green-500/30 mb-2">{option.type}</Badge>
-                          <div className="text-sm text-white/60">{option.availability}</div>
+                          <Badge className="bg-green-50 text-green-700 border-green-200 mb-2">{option.type}</Badge>
+                          <div className="text-sm text-gray-600">{option.availability}</div>
                         </div>
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">{option.title}</h3>
-                      <p className="text-white/80 leading-relaxed">{option.description}</p>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-2">{option.title}</h3>
+                      <p className="text-gray-600 leading-relaxed">{option.description}</p>
                     </CardHeader>
                     
                     <CardContent className="pt-0">
@@ -554,8 +542,8 @@ export default function ResourcesPage() {
                             transition={{ duration: 0.5, delay: (index * 0.2) + (featureIndex * 0.1) }}
                             viewport={{ once: true }}
                           >
-                            <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                            <span className="text-white/90 text-sm font-medium">{feature}</span>
+                            <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                            <span className="text-gray-700 text-sm font-medium">{feature}</span>
                           </motion.div>
                         ))}
                       </div>
