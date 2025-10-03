@@ -37,6 +37,12 @@ The design adheres to a Stripe-inspired professional aesthetic, featuring:
     - **Pricing Plans**: Management of Basic, Pro, Plus, and Enterprise plans with subscription tracking.
     - **Contact Forms**: Functionality for lead generation and enterprise sales inquiries.
     - **Real-time Updates**: Achieved through TanStack Query.
+    - **Onboarding Tutorial**: Interactive tutorial with rainbow gradient design that appears for new users on their first dashboard visit. Features:
+        - Multi-step guided tour with smooth animations
+        - Spotlight highlighting of specific dashboard sections
+        - Rainbow gradient header animation matching signup page aesthetic
+        - Progress indicators and skip functionality
+        - Persistent state management via localStorage to prevent repeat displays
 
 **System Design Choices:**
 - The application is configured for seamless deployment on Replit, with Node.js v20, npm dependency management, and specific port and host configurations.

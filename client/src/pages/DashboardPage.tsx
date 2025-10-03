@@ -22,7 +22,8 @@ import {
   Sparkles
 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import OnboardingTutorial from "@/components/OnboardingTutorial";
 
 interface DashboardMetrics {
   subscription: {
@@ -62,6 +63,7 @@ interface Product {
 export default function DashboardPage() {
   const [, navigate] = useLocation();
   const [dateRange, setDateRange] = useState<"7" | "30" | "90">("30");
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const { data: user } = useQuery<{ id: string; username: string }>({
     queryKey: ["/api/user"],
@@ -76,6 +78,21 @@ export default function DashboardPage() {
     queryKey: ["/api/dashboard/products"],
     enabled: !!user,
   });
+
+  useEffect(() => {
+    const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+    const isNewUser = sessionStorage.getItem("isNewUser");
+    
+    if (isNewUser === "true" && !hasSeenTutorial) {
+      setShowTutorial(true);
+    }
+  }, []);
+
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
+    localStorage.setItem("hasSeenTutorial", "true");
+    sessionStorage.removeItem("isNewUser");
+  };
 
   const handleLogout = async () => {
     await fetch("/api/logout", { method: "POST" });
@@ -136,6 +153,9 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Onboarding Tutorial */}
+      {showTutorial && <OnboardingTutorial onComplete={handleTutorialComplete} />}
+      
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col" data-testid="dashboard-sidebar">
         {/* Logo */}

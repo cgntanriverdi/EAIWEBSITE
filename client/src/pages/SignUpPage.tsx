@@ -24,10 +24,7 @@ export default function SignUpPage() {
       return await res.json();
     },
     onSuccess: () => {
-      toast({
-        title: "Account created successfully!",
-        description: "Welcome to AI Commerce Studio",
-      });
+      sessionStorage.setItem("isNewUser", "true");
       setLocation("/dashboard");
     },
     onError: (error: any) => {
