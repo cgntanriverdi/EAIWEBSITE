@@ -20,8 +20,9 @@ export default function PricingPage() {
     if (price === null) return "Custom";
     const monthlyPrice = price / 100;
     if (isYearly) {
-      const yearlyPrice = Math.floor(monthlyPrice * 12 * 0.7);
-      return `$${yearlyPrice}`;
+      // Apply 30% discount to monthly price for yearly billing
+      const discountedMonthlyPrice = Math.floor(monthlyPrice * 0.7);
+      return `$${discountedMonthlyPrice}`;
     }
     return `$${monthlyPrice.toFixed(0)}`;
   };
@@ -180,11 +181,16 @@ export default function PricingPage() {
                           {formatPrice(plan.price, billingPeriod === "yearly")}
                         </span>
                         {!plan.isContactSales && (
-                          <span className="text-gray-600">
-                            {billingPeriod === "yearly" ? "/year" : "/month"}
+                          <span className="text-gray-600 text-sm">
+                            {billingPeriod === "yearly" ? "per month" : "/month"}
                           </span>
                         )}
                       </div>
+                      {!plan.isContactSales && billingPeriod === "yearly" && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          billed annually
+                        </p>
+                      )}
                       {plan.productCredits && (
                         <p className="text-sm text-gray-600 mt-2">
                           {plan.productCredits} product credits/month
