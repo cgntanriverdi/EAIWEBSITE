@@ -99,21 +99,57 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Full-page flowing gradient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Main flowing gradient shape */}
+        <div 
+          className="absolute w-[150%] h-[120%] -top-[10%] -left-[25%]"
+          style={{
+            background: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 15%, #C084FC 30%, #E0E7FF 45%, #BAE6FD 60%, #67E8F9 75%, #22D3EE 90%, #06B6D4 100%)',
+            transform: 'rotate(-15deg) skewY(-8deg)',
+            opacity: 0.6,
+            backgroundSize: '200% 200%',
+            animation: 'gradientShift 20s ease infinite',
+          }}
+        />
+        
+        {/* Secondary accent gradient */}
+        <div 
+          className="absolute w-[140%] h-[100%] -bottom-[20%] -right-[20%]"
+          style={{
+            background: 'linear-gradient(225deg, #F472B6 0%, #EC4899 15%, #DB2777 30%, #A855F7 45%, #9333EA 60%, #7C3AED 75%, #6366F1 90%, #4F46E5 100%)',
+            transform: 'rotate(25deg) skewY(12deg)',
+            opacity: 0.4,
+            backgroundSize: '200% 200%',
+            animation: 'gradientShift 25s ease infinite reverse',
+          }}
+        />
+        
+        {/* Subtle overlay gradient for depth */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.3) 100%)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+      </div>
+
       <Navigation />
       
       {/* Header Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6" data-testid="text-pricing-title">
-            Pricing
+            Pricing built for businesses of all sizes
           </h1>
           <p className="text-xl text-gray-600 mb-10" data-testid="text-pricing-subtitle">
             Subscribe to the AI Commerce Studio plan that best fits you
           </p>
           
           {/* Billing Toggle */}
-          <div className="inline-flex items-center gap-4 bg-gray-100 rounded-full p-1.5" data-testid="toggle-billing">
+          <div className="inline-flex items-center gap-4 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow-sm border border-gray-200/50" data-testid="toggle-billing">
             <button
               onClick={() => setBillingPeriod("monthly")}
               className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
@@ -161,10 +197,10 @@ export default function PricingPage() {
                   </div>
                 )}
 
-                <Card className={`h-full bg-white border ${
+                <Card className={`h-full bg-white/95 backdrop-blur-sm border ${
                   isPopular 
                     ? 'border-indigo-200 shadow-xl' 
-                    : 'border-gray-200 shadow-sm hover:shadow-md transition-shadow'
+                    : 'border-gray-200/50 shadow-sm hover:shadow-md transition-shadow'
                 }`}>
                   <CardHeader className="pb-6">
                     {/* Plan Name */}
@@ -237,86 +273,21 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Animated Rainbow Gradient Tube - Below pricing cards */}
-      <section className="relative py-16 overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-6">
-          {/* Rainbow gradient tube container with visible rectangular shape */}
-          <div 
-            className="relative w-full mx-auto"
-            style={{
-              height: '200px',
-              transform: 'rotate(-5deg)',
-              maxWidth: '90%',
-            }}
-          >
-            {/* Tube with strong visible edges and gradient inside */}
-            <div
-              className="relative w-full h-full rounded-[35px] overflow-hidden shadow-2xl"
-              style={{
-                background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 11%, #3B82F6 22%, #06B6D4 33%, #10B981 44%, #EC4899 55%, #EF4444 66%, #F97316 77%, #FBBF24 88%, #8B5CF6 100%)',
-                backgroundSize: '400% 400%',
-                animation: 'gradientShift 15s ease infinite',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 20px -8px rgba(139, 92, 246, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
-                border: '3px solid rgba(255, 255, 255, 0.4)',
-              }}
-            >
-              {/* Inner glow for depth */}
-              <div 
-                className="absolute inset-0"
-                style={{
-                  background: 'radial-gradient(ellipse at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 60%)',
-                  mixBlendMode: 'overlay',
-                }}
-              />
-              
-              {/* Top shine/highlight */}
-              <div 
-                className="absolute top-0 left-0 right-0 h-32"
-                style={{
-                  background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%)',
-                  mixBlendMode: 'overlay',
-                }}
-              />
-              
-              {/* Bottom subtle shadow */}
-              <div 
-                className="absolute bottom-0 left-0 right-0 h-20"
-                style={{
-                  background: 'linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 100%)',
-                  mixBlendMode: 'multiply',
-                }}
-              />
-              
-              {/* Subtle animated shimmer effect */}
-              <div 
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 3s ease-in-out infinite',
-                  mixBlendMode: 'overlay',
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Compare Plans Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-gray-200">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 mt-12">
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4" data-testid="text-compare-title">
             Compare plans
           </h2>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 shadow-sm">
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
                 <th className="text-left py-4 px-4 font-medium text-gray-900 w-1/3"></th>
                 <th className="text-center py-4 px-4 font-semibold text-gray-900">Basic</th>
-                <th className="text-center py-4 px-4 font-semibold text-gray-900 bg-indigo-50">Pro</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-900 bg-indigo-50/50">Pro</th>
                 <th className="text-center py-4 px-4 font-semibold text-gray-900">Plus</th>
                 <th className="text-center py-4 px-4 font-semibold text-gray-900">Enterprise</th>
               </tr>
@@ -324,7 +295,7 @@ export default function PricingPage() {
             <tbody>
               {comparisonFeatures.map((section, sectionIndex) => (
                 <React.Fragment key={`section-${sectionIndex}`}>
-                  <tr className="border-b border-gray-200 bg-gray-50">
+                  <tr className="border-b border-gray-200 bg-gray-50/50">
                     <td colSpan={5} className="py-3 px-4 font-semibold text-gray-900 text-sm">
                       {section.category}
                     </td>
@@ -332,7 +303,7 @@ export default function PricingPage() {
                   {section.features.map((feature, featureIndex) => (
                     <tr 
                       key={`feature-${sectionIndex}-${featureIndex}`}
-                      className="border-b border-gray-100 hover:bg-gray-50"
+                      className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
                     >
                       <td className="py-4 px-4 text-sm text-gray-700 flex items-center gap-2">
                         {feature.name}
@@ -349,7 +320,7 @@ export default function PricingPage() {
                           <span className="text-sm text-gray-700">{feature.basic}</span>
                         )}
                       </td>
-                      <td className="py-4 px-4 text-center bg-indigo-50">
+                      <td className="py-4 px-4 text-center bg-indigo-50/50">
                         {typeof feature.pro === 'boolean' ? (
                           feature.pro ? (
                             <Check className="w-5 h-5 text-indigo-600 mx-auto" />
