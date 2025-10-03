@@ -288,19 +288,19 @@ export default function Navigation() {
             <Button
               variant="ghost"
               className="text-sm font-medium text-gray-600 hover:text-gray-900"
-              onClick={() => console.log('Sign in clicked')}
-              data-testid="button-sign-in"
+              onClick={() => console.log('Log in clicked')}
+              data-testid="button-log-in"
             >
-              SIGN IN
+              LOG IN
             </Button>
             
             <Button
               variant="ghost"
               className="text-sm font-medium text-gray-600 hover:text-gray-900"
-              onClick={() => console.log('Log in clicked')}
-              data-testid="button-log-in"
+              onClick={() => console.log('Sign up clicked')}
+              data-testid="button-sign-up"
             >
-              LOG IN
+              SIGN UP
             </Button>
             
             <Button
