@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sparkles, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -29,6 +29,8 @@ export default function LoginPage() {
     },
     onSuccess: () => {
       setLoginError("");
+      // Invalidate all queries to ensure fresh data for the new user session
+      queryClient.invalidateQueries();
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in",

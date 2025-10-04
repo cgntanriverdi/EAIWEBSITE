@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sparkles, Zap, TrendingUp, Users, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function SignUpPage() {
   const [, setLocation] = useLocation();
@@ -27,6 +27,8 @@ export default function SignUpPage() {
     },
     onSuccess: () => {
       setSignupError("");
+      // Invalidate all queries to ensure fresh data for the new user session
+      queryClient.invalidateQueries();
       sessionStorage.setItem("isNewUser", "true");
       setLocation("/dashboard");
     },
