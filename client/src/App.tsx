@@ -12,6 +12,7 @@ import ImageGenerationAgentPage from "@/pages/ImageGenerationAgentPage";
 import DescriptionAgentPage from "@/pages/DescriptionAgentPage";
 import PricingAgentPage from "@/pages/PricingAgentPage";
 import PublishingAgentPage from "@/pages/PublishingAgentPage";
+import WorkflowPage from "@/pages/WorkflowPage";
 import DocumentationPage from "@/pages/DocumentationPage";
 import UseCasesPage from "@/pages/UseCasesPage";
 import BestPracticesPage from "@/pages/BestPracticesPage";
@@ -79,6 +80,7 @@ function Router() {
       </Route>
       
       {/* Agent Pages */}
+      <Route path="/workflow" component={WorkflowPage} />
       <Route path="/agents/image-generation" component={ImageGenerationAgentPage} />
       <Route path="/agents/description" component={DescriptionAgentPage} />
       <Route path="/agents/pricing" component={PricingAgentPage} />

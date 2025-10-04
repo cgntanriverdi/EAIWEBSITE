@@ -123,3 +123,86 @@ export const insertUsageMetricsSchema = createInsertSchema(usageMetrics).omit({
 
 export type InsertUsageMetrics = z.infer<typeof insertUsageMetricsSchema>;
 export type UsageMetrics = typeof usageMetrics.$inferSelect;
+
+// Workflow Data Schemas (Client-side only - backend in AWS)
+
+// Image data schema for workflow
+export const workflowImageSchema = z.object({
+  url: z.string().url(),
+  pose: z.string().optional(),
+  angle: z.string().optional(),
+});
+
+// Product option schema for workflow
+export const productOptionSchema = z.object({
+  name: z.string(),
+  values: z.array(z.string()),
+});
+
+// Language enum
+export const languageEnum = z.enum([
+  'English',
+  'Turkish',
+  'Spanish',
+  'French',
+  'German',
+  'Italian',
+  'Japanese',
+  'Chinese'
+]);
+
+// AI Model Gender enum
+export const aiModelGenderEnum = z.enum(['female', 'male', 'non-binary', 'auto']);
+
+// Quality Level enum
+export const qualityLevelEnum = z.enum(['standard', 'enhanced', 'premium', 'enterprise']);
+
+// Tone/Persona enum
+export const tonePersonaEnum = z.enum(['professional', 'casual', 'luxury', 'friendly', 'technical', 'creative']);
+
+// Image Prompt Directives schema
+export const imagePromptDirectivesSchema = z.object({
+  lighting: z.enum(['natural', 'studio', 'golden-hour', 'dramatic', 'soft']).optional(),
+  mood: z.enum(['bright', 'warm', 'cool', 'vibrant', 'minimalist', 'elegant']).optional(),
+  cameraAngle: z.enum(['front', 'side', 'angled', 'top-down', 'close-up', 'full-body']).optional(),
+  style: z.enum(['realistic', 'artistic', 'lifestyle', 'editorial', 'commercial']).optional(),
+});
+
+// Variant Pricing schema
+export const variantPricingSchema = z.object({
+  price: z.number().optional(),
+  compareAtPrice: z.number().optional(),
+  currency: z.string().default('USD'),
+});
+
+// Workflow Data Schema
+export const workflowDataSchema = z.object({
+  productTitle: z.string().min(1, "Product title is required"),
+  productDetails: z.string().optional(),
+  language: languageEnum,
+  aiModelGender: aiModelGenderEnum,
+  qualityLevel: qualityLevelEnum,
+  tonePersona: tonePersonaEnum.optional(),
+  imagePromptDirectives: imagePromptDirectivesSchema.optional(),
+  variantPricing: variantPricingSchema.optional(),
+  publishingPlatforms: z.array(z.string()).default([]),
+  autoPublishShopify: z.boolean(),
+  images: z.array(workflowImageSchema),
+  productOptions: z.array(productOptionSchema),
+  currentStep: z.number().int().min(0),
+});
+
+// Insert schema for WorkflowData (same as the main schema for client-side data)
+export const insertWorkflowDataSchema = workflowDataSchema;
+
+// Types
+export type WorkflowImage = z.infer<typeof workflowImageSchema>;
+export type ProductOption = z.infer<typeof productOptionSchema>;
+export type Language = z.infer<typeof languageEnum>;
+export type AIModelGender = z.infer<typeof aiModelGenderEnum>;
+export type QualityLevel = z.infer<typeof qualityLevelEnum>;
+export type TonePersona = z.infer<typeof tonePersonaEnum>;
+export type ImagePromptDirectives = z.infer<typeof imagePromptDirectivesSchema>;
+export type VariantPricing = z.infer<typeof variantPricingSchema>;
+export type WorkflowData = z.infer<typeof workflowDataSchema>;
+export type InsertWorkflowData = z.infer<typeof insertWorkflowDataSchema>;

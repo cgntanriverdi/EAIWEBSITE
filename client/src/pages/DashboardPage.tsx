@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import OnboardingTutorial from "@/components/OnboardingTutorial";
 
 interface DashboardMetrics {
@@ -115,33 +116,29 @@ export default function DashboardPage() {
       icon: FileText,
       title: "Description Agent",
       description: "Generate compelling product descriptions",
-      uses: metrics?.usageStats.descriptionAgentUses || 0,
       color: "text-blue-600 bg-blue-50",
-      href: "/agents/description"
+      href: "/workflow"
     },
     {
       icon: Image,
       title: "Image Agent",
       description: "Create professional product photos",
-      uses: metrics?.usageStats.imageAgentUses || 0,
       color: "text-purple-600 bg-purple-50",
-      href: "/agents/image-generation"
+      href: "/workflow"
     },
     {
       icon: DollarSign,
       title: "Pricing Agent",
       description: "Optimize pricing strategy",
-      uses: metrics?.usageStats.pricingAgentUses || 0,
       color: "text-green-600 bg-green-50",
-      href: "/agents/pricing"
+      href: "/workflow"
     },
     {
       icon: Upload,
       title: "Publishing Agent",
       description: "Publish to all platforms",
-      uses: metrics?.usageStats.publishingAgentUses || 0,
       color: "text-orange-600 bg-orange-50",
-      href: "/agents/publishing"
+      href: "/workflow"
     }
   ];
 
@@ -244,6 +241,38 @@ export default function DashboardPage() {
 
         {/* Content */}
         <div className="p-8 space-y-8">
+          {/* Quick Actions */}
+          <div data-testid="section-quick-actions">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {agentCards.map((agent) => (
+                <Link key={agent.title} href={agent.href}>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                    data-testid={`card-agent-${agent.title.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    <Card className="p-6 bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-shadow cursor-pointer group h-full">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${agent.color}`}>
+                        <agent.icon className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-semibold text-gray-900 mb-2">
+                        {agent.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-4">{agent.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-400">
+                          0 uses today
+                        </span>
+                        <ArrowUpRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:text-indigo-600 transition-all" />
+                      </div>
+                    </Card>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="p-6 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow" data-testid="card-credits">
@@ -344,32 +373,6 @@ export default function DashboardPage() {
               </div>
             )}
           </Card>
-
-          {/* Quick Actions */}
-          <div data-testid="section-quick-actions">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {agentCards.map((agent) => (
-                <Link key={agent.title} href={agent.href}>
-                  <Card className="p-6 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all cursor-pointer group" data-testid={`card-agent-${agent.title.toLowerCase().replace(/\s+/g, '-')}`}>
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${agent.color}`}>
-                      <agent.icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
-                      {agent.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-4">{agent.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400">
-                        {agent.uses} uses today
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 transition-colors" />
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
 
           {/* Recent Products */}
           <div data-testid="section-recent-products">
