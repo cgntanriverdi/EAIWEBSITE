@@ -29,7 +29,7 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ component: Component }: ProtectedRouteProps) {
   const [, navigate] = useLocation();
-  const { data: user, isLoading } = useQuery<{ id: string; username: string }>({
+  const { data: user, isLoading } = useQuery<{ id: string; email: string }>({
     queryKey: ["/api/user"],
   });
 

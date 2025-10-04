@@ -37,7 +37,7 @@ export default function MyProductsPage() {
   const [, navigate] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: user } = useQuery<{ id: string; username: string }>({
+  const { data: user } = useQuery<{ id: string; email: string }>({
     queryKey: ["/api/user"],
   });
 
@@ -118,12 +118,12 @@ export default function MyProductsPage() {
           <div className="flex items-center gap-3 mb-3">
             <Avatar className="h-9 w-9">
               <AvatarFallback className="bg-indigo-100 text-indigo-600 text-sm font-medium">
-                {user?.username?.substring(0, 2).toUpperCase() || "TE"}
+                {user?.email?.substring(0, 2).toUpperCase() || "TE"}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate" data-testid="text-username">
-                {user?.username || "test@gmail.com"}
+                {user?.email || "test@gmail.com"}
               </p>
               <p className="text-xs text-gray-500">Basic</p>
             </div>

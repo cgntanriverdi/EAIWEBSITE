@@ -131,7 +131,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = req.user as any;
       res.json({
         id: user.id,
-        username: user.username,
+        email: user.email,
       });
     } else {
       res.status(401).json({ message: "Not authenticated" });

@@ -65,7 +65,7 @@ export default function DashboardPage() {
   const [dateRange, setDateRange] = useState<"7" | "30" | "90">("30");
   const [showTutorial, setShowTutorial] = useState(false);
 
-  const { data: user } = useQuery<{ id: string; username: string }>({
+  const { data: user } = useQuery<{ id: string; email: string }>({
     queryKey: ["/api/user"],
   });
 
@@ -196,12 +196,12 @@ export default function DashboardPage() {
           <div className="flex items-center gap-3 mb-3">
             <Avatar className="w-10 h-10" data-testid="avatar-user">
               <AvatarFallback className="bg-indigo-100 text-indigo-600 font-semibold">
-                {user?.username?.substring(0, 2).toUpperCase() || "U"}
+                {user?.email?.substring(0, 2).toUpperCase() || "U"}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate" data-testid="text-username">
-                {user?.username || "User"}
+                {user?.email || "User"}
               </p>
               <p className="text-xs text-gray-500" data-testid="text-plan">
                 {metrics?.subscription.plan || "Loading..."}
@@ -230,7 +230,7 @@ export default function DashboardPage() {
                 Dashboard
               </h1>
               <p className="text-sm text-gray-500 mt-1">
-                Welcome back, {user?.username}
+                Welcome back, {user?.email}
               </p>
             </div>
             <div className="flex items-center gap-4">

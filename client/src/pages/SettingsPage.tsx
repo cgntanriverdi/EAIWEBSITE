@@ -70,7 +70,7 @@ export default function SettingsPage() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { data: user } = useQuery<{ id: string; username: string }>({
+  const { data: user } = useQuery<{ id: string; email: string }>({
     queryKey: ["/api/user"],
   });
 
@@ -252,12 +252,12 @@ export default function SettingsPage() {
           <div className="flex items-center gap-3 mb-3">
             <Avatar className="h-9 w-9">
               <AvatarFallback className="bg-indigo-100 text-indigo-600 text-sm font-medium">
-                {user?.username?.substring(0, 2).toUpperCase() || "TE"}
+                {user?.email?.substring(0, 2).toUpperCase() || "TE"}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate" data-testid="text-username">
-                {user?.username || "test@gmail.com"}
+                {user?.email || "test@gmail.com"}
               </p>
               <p className="text-xs text-gray-500">{metrics?.subscription.plan || "Basic"}</p>
             </div>
@@ -314,21 +314,11 @@ export default function SettingsPage() {
                 <CardContent className="pt-6">
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="username" className="text-sm font-medium text-gray-900">Username</Label>
-                      <Input
-                        id="username"
-                        defaultValue={user?.username}
-                        className="mt-1.5 bg-white border-gray-200 text-gray-900"
-                        disabled={!isEditing}
-                        data-testid="input-username"
-                      />
-                    </div>
-                    <div>
                       <Label htmlFor="email" className="text-sm font-medium text-gray-900">Email</Label>
                       <Input
                         id="email"
                         type="email"
-                        defaultValue={user?.username}
+                        defaultValue={user?.email}
                         className="mt-1.5 bg-white border-gray-200 text-gray-900"
                         disabled={!isEditing}
                         data-testid="input-email"
