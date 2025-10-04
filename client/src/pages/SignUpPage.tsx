@@ -13,7 +13,7 @@ export default function SignUpPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +21,7 @@ export default function SignUpPage() {
   const [shake, setShake] = useState(false);
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { username: string; password: string }) => {
+    mutationFn: async (data: { email: string; password: string }) => {
       const res = await apiRequest("POST", "/api/register", data);
       return await res.json();
     },
@@ -31,7 +31,7 @@ export default function SignUpPage() {
       setLocation("/dashboard");
     },
     onError: (error: any) => {
-      const errorMsg = error.message || "Username already exists or invalid input";
+      const errorMsg = error.message || "Email already exists or invalid input";
       setSignupError(errorMsg);
       setShake(true);
       setTimeout(() => setShake(false), 650);
@@ -195,18 +195,17 @@ export default function SignUpPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="username" className="text-sm font-medium text-gray-700">
-                      Username
+                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                      Email
                     </Label>
                     <Input
-                      id="username"
-                      type="text"
-                      value={formData.username}
-                      onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full bg-white text-gray-900"
-                      data-testid="input-username"
+                      data-testid="input-email"
                       required
-                      minLength={3}
                     />
                   </div>
 
