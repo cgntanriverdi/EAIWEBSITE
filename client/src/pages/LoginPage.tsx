@@ -40,11 +40,6 @@ export default function LoginPage() {
       setLoginError(errorMsg);
       setShake(true);
       setTimeout(() => setShake(false), 650);
-      toast({
-        title: "Login failed",
-        description: errorMsg,
-        variant: "destructive",
-      });
     },
   });
 

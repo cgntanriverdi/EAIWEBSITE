@@ -17,6 +17,8 @@ export default function SignUpPage() {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [signupError, setSignupError] = useState<string>("");
+  const [shake, setShake] = useState(false);
 
   const registerMutation = useMutation({
     mutationFn: async (data: { username: string; password: string }) => {
@@ -24,15 +26,15 @@ export default function SignUpPage() {
       return await res.json();
     },
     onSuccess: () => {
+      setSignupError("");
       sessionStorage.setItem("isNewUser", "true");
       setLocation("/dashboard");
     },
     onError: (error: any) => {
-      toast({
-        title: "Sign up failed",
-        description: error.message || "Username already exists or invalid input",
-        variant: "destructive",
-      });
+      const errorMsg = error.message || "Username already exists or invalid input";
+      setSignupError(errorMsg);
+      setShake(true);
+      setTimeout(() => setShake(false), 650);
     },
   });
 
@@ -75,6 +77,7 @@ export default function SignUpPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSignupError("");
     registerMutation.mutate(formData);
   };
 
@@ -161,14 +164,34 @@ export default function SignUpPage() {
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                x: shake ? [0, -10, 10, -10, 10, -5, 5, 0] : 0
+              }}
+              transition={{ 
+                duration: shake ? 0.6 : 0.8,
+                delay: shake ? 0 : 0.2,
+                x: { duration: 0.6 }
+              }}
               className="w-full"
             >
               <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-10 max-w-md mx-auto lg:ml-auto">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8" data-testid="text-signup-title">
                   Create your account
                 </h1>
+
+                {signupError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2"
+                    data-testid="alert-signup-error"
+                  >
+                    <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-red-800">{signupError}</p>
+                  </motion.div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
