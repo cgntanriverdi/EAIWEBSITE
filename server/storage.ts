@@ -654,10 +654,10 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-const storageInstance = new DatabaseStorage();
+const storageInstance = new MemStorage();
 
 export const storage = storageInstance;
 
 export async function initializeStorage(): Promise<void> {
-  await storageInstance.initialize();
+  // MemStorage initializes in constructor, but this keeps the interface consistent
 }
