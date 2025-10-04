@@ -125,7 +125,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(500).json({ message: "Logout failed" });
         }
         console.log('[LOGOUT] Session destroyed, clearing cookie');
-        res.clearCookie('connect.sid');
+        // Clear cookie with the same options used when setting it
+        const isProduction = process.env.NODE_ENV === "production" || process.env.REPL_ID !== undefined;
+        res.clearCookie('connect.sid', {
+          httpOnly: true,
+          secure: isProduction,
+          sameSite: "lax"
+        });
         res.json({ message: "Logged out successfully" });
       });
     });
@@ -200,7 +206,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (destroyErr) {
             return res.status(500).json({ message: "Account deleted but session cleanup failed" });
           }
-          res.clearCookie('connect.sid');
+          const isProduction = process.env.NODE_ENV === "production" || process.env.REPL_ID !== undefined;
+          res.clearCookie('connect.sid', {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: "lax"
+          });
           res.json({ message: "Account deleted successfully" });
         });
       });
