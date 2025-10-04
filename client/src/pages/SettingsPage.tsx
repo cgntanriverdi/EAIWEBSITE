@@ -488,12 +488,12 @@ export default function SettingsPage() {
       {/* Change Password Dialog */}
       <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
         <DialogContent className="sm:max-w-md">
-          <DialogHeader>
+          <DialogHeader className="dialog-rainbow-header">
             <DialogTitle className="flex items-center gap-2 text-gray-900">
               <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Shield className="w-4 h-4 text-purple-600" />
               </div>
-              <span className="rainbow-text font-bold">Change Password</span>
+              <span className="font-bold">Change Password</span>
             </DialogTitle>
             <DialogDescription className="text-gray-600">
               Enter your current password and choose a new one
@@ -557,7 +557,7 @@ export default function SettingsPage() {
       {/* Delete Account Alert Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
-          <AlertDialogHeader>
+          <AlertDialogHeader className="dialog-rainbow-header">
             <AlertDialogTitle className="flex items-center gap-2 text-gray-900">
               <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center animate-pulse">
                 <AlertTriangle className="w-4 h-4 text-red-600" />
