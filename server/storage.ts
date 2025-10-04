@@ -354,7 +354,10 @@ export class DatabaseStorage implements IStorage {
       connectionString: process.env.DATABASE_URL!,
     });
     this.db = drizzle(this.pool);
-    this.initializeDefaultPlans();
+  }
+
+  async initialize(): Promise<void> {
+    await this.initializeDefaultPlans();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -579,4 +582,10 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+const storageInstance = new DatabaseStorage();
+
+export const storage = storageInstance;
+
+export async function initializeStorage(): Promise<void> {
+  await storageInstance.initialize();
+}

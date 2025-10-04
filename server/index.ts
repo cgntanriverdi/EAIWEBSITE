@@ -4,6 +4,7 @@ import createMemoryStore from "memorystore";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { passport } from "./auth";
+import { initializeStorage } from "./storage";
 
 const app = express();
 app.use(express.json());
@@ -66,6 +67,11 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize database with default pricing plans
+  log("Initializing database...");
+  await initializeStorage();
+  log("Database initialized successfully");
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
