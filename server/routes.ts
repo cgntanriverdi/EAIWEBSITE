@@ -112,14 +112,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post("/api/logout", (req, res) => {
+    console.log('[LOGOUT] Starting logout process for user:', req.user ? (req.user as any).email : 'no user');
     req.logout((err) => {
       if (err) {
+        console.log('[LOGOUT] Error during logout:', err);
         return res.status(500).json({ message: "Logout failed" });
       }
+      console.log('[LOGOUT] User logged out, destroying session');
       req.session.destroy((destroyErr) => {
         if (destroyErr) {
+          console.log('[LOGOUT] Error destroying session:', destroyErr);
           return res.status(500).json({ message: "Logout failed" });
         }
+        console.log('[LOGOUT] Session destroyed, clearing cookie');
         res.clearCookie('connect.sid');
         res.json({ message: "Logged out successfully" });
       });
@@ -127,13 +132,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/user", (req, res) => {
+    console.log('[USER API] Checking authentication, isAuthenticated:', req.isAuthenticated());
     if (req.isAuthenticated() && req.user) {
       const user = req.user as any;
+      console.log('[USER API] Returning user:', { id: user.id, email: user.email });
       res.json({
         id: user.id,
         email: user.email,
       });
     } else {
+      console.log('[USER API] User not authenticated');
       res.status(401).json({ message: "Not authenticated" });
     }
   });
