@@ -650,4 +650,117 @@
       transition: none;
     }
   }
+
+  /* Rainbow Gradient Border for Toasts and Dialogs */
+  .toast-rainbow-border {
+    position: relative;
+    border: 3px solid transparent;
+  }
+
+  .toast-rainbow-border::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+      #8B5CF6 0%, 
+      #6366F1 11%, 
+      #3B82F6 22%, 
+      #06B6D4 33%, 
+      #10B981 44%, 
+      #EC4899 55%, 
+      #EF4444 66%, 
+      #F97316 77%, 
+      #FBBF24 88%, 
+      #8B5CF6 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+  }
+
+  /* Rainbow Gradient Header for Dialogs */
+  .dialog-rainbow-header {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dialog-rainbow-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      #8B5CF6 0%, 
+      #6366F1 11%, 
+      #3B82F6 22%, 
+      #06B6D4 33%, 
+      #10B981 44%, 
+      #EC4899 55%, 
+      #EF4444 66%, 
+      #F97316 77%, 
+      #FBBF24 88%, 
+      #8B5CF6 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  /* Rainbow text effect */
+  .rainbow-text {
+    background: linear-gradient(135deg, 
+      #8B5CF6 0%, 
+      #6366F1 11%, 
+      #3B82F6 22%, 
+      #06B6D4 33%, 
+      #10B981 44%, 
+      #EC4899 55%, 
+      #EF4444 66%, 
+      #F97316 77%, 
+      #FBBF24 88%, 
+      #8B5CF6 100%
+    );
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  /* Glow effect for dialogs */
+  @keyframes rainbowGlow {
+    0%, 100% { 
+      box-shadow: 
+        0 0 30px rgba(139, 92, 246, 0.3),
+        0 0 60px rgba(139, 92, 246, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    25% { 
+      box-shadow: 
+        0 0 30px rgba(59, 130, 246, 0.3),
+        0 0 60px rgba(59, 130, 246, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    50% { 
+      box-shadow: 
+        0 0 30px rgba(16, 185, 129, 0.3),
+        0 0 60px rgba(16, 185, 129, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    75% { 
+      box-shadow: 
+        0 0 30px rgba(251, 191, 36, 0.3),
+        0 0 60px rgba(251, 191, 36, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .animate-rainbow-glow {
+    animation: rainbowGlow 8s ease-in-out infinite;
+  }
 }

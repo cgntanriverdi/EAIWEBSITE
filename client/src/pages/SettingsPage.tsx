@@ -493,13 +493,13 @@ export default function SettingsPage() {
               <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Shield className="w-4 h-4 text-purple-600" />
               </div>
-              Change Password
+              <span className="rainbow-text font-bold">Change Password</span>
             </DialogTitle>
             <DialogDescription className="text-gray-600">
               Enter your current password and choose a new one
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 px-6 py-4">
             <div className="space-y-2">
               <Label htmlFor="current-password" className="text-sm font-medium text-gray-900">Current Password</Label>
               <Input
@@ -538,13 +538,14 @@ export default function SettingsPage() {
             <Button 
               variant="outline" 
               onClick={() => setShowPasswordDialog(false)}
+              className="hover:scale-105 transition-all duration-200"
               data-testid="button-cancel-password"
             >
               Cancel
             </Button>
             <Button 
               onClick={handleChangePassword}
-              className="bg-purple-600 hover:bg-purple-700 transition-all duration-200"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 hover:scale-105"
               data-testid="button-confirm-password"
             >
               Change Password
@@ -558,15 +559,15 @@ export default function SettingsPage() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2 text-gray-900">
-              <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center animate-pulse">
                 <AlertTriangle className="w-4 h-4 text-red-600" />
               </div>
-              Are you absolutely sure?
+              <span className="font-bold">Are you absolutely sure?</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="text-gray-600">
-              This action cannot be undone. This will permanently delete your account
+              This action <span className="font-semibold text-red-600">cannot be undone</span>. This will permanently delete your account
               and remove all your data from our servers including:
-              <ul className="list-disc list-inside mt-2 space-y-1 text-gray-700">
+              <ul className="list-disc list-inside mt-3 space-y-1.5 text-gray-700 font-medium">
                 <li>All product listings</li>
                 <li>Usage history and analytics</li>
                 <li>Subscription information</li>
@@ -575,10 +576,15 @@ export default function SettingsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel data-testid="button-cancel-delete">Cancel</AlertDialogCancel>
+            <AlertDialogCancel 
+              className="hover:scale-105"
+              data-testid="button-cancel-delete"
+            >
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteAccount}
-              className="bg-red-600 hover:bg-red-700 transition-all duration-200"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition-all duration-200 hover:scale-105"
               data-testid="button-confirm-delete"
             >
               Delete Account
