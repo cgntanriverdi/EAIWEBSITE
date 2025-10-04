@@ -128,6 +128,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Clear cookie with the same options used when setting it
         const isProduction = process.env.NODE_ENV === "production" || process.env.REPL_ID !== undefined;
         res.clearCookie('connect.sid', {
+          path: '/',
           httpOnly: true,
           secure: isProduction,
           sameSite: "lax"
@@ -208,6 +209,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
           const isProduction = process.env.NODE_ENV === "production" || process.env.REPL_ID !== undefined;
           res.clearCookie('connect.sid', {
+            path: '/',
             httpOnly: true,
             secure: isProduction,
             sameSite: "lax"

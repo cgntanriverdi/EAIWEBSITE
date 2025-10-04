@@ -17,7 +17,16 @@ AI Commerce Studio is a full-stack web application designed to empower e-commerc
 
 ## Recent Changes (October 4, 2025)
 
-- **Fresh GitHub Import Setup Complete (Latest)**: Successfully configured project for Replit environment from fresh GitHub clone
+- **Session Management Bug Fix (Latest)**: Fixed critical multi-account login issue
+  - **Problem**: After logging out from account A and creating/logging into account B, users were being logged into account A instead of account B
+  - **Root Cause**: The logout endpoint was clearing the session cookie without specifying `path: '/'`, causing some browsers to retain the old cookie. This stale cookie would interfere with subsequent logins, causing session deserialization to load the wrong user
+  - **Solution**: Added `path: '/'` parameter to both `res.clearCookie()` calls in logout and delete account endpoints
+  - **Files Changed**: `server/routes.ts` (lines 134 and 215)
+  - **Impact**: Sessions now properly clear on logout, preventing cross-account session bleeding
+  - ✅ Architect review confirmed the fix addresses the root cause
+  - 📝 Users can now logout and login to different accounts without session conflicts
+
+- **Fresh GitHub Import Setup Complete**: Successfully configured project for Replit environment from fresh GitHub clone
   - ✅ Workflow "Start application" configured: `npm run dev` on port 5000 with webview output type
   - ✅ Vite dev server properly configured with `allowedHosts: true` for Replit proxy compatibility (verified in codebase)
   - ✅ Express server running on 0.0.0.0:5000 with trust proxy enabled (verified in codebase)
