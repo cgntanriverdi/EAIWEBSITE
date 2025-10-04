@@ -292,14 +292,17 @@ function WorkflowContent() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Label htmlFor="productTitle" className="flex items-center gap-2">
-                        <Package className="w-4 h-4" />
+                      <Label htmlFor="productTitle" className="flex items-center gap-2 text-gray-900">
+                        <Package className="w-4 h-4 text-indigo-600" />
                         Product Title <span className="text-red-500">*</span>
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        💡 <strong>Why this matters:</strong> Your title is the first thing customers see. A clear, specific title increases click-through rates by up to 40% and helps search engines rank your product better.
+                      </p>
                       <motion.div whileFocus={{ scale: 1.01 }} transition={{ duration: 0.2 }}>
                         <Input
                           id="productTitle"
-                          placeholder="Enter your product title..."
+                          placeholder="e.g., Premium Wireless Bluetooth Headphones with Noise Cancellation"
                           value={workflowData.productTitle}
                           onChange={(e) => updateWorkflowData({ productTitle: e.target.value })}
                           data-testid="input-product-title"
@@ -314,14 +317,17 @@ function WorkflowContent() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 }}
                     >
-                      <Label htmlFor="productDetails" className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" />
+                      <Label htmlFor="productDetails" className="flex items-center gap-2 text-gray-900">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
                         Product Details (Optional)
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        ✨ <strong>Boost conversion:</strong> The more context you provide, the better our AI can craft compelling descriptions. Include features, materials, dimensions, and unique selling points to create descriptions that convert browsers into buyers.
+                      </p>
                       <motion.div whileFocus={{ scale: 1.01 }} transition={{ duration: 0.2 }}>
                         <Textarea
                           id="productDetails"
-                          placeholder="Add more details about your product..."
+                          placeholder="e.g., Made from premium leather, features 30-hour battery life, comes with carrying case..."
                           value={workflowData.productDetails}
                           onChange={(e) => updateWorkflowData({ productDetails: e.target.value })}
                           rows={4}
@@ -332,10 +338,13 @@ function WorkflowContent() {
                     </motion.div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="language" className="flex items-center gap-2">
-                        <Globe className="w-4 h-4" />
+                      <Label htmlFor="language" className="flex items-center gap-2 text-gray-900">
+                        <Globe className="w-4 h-4 text-indigo-600" />
                         Language
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        🌍 <strong>Expand your reach:</strong> Generate descriptions in your customers' native language. Products with localized content see 3x higher engagement in international markets.
+                      </p>
                       <Select 
                         value={workflowData.language} 
                         onValueChange={(value) => updateWorkflowData({ language: value as any })}
@@ -354,10 +363,13 @@ function WorkflowContent() {
                     </div>
 
                     <div className="space-y-3">
-                      <Label className="flex items-center gap-2">
-                        <Settings className="w-4 h-4" />
-                        AI Model Gender
+                      <Label className="flex items-center gap-2 text-gray-900">
+                        <Settings className="w-4 h-4 text-indigo-600" />
+                        AI Model Gender Preference
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        🎯 <strong>Target your audience:</strong> Choose the model gender that resonates with your target demographic. Research shows customers engage 60% more with images featuring models they identify with. Auto-select lets our AI choose based on your product category.
+                      </p>
                       <RadioGroup 
                         value={workflowData.aiModelGender} 
                         onValueChange={(value) => updateWorkflowData({ aiModelGender: value as any })}
@@ -372,7 +384,7 @@ function WorkflowContent() {
                           />
                           <Label
                             htmlFor="female"
-                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all"
+                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all text-gray-900"
                           >
                             <span className="text-sm font-medium">Female Model</span>
                           </Label>
@@ -386,7 +398,7 @@ function WorkflowContent() {
                           />
                           <Label
                             htmlFor="male"
-                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all"
+                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all text-gray-900"
                           >
                             <span className="text-sm font-medium">Male Model</span>
                           </Label>
@@ -400,7 +412,7 @@ function WorkflowContent() {
                           />
                           <Label
                             htmlFor="non-binary"
-                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all"
+                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all text-gray-900"
                           >
                             <span className="text-sm font-medium">Non-Binary</span>
                           </Label>
@@ -414,19 +426,23 @@ function WorkflowContent() {
                           />
                           <Label
                             htmlFor="auto"
-                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all"
+                            className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all text-gray-900"
                           >
                             <span className="text-sm font-medium">Auto-Select</span>
+                            <span className="text-xs text-gray-500 mt-1">Recommended</span>
                           </Label>
                         </div>
                       </RadioGroup>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="tonePersona" className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" />
+                      <Label htmlFor="tonePersona" className="flex items-center gap-2 text-gray-900">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
                         Tone & Persona
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        🗣️ <strong>Voice consistency:</strong> Your brand's tone shapes how customers perceive your products. Choose a voice that aligns with your brand identity and resonates with your target audience. Consistent tone increases brand trust by 33%.
+                      </p>
                       <Select 
                         value={workflowData.tonePersona || 'professional'} 
                         onValueChange={(value) => updateWorkflowData({ tonePersona: value as any })}
@@ -435,21 +451,24 @@ function WorkflowContent() {
                           <SelectValue placeholder="Select tone" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="professional" data-testid="option-tone-professional">Professional</SelectItem>
-                          <SelectItem value="casual" data-testid="option-tone-casual">Casual</SelectItem>
-                          <SelectItem value="luxury" data-testid="option-tone-luxury">Luxury</SelectItem>
-                          <SelectItem value="friendly" data-testid="option-tone-friendly">Friendly</SelectItem>
-                          <SelectItem value="technical" data-testid="option-tone-technical">Technical</SelectItem>
-                          <SelectItem value="creative" data-testid="option-tone-creative">Creative</SelectItem>
+                          <SelectItem value="professional" data-testid="option-tone-professional">Professional - Trusted & Authoritative</SelectItem>
+                          <SelectItem value="casual" data-testid="option-tone-casual">Casual - Relaxed & Approachable</SelectItem>
+                          <SelectItem value="luxury" data-testid="option-tone-luxury">Luxury - Elegant & Exclusive</SelectItem>
+                          <SelectItem value="friendly" data-testid="option-tone-friendly">Friendly - Warm & Personal</SelectItem>
+                          <SelectItem value="technical" data-testid="option-tone-technical">Technical - Precise & Detailed</SelectItem>
+                          <SelectItem value="creative" data-testid="option-tone-creative">Creative - Bold & Innovative</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-3">
-                      <Label className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" />
+                      <Label className="flex items-center gap-2 text-gray-900">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
                         Quality Level
                       </Label>
+                      <p className="text-xs text-gray-600 mb-2">
+                        ⚡ <strong>Performance vs. Quality:</strong> Higher quality levels use more advanced AI models for better results but may take slightly longer. Choose based on your needs - Standard works great for most products, while Premium is perfect for high-value items.
+                      </p>
                       <RadioGroup 
                         value={workflowData.qualityLevel} 
                         onValueChange={(value) => updateWorkflowData({ qualityLevel: value as any })}
@@ -471,12 +490,12 @@ function WorkflowContent() {
                             />
                             <Label
                               htmlFor={level.value}
-                              className="flex flex-col p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all relative overflow-hidden group"
+                              className="flex flex-col p-4 border-2 border-gray-200 rounded-lg cursor-pointer peer-data-[state=checked]:border-indigo-600 peer-data-[state=checked]:bg-indigo-50 hover:bg-gray-50 transition-all relative overflow-hidden group text-gray-900"
                             >
                               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                               </div>
-                              <span className="text-sm font-semibold mb-1 relative z-10">{level.label}</span>
+                              <span className="text-sm font-semibold mb-1 relative z-10 text-gray-900">{level.label}</span>
                               <span className="text-xs text-gray-600 mb-2 relative z-10">{level.description}</span>
                               <div className="space-y-1 relative z-10">
                                 {level.features.map((feature) => (
