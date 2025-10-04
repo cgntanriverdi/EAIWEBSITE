@@ -173,10 +173,10 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
               transition={{ duration: 0.3 }}
               className="fixed z-[55]"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
                 borderRadius: "12px",
                 pointerEvents: "none",
-                mixBlendMode: "lighten",
+                mixBlendMode: "screen",
                 ...highlightPosition
               }}
             />
