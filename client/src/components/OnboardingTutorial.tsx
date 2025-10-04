@@ -142,7 +142,7 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50"
             style={{ 
-              backgroundColor: "rgba(0, 0, 0, 0.75)"
+              backgroundColor: "rgba(0, 0, 0, 0.85)"
             }}
             onClick={handleSkip}
           >
@@ -155,7 +155,7 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
                 transition={{ duration: 0.3 }}
                 className="absolute"
                 style={{
-                  boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.6), 0 0 0 9999px rgba(0, 0, 0, 0.75)",
+                  boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.8), 0 0 0 9999px rgba(0, 0, 0, 0.85)",
                   borderRadius: "12px",
                   pointerEvents: "none",
                   ...highlightPosition
@@ -163,6 +163,24 @@ export default function OnboardingTutorial({ onComplete }: OnboardingTutorialPro
               />
             )}
           </motion.div>
+
+          {/* Bright overlay for highlighted area */}
+          {currentStepData.highlightSelector && highlightPosition.width && (
+            <motion.div
+              key={`bright-${currentStep}`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="fixed z-[55]"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                borderRadius: "12px",
+                pointerEvents: "none",
+                mixBlendMode: "lighten",
+                ...highlightPosition
+              }}
+            />
+          )}
 
           {/* Tutorial Card */}
           <motion.div
