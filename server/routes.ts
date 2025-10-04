@@ -22,16 +22,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { username, password } = result.data;
+      const { email, password } = result.data;
 
-      const existingUser = await storage.getUserByUsername(username);
+      const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ message: "Username already exists" });
+        return res.status(400).json({ message: "Email already exists" });
       }
 
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
       const user = await storage.createUser({
-        username,
+        email,
         password: hashedPassword,
       });
 
@@ -67,7 +67,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }
             res.status(201).json({
               message: "User created successfully",
-              user: { id: user.id, username: user.username },
+              user: { id: user.id, email: user.email },
             });
           });
         });
@@ -103,7 +103,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }
             res.json({
               message: "Logged in successfully",
-              user: { id: user.id, username: user.username },
+              user: { id: user.id, email: user.email },
             });
           });
         });
