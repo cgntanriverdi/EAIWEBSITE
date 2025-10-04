@@ -51,18 +51,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         isActive: true,
       });
 
-      req.login(user, (err) => {
-        if (err) {
-          return next(err);
+      req.session.regenerate((regenerateErr) => {
+        if (regenerateErr) {
+          return next(regenerateErr);
         }
-        
-        req.session.save((saveErr) => {
-          if (saveErr) {
-            return next(saveErr);
+
+        req.login(user, (err) => {
+          if (err) {
+            return next(err);
           }
-          res.status(201).json({
-            message: "User created successfully",
-            user: { id: user.id, username: user.username },
+          
+          req.session.save((saveErr) => {
+            if (saveErr) {
+              return next(saveErr);
+            }
+            res.status(201).json({
+              message: "User created successfully",
+              user: { id: user.id, username: user.username },
+            });
           });
         });
       });
@@ -81,18 +87,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: info?.message || "Login failed" });
       }
 
-      req.login(user, (err) => {
-        if (err) {
-          return next(err);
+      req.session.regenerate((regenerateErr) => {
+        if (regenerateErr) {
+          return next(regenerateErr);
         }
 
-        req.session.save((saveErr) => {
-          if (saveErr) {
-            return next(saveErr);
+        req.login(user, (err) => {
+          if (err) {
+            return next(err);
           }
-          res.json({
-            message: "Logged in successfully",
-            user: { id: user.id, username: user.username },
+
+          req.session.save((saveErr) => {
+            if (saveErr) {
+              return next(saveErr);
+            }
+            res.json({
+              message: "Logged in successfully",
+              user: { id: user.id, username: user.username },
+            });
           });
         });
       });
