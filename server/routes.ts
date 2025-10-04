@@ -55,9 +55,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (err) {
           return next(err);
         }
-        res.status(201).json({
-          message: "User created successfully",
-          user: { id: user.id, username: user.username },
+        
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            return next(saveErr);
+          }
+          res.status(201).json({
+            message: "User created successfully",
+            user: { id: user.id, username: user.username },
+          });
         });
       });
     } catch (error) {
@@ -80,9 +86,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return next(err);
         }
 
-        res.json({
-          message: "Logged in successfully",
-          user: { id: user.id, username: user.username },
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            return next(saveErr);
+          }
+          res.json({
+            message: "Logged in successfully",
+            user: { id: user.id, username: user.username },
+          });
         });
       });
     })(req, res, next);
@@ -93,7 +104,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (err) {
         return res.status(500).json({ message: "Logout failed" });
       }
-      res.json({ message: "Logged out successfully" });
+      req.session.destroy((destroyErr) => {
+        if (destroyErr) {
+          return res.status(500).json({ message: "Logout failed" });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: "Logged out successfully" });
+      });
     });
   });
 
