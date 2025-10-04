@@ -19,6 +19,8 @@ import SupportPage from "@/pages/SupportPage";
 import SignUpPage from "@/pages/SignUpPage";
 import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
+import MyProductsPage from "@/pages/MyProductsPage";
+import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/not-found";
 
 interface ProtectedRouteProps {
@@ -65,9 +67,15 @@ function Router() {
       <Route path="/signup" component={SignUpPage} />
       <Route path="/login" component={LoginPage} />
       
-      {/* Protected Dashboard Route */}
+      {/* Protected Dashboard Routes */}
       <Route path="/dashboard">
         {() => <ProtectedRoute component={DashboardPage} />}
+      </Route>
+      <Route path="/my-products">
+        {() => <ProtectedRoute component={MyProductsPage} />}
+      </Route>
+      <Route path="/settings">
+        {() => <ProtectedRoute component={SettingsPage} />}
       </Route>
       
       {/* Agent Pages */}

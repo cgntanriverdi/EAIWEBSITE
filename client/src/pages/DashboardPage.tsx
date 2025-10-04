@@ -105,8 +105,8 @@ export default function DashboardPage() {
 
   const sidebarNavItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard", active: true },
-    { icon: Package, label: "My Products", href: "/products", active: false },
-    { icon: Sparkles, label: "Agents", href: "/agents", active: false },
+    { icon: Package, label: "My Products", href: "/my-products", active: false },
+    { icon: Sparkles, label: "Agents", href: "/dashboard", active: false },
     { icon: Settings, label: "Settings", href: "/settings", active: false },
   ];
 
