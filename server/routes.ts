@@ -138,6 +138,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/user/change-password", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Current password and new password are required" });
+      }
+
+      const dbUser = await storage.getUser(user.id);
+      if (!dbUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const isValidPassword = await bcrypt.compare(currentPassword, dbUser.password);
+      if (!isValidPassword) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+      await storage.updateUserPassword(user.id, hashedNewPassword);
+
+      res.json({ message: "Password changed successfully" });
+    } catch (error) {
+      console.error("Error changing password:", error);
+      res.status(500).json({ message: "Failed to change password" });
+    }
+  });
+
+  app.delete("/api/user/delete-account", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
+      const user = req.user as any;
+
+      await storage.deleteUserUsageMetrics(user.id);
+      await storage.deleteUserProductListings(user.id);
+      await storage.deleteUserSubscriptions(user.id);
+      await storage.deleteUser(user.id);
+
+      req.logout((err) => {
+        if (err) {
+          return res.status(500).json({ message: "Account deleted but logout failed" });
+        }
+        req.session.destroy((destroyErr) => {
+          if (destroyErr) {
+            return res.status(500).json({ message: "Account deleted but session cleanup failed" });
+          }
+          res.clearCookie('connect.sid');
+          res.json({ message: "Account deleted successfully" });
+        });
+      });
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      res.status(500).json({ message: "Failed to delete account" });
+    }
+  });
+
   // Pricing Plans API Routes
   app.get("/api/pricing-plans", async (req, res) => {
     try {

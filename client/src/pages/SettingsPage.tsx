@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { 
   LayoutDashboard, 
   Package, 
@@ -19,7 +20,10 @@ import {
   Bell,
   Shield,
   Trash2,
-  AlertTriangle
+  AlertTriangle,
+  Eye,
+  EyeOff,
+  AlertCircle
 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -62,6 +66,9 @@ export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { data: user } = useQuery<{ id: string; username: string }>({
     queryKey: ["/api/user"],
@@ -92,6 +99,91 @@ export default function SettingsPage() {
     setIsEditing(false);
   };
 
+  const calculatePasswordStrength = (password: string) => {
+    if (!password) return { strength: 0, label: "", color: "", barColor: "" };
+    
+    if (password.length < 8) {
+      return { strength: 20, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
+    }
+    
+    let strength = 0;
+    const checks = {
+      length: password.length >= 8,
+      hasLowerCase: /[a-z]/.test(password),
+      hasUpperCase: /[A-Z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+      hasMultipleWords: password.includes(' ')
+    };
+
+    if (checks.length) strength += 30;
+    if (checks.hasLowerCase) strength += 20;
+    if (checks.hasUpperCase) strength += 20;
+    if (checks.hasNumber) strength += 15;
+    if (checks.hasSpecial) strength += 10;
+    if (checks.hasMultipleWords) strength += 5;
+
+    if (strength <= 35) {
+      return { strength, label: "Too weak", color: "text-red-600", barColor: "bg-red-500" };
+    } else if (strength <= 55) {
+      return { strength, label: "Weak", color: "text-orange-600", barColor: "bg-orange-500" };
+    } else if (strength <= 75) {
+      return { strength, label: "Good", color: "text-yellow-600", barColor: "bg-yellow-500" };
+    } else {
+      return { strength, label: "Strong", color: "text-green-600", barColor: "bg-green-500" };
+    }
+  };
+
+  const passwordStrength = calculatePasswordStrength(newPassword);
+
+  const changePasswordMutation = useMutation({
+    mutationFn: async (data: { currentPassword: string; newPassword: string }) => {
+      const res = await apiRequest("POST", "/api/user/change-password", data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Password changed",
+        description: "Your password has been updated successfully.",
+      });
+      setShowPasswordDialog(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowCurrentPassword(false);
+      setShowNewPassword(false);
+      setShowConfirmPassword(false);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to change password",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteAccountMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("DELETE", "/api/user/delete-account");
+      return await res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Account deleted",
+        description: "Your account has been permanently deleted.",
+      });
+      navigate("/login");
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete account",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleChangePassword = () => {
     if (newPassword !== confirmPassword) {
       toast({
@@ -102,22 +194,20 @@ export default function SettingsPage() {
       return;
     }
     
-    toast({
-      title: "Password changed",
-      description: "Your password has been updated successfully.",
-    });
-    setShowPasswordDialog(false);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
+    if (newPassword.length < 8) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 8 characters long",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    changePasswordMutation.mutate({ currentPassword, newPassword });
   };
 
   const handleDeleteAccount = async () => {
-    toast({
-      title: "Account deleted",
-      description: "Your account has been permanently deleted.",
-    });
-    await handleLogout();
+    deleteAccountMutation.mutate();
   };
 
   return (
@@ -502,36 +592,128 @@ export default function SettingsPage() {
           <div className="space-y-4 px-6 py-4">
             <div className="space-y-2">
               <Label htmlFor="current-password" className="text-sm font-medium text-gray-900">Current Password</Label>
-              <Input
-                id="current-password"
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="bg-white border-gray-200 text-gray-900"
-                data-testid="input-current-password"
-              />
+              <div className="relative">
+                <Input
+                  id="current-password"
+                  type={showCurrentPassword ? "text" : "password"}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="bg-white border-gray-200 text-gray-900 pr-10"
+                  data-testid="input-current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none"
+                  data-testid="button-toggle-current-password"
+                >
+                  {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="new-password" className="text-sm font-medium text-gray-900">New Password</Label>
-              <Input
-                id="new-password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="bg-white border-gray-200 text-gray-900"
-                data-testid="input-new-password"
-              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="new-password" className="text-sm font-medium text-gray-900">New Password</Label>
+                <AnimatePresence>
+                  {newPassword && (
+                    <motion.span
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className={`text-sm font-semibold ${passwordStrength.color}`}
+                    >
+                      {passwordStrength.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
+              <div className="relative">
+                <Input
+                  id="new-password"
+                  type={showNewPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="bg-white border-gray-200 text-gray-900 pr-10"
+                  data-testid="input-new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none"
+                  data-testid="button-toggle-new-password"
+                >
+                  {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              <AnimatePresence>
+                {newPassword && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="space-y-2"
+                  >
+                    <div className="flex gap-1">
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className={`h-1 flex-1 rounded-full origin-left ${
+                          passwordStrength.strength >= 25 ? passwordStrength.barColor : "bg-gray-200"
+                        }`}
+                      />
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className={`h-1 flex-1 rounded-full origin-left ${
+                          passwordStrength.strength >= 50 ? passwordStrength.barColor : "bg-gray-200"
+                        }`}
+                      />
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                        className={`h-1 flex-1 rounded-full origin-left ${
+                          passwordStrength.strength >= 75 ? passwordStrength.barColor : "bg-gray-200"
+                        }`}
+                      />
+                    </div>
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="flex items-start gap-2 text-sm text-gray-600"
+                    >
+                      <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400" />
+                      <p className="leading-relaxed">
+                        Passwords need to be at least 8 characters. Mix uppercase, lowercase, and numbers for better security.
+                      </p>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-900">Confirm New Password</Label>
-              <Input
-                id="confirm-password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="bg-white border-gray-200 text-gray-900"
-                data-testid="input-confirm-password"
-              />
+              <div className="relative">
+                <Input
+                  id="confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="bg-white border-gray-200 text-gray-900 pr-10"
+                  data-testid="input-confirm-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none"
+                  data-testid="button-toggle-confirm-password"
+                >
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
           </div>
           <DialogFooter>

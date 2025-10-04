@@ -12,6 +12,8 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserPassword(id: string, hashedPassword: string): Promise<User | undefined>;
+  deleteUser(id: string): Promise<boolean>;
   
   // Pricing Plans
   getAllPricingPlans(): Promise<PricingPlan[]>;
@@ -22,6 +24,7 @@ export interface IStorage {
   getUserSubscription(userId: string): Promise<UserSubscription | undefined>;
   createUserSubscription(subscription: InsertUserSubscription): Promise<UserSubscription>;
   updateUserSubscription(id: string, updates: Partial<UserSubscription>): Promise<UserSubscription | undefined>;
+  deleteUserSubscriptions(userId: string): Promise<boolean>;
   
   // Leads
   getAllLeads(): Promise<Lead[]>;
@@ -30,12 +33,14 @@ export interface IStorage {
   // Product Listings
   getUserProductListings(userId: string): Promise<ProductListing[]>;
   createProductListing(listing: InsertProductListing): Promise<ProductListing>;
+  deleteUserProductListings(userId: string): Promise<boolean>;
   
   // Usage Metrics
   getUserUsageMetrics(userId: string, days: number): Promise<UsageMetrics[]>;
   getTodayUsageMetrics(userId: string): Promise<UsageMetrics | undefined>;
   updateUsageMetrics(id: string, updates: Partial<UsageMetrics>): Promise<UsageMetrics>;
   createUsageMetrics(metrics: InsertUsageMetrics): Promise<UsageMetrics>;
+  deleteUserUsageMetrics(userId: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -73,6 +78,18 @@ export class MemStorage implements IStorage {
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
+  }
+
+  async updateUserPassword(id: string, hashedPassword: string): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    user.password = hashedPassword;
+    this.users.set(id, user);
+    return user;
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    return this.users.delete(id);
   }
 
   // Pricing Plans Methods
@@ -145,6 +162,13 @@ export class MemStorage implements IStorage {
     return updatedSubscription;
   }
 
+  async deleteUserSubscriptions(userId: string): Promise<boolean> {
+    const subscriptions = Array.from(this.userSubscriptions.entries())
+      .filter(([, sub]) => sub.userId === userId);
+    subscriptions.forEach(([id]) => this.userSubscriptions.delete(id));
+    return subscriptions.length > 0;
+  }
+
   // Leads Methods
   async getAllLeads(): Promise<Lead[]> {
     return Array.from(this.leads.values());
@@ -191,6 +215,13 @@ export class MemStorage implements IStorage {
     };
     this.productListings.set(id, listing);
     return listing;
+  }
+
+  async deleteUserProductListings(userId: string): Promise<boolean> {
+    const listings = Array.from(this.productListings.entries())
+      .filter(([, listing]) => listing.userId === userId);
+    listings.forEach(([id]) => this.productListings.delete(id));
+    return listings.length > 0;
   }
 
   // Usage Metrics Methods
@@ -251,6 +282,13 @@ export class MemStorage implements IStorage {
     };
     this.usageMetrics.set(id, metric);
     return metric;
+  }
+
+  async deleteUserUsageMetrics(userId: string): Promise<boolean> {
+    const metrics = Array.from(this.usageMetrics.entries())
+      .filter(([, metric]) => metric.userId === userId);
+    metrics.forEach(([id]) => this.usageMetrics.delete(id));
+    return metrics.length > 0;
   }
 
   private async initializeDefaultPlans(): Promise<void> {
@@ -375,6 +413,19 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
+  async updateUserPassword(id: string, hashedPassword: string): Promise<User | undefined> {
+    const result = await this.db.update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await this.db.delete(users).where(eq(users.id, id)).returning();
+    return result.length > 0;
+  }
+
   async getAllPricingPlans(): Promise<PricingPlan[]> {
     return await this.db.select().from(pricingPlans).orderBy(pricingPlans.sortOrder);
   }
@@ -409,6 +460,13 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
+  async deleteUserSubscriptions(userId: string): Promise<boolean> {
+    const result = await this.db.delete(userSubscriptions)
+      .where(eq(userSubscriptions.userId, userId))
+      .returning();
+    return result.length > 0;
+  }
+
   async getAllLeads(): Promise<Lead[]> {
     return await this.db.select().from(leads);
   }
@@ -430,6 +488,13 @@ export class DatabaseStorage implements IStorage {
   async createProductListing(insertListing: InsertProductListing): Promise<ProductListing> {
     const result = await this.db.insert(productListings).values(insertListing).returning();
     return result[0];
+  }
+
+  async deleteUserProductListings(userId: string): Promise<boolean> {
+    const result = await this.db.delete(productListings)
+      .where(eq(productListings.userId, userId))
+      .returning();
+    return result.length > 0;
   }
 
   // Usage Metrics Methods
@@ -483,6 +548,13 @@ export class DatabaseStorage implements IStorage {
   async createUsageMetrics(insertMetrics: InsertUsageMetrics): Promise<UsageMetrics> {
     const result = await this.db.insert(usageMetrics).values(insertMetrics).returning();
     return result[0];
+  }
+
+  async deleteUserUsageMetrics(userId: string): Promise<boolean> {
+    const result = await this.db.delete(usageMetrics)
+      .where(eq(usageMetrics.userId, userId))
+      .returning();
+    return result.length > 0;
   }
 
   private async initializeDefaultPlans(): Promise<void> {
